@@ -1,0 +1,27 @@
+{
+  "name": "dotfiles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "snowpack dev",
+    "build": "snowpack build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/verbose9/dotfiles.git"
+  },
+  "author": "PhysxMew",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/verbose9/dotfiles/issues"
+  },
+  "homepage": "https://github.com/verbose9/dotfiles#readme",
+  "dependencies": {
+    "@snowpack/plugin-postcss": "^1.2.1",
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.8",
+    "snowpack": "^3.1.2",
+    "tailwindcss": "^2.0.4"
+  }
+}
