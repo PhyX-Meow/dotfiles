@@ -4,7 +4,6 @@ export LANG="zh_CN.UTF-8"
 export LC_ALL="zh_CN.UTF-8"
 
 # Set environment variables
-export PATH="/home/wuli/.gem/ruby/2.7.0/bin:$PATH"
 export DOTNET_ROOT="/usr/share/dotnet"
 export MANIMLIB="$HOME/git/manim"
 export LD_LIBRARY_PATH=.:../lib:./lib
@@ -52,10 +51,10 @@ export GDK_SCALE=2
 
 # Set audio
 export PULSE_SERVER=tcp:$win_host
-export audio_server_conf="/mnt/c/Program Files (local)/Pulse Audio/etc/pulse/default.pa"
-if [ "`cat $audio_server_conf | grep auth-ip-acl | awk -F '=' '{ print $2 }'`" != $wsl_host ]; then
-sed -i "s/auth-ip-acl=.*/auth-ip-acl=$wsl_host/" $audio_server_conf
-fi
+# export audio_server_conf="/mnt/c/Program Files (local)/Pulse Audio v1.1/etc/pulse/default.pa"
+# if [ "`cat $audio_server_conf | grep auth-ip-acl | awk -F '=' '{ print $2 }'`" != $wsl_host ]; then
+# sed -i "s/auth-ip-acl=.*/auth-ip-acl=$wsl_host/" $audio_server_conf
+# fi
 
 # Set input
 export GTK_IM_MODULE=fcitx
