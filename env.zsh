@@ -11,6 +11,7 @@ export MKL_DEBUG_CPU_TYPE=5
 export MKL_DYNAMIC=FALSE
 export MKL_NUM_THREADS=16
 export JULIA_PKG_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia"
+export TEXLIVE_DOWNLOADER=wget
 
 export WINHOME="/mnt/c/Users/wuli"
 export win_host=`cat /etc/resolv.conf | grep nameserver | awk '{print $2}'`
@@ -50,11 +51,7 @@ export QT_SCALE_FACTOR=2
 export GDK_SCALE=2
 
 # Set audio
-export PULSE_SERVER=tcp:$win_host
-# export audio_server_conf="/mnt/c/Program Files (local)/Pulse Audio v1.1/etc/pulse/default.pa"
-# if [ "`cat $audio_server_conf | grep auth-ip-acl | awk -F '=' '{ print $2 }'`" != $wsl_host ]; then
-# sed -i "s/auth-ip-acl=.*/auth-ip-acl=$wsl_host/" $audio_server_conf
-# fi
+# export PULSE_SERVER=tcp:$win_host
 
 # Set input
 export GTK_IM_MODULE=fcitx
