@@ -1,0 +1,119 @@
+" Plug
+call plug#begin('~/.vim/plugged')
+
+Plug 'easymotion/vim-easymotion'
+
+Plug 'justinmk/vim-sneak'
+
+if has('nvim')
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'kristijanhusak/defx-icons'
+Plug 'kristijanhusak/defx-git'
+
+Plug 'preservim/nerdcommenter'
+  let g:NERDSpaceDelims = 1
+
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'tpope/vim-surround'
+
+Plug 'Chiel92/vim-autoformat'
+
+Plug 'skywind3000/asynctasks.vim'
+Plug 'skywind3000/asyncrun.vim'
+  let g:asyncrun_open = 6
+
+Plug 'sheerun/vim-polyglot'
+Plug 'lifepillar/vim-gruvbox8'
+Plug 'sainnhe/gruvbox-material'
+Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+  let g:airline_theme = 'gruvbox'
+  let g:airline_powerline_fonts = 1
+  set laststatus=2
+  let g:airline#extensions#tabline#enabled=1
+  let g:airline#extensions#ale#enabled = 1
+
+call plug#end()
+
+set hidden
+set nobackup
+set nowritebackup
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+set nocompatible
+set number
+set relativenumber
+set history=8192
+set visualbell
+set autoindent
+set smartindent
+set cindent
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set showmatch
+set ruler
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set backspace=indent,eol,start
+set magic
+set mouse-=a
+set autochdir
+set autoread
+set wildmenu
+set bsdir=buffer
+filetype plugin indent on
+
+" Encoding
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,gbk,big5
+
+set nospell
+set spelllang=en_us,cjk
+set helplang=cn
+language messages en_US.utf-8
+
+" UI Settings
+set cursorline
+set cursorcolumn
+
+" normal mode mapping
+nnoremap <C-n> :nohl<CR>
+" insert mode mapping
+inoremap jj <Esc>
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+" visual mode mapping
+vnoremap > >gv
+vnoremap < <gv
+" autocmd
+autocmd FileType markdown setlocal spell
+autocmd FileType tex setlocal spell
+
+set termguicolors
+set bg=dark
+syntax on
+colorscheme gruvbox8
+
