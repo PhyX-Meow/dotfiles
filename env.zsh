@@ -12,7 +12,7 @@ export DOTNET_ROOT="/usr/share/dotnet"
 export JULIA_PKG_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia"
 export TEXLIVE_DOWNLOADER=wget
 
-export WINHOME="/mnt/c/Users/wuli"
+export WINHOME="/mnt/c/Users/XueHa"
 export win_host=`cat /etc/resolv.conf | grep nameserver | awk '{print $2}'`
 # export win_host=`ipconfig.exe | grep -n4 WSL  | tail -n 1 | awk -F":" '{ print $2 }'  | sed 's/^[ \r\n\t]*//;s/[ \r\n\t]*$//'`
 export wsl_host=`ip addr | grep "inet.*eth0" | awk -F ' ' '{ print $2 }' | sed 's/\/[0-9]*//'`
