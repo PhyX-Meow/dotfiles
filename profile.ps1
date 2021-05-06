@@ -23,19 +23,12 @@ Invoke-Expression (&scoop-search --hook)
 #endregion
 
 # Color Theme
-Set-PoshPrompt -Theme powerlevel10k_rainbow
+Set-PoshPrompt -Theme powerlevel10k_phyxmeow
 colortool -q GruvboxDark.itermcolors
 
 # Alias
 Function which($cmd) {
 	Get-Command -All $cmd
-}
-Function pyup {
-	pip install --upgrade you-get youtube-dl pynvim
-}
-Function pycc {
-	Remove-Item "C:\Users\wuli\AppData\Local\pip\cache\http\*"
-	Remove-Item	"C:\Users\wuli\AppData\Local\pip\cache\wheels\*"
 }
 
 # Autojump
