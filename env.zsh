@@ -4,12 +4,11 @@ export LANG="zh_CN.UTF-8"
 export LC_ALL="zh_CN.UTF-8"
 
 # Set environment variables
-export DOTNET_ROOT="/usr/share/dotnet"
-export MANIMLIB="$HOME/git/manim"
 export LD_LIBRARY_PATH=.:../lib:./lib
 export MKL_DEBUG_CPU_TYPE=5
 export MKL_DYNAMIC=FALSE
 export MKL_NUM_THREADS=16
+export DOTNET_ROOT="/usr/share/dotnet"
 export JULIA_PKG_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia"
 export TEXLIVE_DOWNLOADER=wget
 

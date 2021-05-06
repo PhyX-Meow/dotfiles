@@ -8,7 +8,7 @@ fi
 source $HOME/env.zsh
 
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git extract z python pip colored-man-pages colorize command-not-found)
+plugins=(git extract python pip colored-man-pages colorize command-not-found)
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -24,8 +24,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-eval $(thefuck --alias)
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -94,15 +92,7 @@ COMPLETION_WAITING_DOTS="true"
 
 source $HOME/alias.zsh
 
-# Vim mode
-VIM_MODE_VICMD_KEY="jj"
-zinit light softmoth/zsh-vim-mode
-bindkey "^P" history-beginning-search-backward
-bindkey "^N" history-beginning-search-forward
-bindkey -a "^P" history-beginning-search-backward
-bindkey -a "^N" history-beginning-search-forward
-
-# Set fzf
+# FZF initialize
 export FZF_DEFAULT_COMMAND="fd --exclude={.git,.idea,.vscode,.sass-cache,node_modules,build} --type f"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
 source /usr/share/fzf/key-bindings.zsh
@@ -113,4 +103,18 @@ zinit light romkatv/powerlevel10k
 ZLE_RPROMPT_INDENT=0
 
 zinit light zsh-users/zsh-autosuggestions
+
 zinit light zdharma/fast-syntax-highlighting
+
+# Vim mode
+VIM_MODE_VICMD_KEY="jj"
+zinit light softmoth/zsh-vim-mode
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey -a "^P" history-beginning-search-backward
+bindkey -a "^N" history-beginning-search-forward
+
+# Autojump
+FZ_HISTORY_CD_CMD="_zlua"
+zinit light changyuheng/fz
+zinit light skywind3000/z.lua
