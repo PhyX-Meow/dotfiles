@@ -46,12 +46,14 @@ alias privoxy="privoxy --no-daemon $HOME/.config/privoxy/privoxy.conf"
 alias GAP='/usr/bin/gap'
 alias note='vim ~/note.txt'
 alias prob='vim ~/CodesWSL/TeX/Problems.tex'
-alias edge='microsoft-edge-dev'
 alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
 alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 # alias ghci='stack ghci'
 alias ghci='stack exec ghci'
 alias runghc='stack runghc'
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
-alias HW="cd ~/CodesWSL/TeX/Homework && ls | grep '\.tex'"
+alias HW="cd ~/CodesWSL/TeX/Homework && ls | ag '\.tex'"
 alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
+
+alias mpv="WALAND_DISPLAY=wayland-0 mpv"
+alias edge="WALAND_DISPLAY=wayland-0 microsoft-edge-dev"
