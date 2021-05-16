@@ -92,6 +92,14 @@ COMPLETION_WAITING_DOTS="true"
 
 source $HOME/alias.zsh
 
+# Vim mode
+VIM_MODE_VICMD_KEY="jj"
+zinit light softmoth/zsh-vim-mode
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey -a "^P" history-beginning-search-backward
+bindkey -a "^N" history-beginning-search-forward
+
 # FZF initialize
 export FZF_DEFAULT_COMMAND="fd --exclude={.git,.idea,.vscode,.sass-cache,node_modules,build} --type f"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
@@ -105,14 +113,6 @@ ZLE_RPROMPT_INDENT=0
 zinit light zsh-users/zsh-autosuggestions
 
 zinit light zdharma/fast-syntax-highlighting
-
-# Vim mode
-VIM_MODE_VICMD_KEY="jj"
-zinit light softmoth/zsh-vim-mode
-bindkey "^P" history-beginning-search-backward
-bindkey "^N" history-beginning-search-forward
-bindkey -a "^P" history-beginning-search-backward
-bindkey -a "^N" history-beginning-search-forward
 
 # Autojump
 FZ_HISTORY_CD_CMD="_zlua"

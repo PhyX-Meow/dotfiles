@@ -5,16 +5,6 @@
 (& "C:\Users\wuli\miniconda3\Scripts\conda.exe" "shell.powershell" "hook") | Out-String | Invoke-Expression
 #endregion
 
-Import-Module posh-git
-Import-Module oh-my-posh
-# Set-PSReadlineKeyHandler -Key Tab -Function Complete
-Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
-Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
-Set-PSReadLineKeyHandler -Key "Ctrl+p" -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Key "Ctrl+n" -Function HistorySearchForward
-Set-PSReadLineKeyHandler -Key 'Ctrl+d' -Function DeleteCharOrExit
-Set-PSReadLineOption -PredictionSource History
-
 #region scoop
 # enable completion in current shell, use absolute path because PowerShell Core not respect $env:PSModulePath
 Import-Module "$($(Get-Item $(Get-Command scoop).Path).Directory.Parent.FullName)\modules\scoop-completion"
@@ -22,13 +12,26 @@ Import-Module "$($(Get-Item $(Get-Command scoop).Path).Directory.Parent.FullName
 Invoke-Expression (&scoop-search --hook)
 #endregion
 
-# Color Theme
-Set-PoshPrompt -Theme powerlevel10k_phyxmeow
+# PSReadline
+Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
+Set-PSReadLineKeyHandler -Key "Ctrl+p" -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Key "Ctrl+n" -Function HistorySearchForward
+Set-PSReadLineKeyHandler -Key 'Ctrl+d' -Function DeleteCharOrExit
+Set-PSReadLineOption -PredictionSource History
+
+# Colorlize
+Import-Module Get-ChildItemColor
+Import-Module posh-git
+Invoke-Expression (oh-my-posh --init --shell pwsh --config ~/pwsh_theme.omp.json)
 colortool -q GruvboxDark.itermcolors
 
 # Alias
 Function which($cmd) {
 	Get-Command -All $cmd
+}
+Function prc(){
+	code "C:\Users\wuli\Documents\Powershell\profile.ps1"
 }
 
 # Autojump

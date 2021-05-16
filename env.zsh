@@ -46,6 +46,7 @@ export no_proxy=localhost,127.0.0.0/8,::1
 
 # Set display
 export DISPLAY=$win_host:0
+export WAYLAND_DISPLAY=
 export QT_SCALE_FACTOR=2
 export GDK_SCALE=2
 
