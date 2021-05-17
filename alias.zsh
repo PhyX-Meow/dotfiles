@@ -31,7 +31,7 @@ alias cp='cp -i'
 alias ls='colorls --group-directories-first'
 alias ll='colorls -lA --sd --gs --group-directories-first'
 alias clr='clear'
-alias pyup='pip install --user --upgrade pip glances'
+alias pyup='pip install --user --upgrade pip'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg;Pkg.update()'"
 alias jlcc="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg,Dates;Pkg.gc(;collect_delay=Hour(0))'"
@@ -46,6 +46,3 @@ alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW="cd ~/CodesWSL/TeX/Homework && ls | ag '\.tex'"
 alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
-
-alias mpv="WALAND_DISPLAY=wayland-0 mpv"
-alias edge="WALAND_DISPLAY=wayland-0 microsoft-edge-dev"
