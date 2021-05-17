@@ -35,7 +35,7 @@ alias py='conda activate base'
 alias lab='jupyter lab --no-browser'
 alias tlup='sudo tlmgr update --self --all --reinstall-forcibly-removed'
 alias tlcc='sudo rm /usr/local/texlive/2021/tlpkg/backups/*'
-alias pyup='pip install --user --upgrade pip glances jupyterlab-mathjax3 jupyterlab_code_formatter jupyterlab-lsp jupyterlab-git theme-darcula'
+alias pyup='pip install --user --upgrade pip jupyterlab-mathjax3 jupyterlab_code_formatter jupyterlab-lsp jupyterlab-git theme-darcula'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg;Pkg.update()'"
 alias jlcc="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg,Dates;Pkg.gc(;collect_delay=Hour(0))'"
@@ -44,6 +44,7 @@ alias please='sudo'
 alias plz='sudo'
 alias privoxy="privoxy --no-daemon $HOME/.config/privoxy/privoxy.conf"
 alias GAP='/usr/bin/gap'
+alias edge="microsoft-edge-dev"
 alias note='vim ~/note.txt'
 alias prob='vim ~/CodesWSL/TeX/Problems.tex'
 alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
@@ -54,6 +55,3 @@ alias runghc='stack runghc'
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW="cd ~/CodesWSL/TeX/Homework && ls | ag '\.tex'"
 alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
-
-alias mpv="WALAND_DISPLAY=wayland-0 mpv"
-alias edge="WALAND_DISPLAY=wayland-0 microsoft-edge-dev"
