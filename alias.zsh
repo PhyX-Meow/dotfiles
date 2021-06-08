@@ -44,7 +44,7 @@ alias please='sudo'
 alias plz='sudo'
 alias privoxy="privoxy --no-daemon $HOME/.config/privoxy/privoxy.conf"
 alias GAP='/usr/bin/gap'
-alias edge="microsoft-edge-dev"
+alias edge="microsoft-edge-beta"
 alias note='vim ~/note.txt'
 alias prob='vim ~/CodesWSL/TeX/Problems.tex'
 alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
