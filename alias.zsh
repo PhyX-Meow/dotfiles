@@ -53,5 +53,5 @@ alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 alias ghci='stack exec ghci'
 alias runghc='stack runghc'
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
-alias HW="cd ~/CodesWSL/TeX/Homework && ls | ag '\.tex'"
+alias HW="cd ~/CodesWSL/TeX/Homework"
 alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
