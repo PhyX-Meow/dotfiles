@@ -21,7 +21,7 @@ alias upxy="
     unset HTTPS_PROXY;"
 alias vim='vim --servername VIM'
 alias yay='yay --pacman powerpill'
-alias paru='paru --pacman powerpill'
+alias paru="paru --pacman powerpill --aururl 'https://aur.tuna.tsinghua.edu.cn'"
 alias zrc='vim ~/.zshrc'
 alias zre='source ~/.zshrc'
 alias zup='omz update'
