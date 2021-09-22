@@ -50,8 +50,11 @@ SetWinDelay 0
         Run, wt.exe
 Return
 
-#b::Run, "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+#b::Run, "C:\Program Files (x86)\Microsoft\Edge Beta\Application\msedge.exe"
 Return
 
 #c::Run, "C:\Program Files\Microsoft VS Code\Code.exe"
+Return
+
+#m::Run, "C:\Program Files\C:\Program Files\Wolfram Research\Mathematica\12.3\Mathematica.exe"
 Return

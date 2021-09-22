@@ -52,7 +52,7 @@ endif
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+			      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -166,6 +166,7 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 Plug 'dense-analysis/ale'
   let g:ale_disable_lsp = 1
+  let g:ale_linters = { 'cs': ['OmniSharp'] }
 
 Plug 'sirver/ultisnips'
   let g:UltiSnipsExpandTrigger = '<tab>'
@@ -225,16 +226,20 @@ Plug 'neovimhaskell/haskell-vim'
 
 Plug 'whonore/Coqtail'
 
+Plug 'OmniSharp/omnisharp-vim'
+
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'puremourning/vimspector'
-let g:vimspector_enable_mappings = 'HUMAN'
-let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
-let g:vimspector_base_dir = expand('$HOME/.vim/vimspector')
+  let g:vimspector_enable_mappings = 'HUMAN'
+  let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+  let g:vimspector_base_dir = expand('$HOME/.vim/vimspector')
 
 Plug 'sheerun/vim-polyglot'
+
 Plug 'lifepillar/vim-gruvbox8'
+    let g:gruvbox_italics = 0
 Plug 'sainnhe/gruvbox-material'
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'

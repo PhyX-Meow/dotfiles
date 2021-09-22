@@ -118,3 +118,6 @@ zinit light zdharma/fast-syntax-highlighting
 FZ_HISTORY_CD_CMD="_zlua"
 zinit light changyuheng/fz
 zinit light skywind3000/z.lua
+
+# Filetypes
+zstyle ':completion:*:*:vim:*' file-patterns '^*.(o|out|aux|bbl|blg|bcf|run.xml|xdv|fls|nav|snm|tuc|fdb_latexmk|gz|pdf):source-files' '*:all-files'

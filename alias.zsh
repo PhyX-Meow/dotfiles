@@ -21,7 +21,7 @@ alias upxy="
     unset HTTPS_PROXY;"
 alias vim='vim --servername VIM'
 alias yay='yay --pacman powerpill'
-alias paru='paru --pacman powerpill'
+alias paru="paru --pacman powerpill --aururl 'https://aur.tuna.tsinghua.edu.cn'"
 alias zrc='vim ~/.zshrc'
 alias zre='source ~/.zshrc'
 alias zup='omz update'
@@ -45,5 +45,5 @@ alias prob='vim ~/CodesWSL/TeX/Problems.tex'
 alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
 alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
-alias HW="cd ~/CodesWSL/TeX/Homework && ls | ag '\.tex'"
+alias HW="cd ~/CodesWSL/TeX/Homework"
 alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
