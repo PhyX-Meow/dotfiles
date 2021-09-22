@@ -13,29 +13,38 @@ endglobal
 
 
 snippet template "Basic template" b
-\documentclass[a4paper]{article}
+\documentclass[UTF8,12pt]{article}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{extarrows}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{xypic}
+\usepackage{subfig}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{cleveref}
+\usepackage[hyperref=true,backend=biber,sorting=none,backref=true]{biblatex}
+\usepackage{bm} % Bold math
+\usepackage{bbm}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{textcomp}
-\usepackage[dutch]{babel}
-\usepackage{amsmath, amssymb}
-
-
-% figure support
-\usepackage{import}
-\usepackage{xifthen}
-\pdfminorversion=7
-\usepackage{pdfpages}
-\usepackage{transparent}
-\newcommand{\incfig}[1]{%
-	\def\svgwidth{\columnwidth}
-	\import{./figures/}{#1.pdf_tex}
-}
-
-\pdfsuppresswarningpagegroup=1
+\geometry{a4paper,scale=0.8}
+\allowdisplaybreaks{}
+\theoremstyle{plain}\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{plain}\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{plain}\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{plain}\newtheorem*{proposition}{Proposition}
+\theoremstyle{remark}\newtheorem*{remark}{Remark}
 
 \begin{document}
+\maketitle
 	$0
 \end{document}
 endsnippet
@@ -44,6 +53,36 @@ snippet beg "begin{} / end{}" bA
 \\begin{$1}
 	$0
 \\end{$1}
+endsnippet
+
+snippet sec "section" bA
+\section{$1}
+$0
+endsnippet
+
+snippet xse "section*" bA
+\section*{$1}
+$0
+endsnippet
+
+snippet sse "subsection" bA
+\subsection{$1}
+$0
+endsnippet
+
+snippet xss "subsection*" bA
+\subsection*{$1}
+$0
+endsnippet
+
+snippet sss "subsubsection" bA
+\subsection{$1}
+$0
+endsnippet
+
+snippet ssx "subsubsection*" bA
+\subsection*{$1}
+$0
 endsnippet
 
 priority 100
@@ -72,7 +111,7 @@ snippet fig "Figure environment" b
 endsnippet
 
 snippet enum "Enumerate" bA
-\begin{enumerate}
+\begin{enumerate}[$1]
 	\item $0
 \end{enumerate}
 endsnippet
@@ -308,20 +347,16 @@ snippet cb "^3" iA
 endsnippet
 
 context "math()"
-snippet td "to the ... power" iA
+snippet rp "to the ... power" iA
 ^{$1}$0
-endsnippet
-
-context "math()"
-snippet rd "to the ... power" iA
-^{($1)}$0
 endsnippet
 
 snippet __ "subscript" iA
 _{$1}$0
 endsnippet
 
-snippet ooo "\infty" iA
+context "math()"
+snippet oo "\infty" iA
 \infty
 endsnippet
 
@@ -470,7 +505,7 @@ endsnippet
 priority 300
 context "math()"
 snippet 'eps' "epsilon" rwA
-\epsilon
+\varepsilon
 endsnippet
 
 priority 300
@@ -539,7 +574,7 @@ endsnippet
 
 context "math()"
 snippet set "set" wA
-\\{$1\\} $0
+\\{$1\\}$0
 endsnippet
 
 snippet || "mid" iA
@@ -597,6 +632,14 @@ snippet ZZ "Z" iA
 \mathbb{Z}
 endsnippet
 
+snippet HH "H" iA
+\mathbb{H}
+endsnippet
+
+snippet DD "D" iA
+\mathbb{D}
+endsnippet
+
 snippet <! "normal" iA
 \triangleleft 
 endsnippet
@@ -616,10 +659,6 @@ snippet case "cases" wA
 \begin{cases}
 	$1
 \end{cases}
-endsnippet
-
-snippet SI "SI" iA
-\SI{$1}{$2}
 endsnippet
 
 snippet bigfun "Big function" iA
@@ -659,15 +698,6 @@ endsnippet
 
 snippet letw "let omega" iA
 Let $\Omega \subset \C$ be open.
-endsnippet
-
-
-snippet HH "H" iA
-\mathbb{H}
-endsnippet
-
-snippet DD "D" iA
-\mathbb{D}
 endsnippet
 
 # vim:ft=snippets
