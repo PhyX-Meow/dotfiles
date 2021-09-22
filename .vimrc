@@ -164,8 +164,8 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-  let g:ale_disable_lsp = 1
 Plug 'dense-analysis/ale'
+  let g:ale_disable_lsp = 1
 
 Plug 'sirver/ultisnips'
   let g:UltiSnipsExpandTrigger = '<tab>'
