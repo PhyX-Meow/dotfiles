@@ -286,6 +286,8 @@ set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,gbk,big5
 
 set nospell
+set dictionary=spell,/usr/share/dict/words
+set complete+=k
 set spelllang=en_us,cjk
 set helplang=cn
 language messages zh_CN.utf-8
@@ -312,6 +314,8 @@ vnoremap < <gv
 " autocmd
 autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
+autocmd FileType tex let b:coc_suggest_disable = 1
+autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", '``':'"'} 
 
 set termguicolors
 set bg=dark
