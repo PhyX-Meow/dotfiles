@@ -12,40 +12,20 @@ def env(name):
 endglobal
 
 
-snippet template "Basic template" b
+snippet template "My template" b
 \documentclass[UTF8,12pt]{article}
-\usepackage{geometry}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{latexsym}
-\usepackage{mathrsfs}
-\usepackage{amsthm}
-\usepackage{mathtools}
-\usepackage{extarrows}
-\usepackage{enumerate}
-\usepackage{graphicx}
-\usepackage{tikz}
-\usepackage{tikz-3dplot}
-\usepackage{xypic}
-\usepackage{subfig}
-\usepackage[colorlinks=true]{hyperref}
-\usepackage{cleveref}
-\usepackage[hyperref=true,backend=biber,sorting=none,backref=true]{biblatex}
-\usepackage{bm} % Bold math
-\usepackage{bbm}
-
+\usepackage{phyxmeow}
 \geometry{a4paper,scale=0.8}
 \allowdisplaybreaks{}
-\theoremstyle{plain}\newtheorem{theorem}{Theorem}
-\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
-\theoremstyle{plain}\newtheorem{corollary}[theorem]{Corollary}
-\theoremstyle{plain}\newtheorem{lemma}[theorem]{Lemma}
-\theoremstyle{plain}\newtheorem*{proposition}{Proposition}
-\theoremstyle{remark}\newtheorem*{remark}{Remark}
+
+\title{$1}
+\author{$2}
 
 \begin{document}
 \maketitle
-	$0
+
+$0
+
 \end{document}
 endsnippet
 
@@ -70,18 +50,18 @@ snippet sse "subsection" bA
 $0
 endsnippet
 
-snippet xss "subsection*" bA
+snippet ssx "subsection*" bA
 \subsection*{$1}
 $0
 endsnippet
 
 snippet sss "subsubsection" bA
-\subsection{$1}
+\subsubsection{$1}
 $0
 endsnippet
 
-snippet ssx "subsubsection*" bA
-\subsection*{$1}
+snippet xss "subsubsection*" bA
+\subsubsection*{$1}
 $0
 endsnippet
 
@@ -151,7 +131,7 @@ snippet iff "iff" iA
 endsnippet
 
 snippet mk "Inline Math" wA
-\($1\)`!p
+\(${1:${VISUAL}}\)`!p
 if t[2] and t[2][0] not in ['，','。',',', '.', '?', '-', ' ']:
 	snip.rv = ' '
 else:
@@ -271,37 +251,24 @@ snippet bmat "bmat" iA
 \begin{bmatrix} $1 \end{bmatrix}$0
 endsnippet
 
-context "math()"
-snippet () "left( right)" iA
-\left( ${1:${VISUAL}} \right) $0
-endsnippet
-
 snippet lr "left( right)" i
-\left( ${1:${VISUAL}} \right) $0
-endsnippet
-
-snippet lr( "left( right)" i
-\left( ${1:${VISUAL}} \right) $0
+\left(${1:${VISUAL}}\right) $0
 endsnippet
 
 snippet lr| "left| right|" i
-\left| ${1:${VISUAL}} \right| $0
-endsnippet
-
-snippet lr{ "left\{ right\}" i
-\left\\{ ${1:${VISUAL}} \right\\} $0
+\left|${1:${VISUAL}}\right| $0
 endsnippet
 
 snippet lrb "left\{ right\}" i
-\left\\{ ${1:${VISUAL}} \right\\} $0
+\left\\{${1:${VISUAL}}\right\\} $0
 endsnippet
 
-snippet lr[ "left[ right]" i
-\left[ ${1:${VISUAL}} \right] $0
+snippet lrs "left[ right]" i
+\left[${1:${VISUAL}}\right] $0
 endsnippet
 
 snippet lra "leftangle rightangle" iA
-\left<${1:${VISUAL}} \right>$0
+\left<${1:${VISUAL}}\right>$0
 endsnippet
 
 snippet pair "pair" w
@@ -516,13 +483,8 @@ endsnippet
 
 priority 10
 context "math()"
-snippet or "logical or" iA
+snippet orr "logical or" iA
 \lor 
-endsnippet
-
-context "math()"
-snippet not "logical not" iA
-\lnot 
 endsnippet
 
 context "math()"
@@ -577,13 +539,19 @@ endsnippet
 
 priority 100
 context "math()"
-snippet '(?<!\\)(sin|cos|csc|sec|cot|log|exp|star|perp)' "ln" rwA
+snippet '(?<!\\)(sin|cos|csc|sec|cot|log|exp|perp)' "log" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec|int)' "arcsin" rwA
+snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec)' "arcsin" rwA
+\\`!p snip.rv = match.group(1)`
+endsnippet
+
+priority 200
+context "math()"
+snippet '(?<!\\)(ord|dom|ran|card|int)' "int" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
@@ -703,7 +671,7 @@ endsnippet
 
 context "math()"
 snippet set "set" iA
-\\{$1\\}$0
+\\{${1:${VISUAL}}\\}$0
 endsnippet
 
 snippet || "mid" iA
@@ -803,13 +771,13 @@ endsnippet
 priority 10
 context "math()"
 snippet "tid" "tilde" riA
-\tilde{$1}$0
+\~{$1}$0
 endsnippet
 
 priority 100
 context "math()"
 snippet "((\\)?[a-zA-Z]+)tid" "tilde" riA
-\tilde{`!p snip.rv=match.group(1)`}
+\~{`!p snip.rv=match.group(1)`}
 endsnippet
 
 priority 10

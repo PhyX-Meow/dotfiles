@@ -24,7 +24,7 @@ alias yay='yay --pacman powerpill'
 alias paru="paru --pacman powerpill --aururl 'https://aur.tuna.tsinghua.edu.cn'"
 alias zrc='vim ~/.zshrc'
 alias zre='source ~/.zshrc'
-alias zup='omz update'
+alias zup='omz update && zinit update -p 20'
 alias vrc='vim ~/.vimrc'
 alias alrc='vim ~/alias.zsh'
 alias envs='vim ~/env.zsh'
@@ -55,5 +55,7 @@ alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 alias ghci='stack exec ghci'
 alias runghc='stack runghc'
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
-alias HW="cd ~/CodesWSL/TeX/Homework"
+alias HW='cd ~/CodesWSL/TeX/Homework'
+alias texpre='vim ~/texmf/tex/latex/local/phyxmeow.sty'
+alias texsnip='vim ~/.vim/UltiSnips/tex.snippets'
 alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
