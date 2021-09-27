@@ -50,7 +50,7 @@ SetWinDelay 0
         Run, wt.exe
 Return
 
-#b::Run, "C:\Program Files (x86)\Microsoft\Edge Beta\Application\msedge.exe"
+#b::Run, "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 Return
 
 #c::Run, "C:\Program Files\Microsoft VS Code\Code.exe"
