@@ -12,44 +12,24 @@ def env(name):
 endglobal
 
 
-snippet template "Basic template" b
+snippet template "My template" b
 \documentclass[UTF8,12pt]{article}
-\usepackage{geometry}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{latexsym}
-\usepackage{mathrsfs}
-\usepackage{amsthm}
-\usepackage{mathtools}
-\usepackage{extarrows}
-\usepackage{enumerate}
-\usepackage{graphicx}
-\usepackage{tikz}
-\usepackage{tikz-3dplot}
-\usepackage{xypic}
-\usepackage{subfig}
-\usepackage[colorlinks=true]{hyperref}
-\usepackage{cleveref}
-\usepackage[hyperref=true,backend=biber,sorting=none,backref=true]{biblatex}
-\usepackage{bm} % Bold math
-\usepackage{bbm}
-
+\usepackage{phyxmeow}
 \geometry{a4paper,scale=0.8}
 \allowdisplaybreaks{}
-\theoremstyle{plain}\newtheorem{theorem}{Theorem}
-\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
-\theoremstyle{plain}\newtheorem{corollary}[theorem]{Corollary}
-\theoremstyle{plain}\newtheorem{lemma}[theorem]{Lemma}
-\theoremstyle{plain}\newtheorem*{proposition}{Proposition}
-\theoremstyle{remark}\newtheorem*{remark}{Remark}
+
+\title{$1}
+\author{$2}
 
 \begin{document}
 \maketitle
-	$0
+
+$0
+
 \end{document}
 endsnippet
 
-snippet beg "begin{} / end{}" bA
+snippet beg "begin{} / end{}" b
 \\begin{$1}
 	$0
 \\end{$1}
@@ -70,24 +50,29 @@ snippet sse "subsection" bA
 $0
 endsnippet
 
-snippet xss "subsection*" bA
+snippet ssx "subsection*" bA
 \subsection*{$1}
 $0
 endsnippet
 
 snippet sss "subsubsection" bA
-\subsection{$1}
+\subsubsection{$1}
 $0
 endsnippet
 
-snippet ssx "subsubsection*" bA
-\subsection*{$1}
+snippet xss "subsubsection*" bA
+\subsubsection*{$1}
 $0
+endsnippet
+
+priority 200
+snippet ,... "ldots" iA
+,\ldots
 endsnippet
 
 priority 100
-snippet ... "ldots" iA
-\ldots
+snippet ... "cdots" iA
+\cdots 
 endsnippet
 
 snippet table "Table environment" b
@@ -110,13 +95,13 @@ snippet fig "Figure environment" b
 \end{figure}
 endsnippet
 
-snippet enum "Enumerate" bA
+snippet enum "Enumerate" b
 \begin{enumerate}[$1]
 	\item $0
 \end{enumerate}
 endsnippet
 
-snippet item "Itemize" bA
+snippet item "Itemize" b
 \begin{itemize}
 	\item $0
 \end{itemize}
@@ -145,8 +130,8 @@ snippet iff "iff" iA
 \iff 
 endsnippet
 
-snippet mk "Math" wA
-\(${1}\)`!p
+snippet mk "Inline Math" wA
+\(${1:${VISUAL}}\)`!p
 if t[2] and t[2][0] not in ['，','。',',', '.', '?', '-', ' ']:
 	snip.rv = ' '
 else:
@@ -154,13 +139,13 @@ else:
 `$2
 endsnippet
 
-snippet dm "Math" wA
+snippet dm "Display Math" wA
 \[
 	${1:${VISUAL}}
 .\] $0
 endsnippet
 
-snippet ali "Align" bA
+snippet ali "Align" b
 \begin{align*}
 	${1:${VISUAL}}
 .\end{align*}
@@ -243,7 +228,7 @@ snippet == "equals" iA
 &= $1 \\\\
 endsnippet
 
-snippet != "equals" iA
+snippet != "not equal" iA
 \neq 
 endsnippet
 
@@ -252,6 +237,7 @@ snippet ceil "ceil" iA
 \left\lceil $1 \right\rceil $0
 endsnippet
 
+priority 200
 context "math()"
 snippet floor "floor" iA
 \left\lfloor $1 \right\rfloor $0
@@ -265,37 +251,24 @@ snippet bmat "bmat" iA
 \begin{bmatrix} $1 \end{bmatrix}$0
 endsnippet
 
-context "math()"
-snippet () "left( right)" iA
-\left( ${1:${VISUAL}} \right) $0
-endsnippet
-
 snippet lr "left( right)" i
-\left( ${1:${VISUAL}} \right) $0
-endsnippet
-
-snippet lr( "left( right)" i
-\left( ${1:${VISUAL}} \right) $0
+\left(${1:${VISUAL}}\right) $0
 endsnippet
 
 snippet lr| "left| right|" i
-\left| ${1:${VISUAL}} \right| $0
-endsnippet
-
-snippet lr{ "left\{ right\}" i
-\left\\{ ${1:${VISUAL}} \right\\} $0
+\left|${1:${VISUAL}}\right| $0
 endsnippet
 
 snippet lrb "left\{ right\}" i
-\left\\{ ${1:${VISUAL}} \right\\} $0
+\left\\{${1:${VISUAL}}\right\\} $0
 endsnippet
 
-snippet lr[ "left[ right]" i
-\left[ ${1:${VISUAL}} \right] $0
+snippet lrs "left[ right]" i
+\left[${1:${VISUAL}}\right] $0
 endsnippet
 
 snippet lra "leftangle rightangle" iA
-\left<${1:${VISUAL}} \right>$0
+\left<${1:${VISUAL}}\right>$0
 endsnippet
 
 snippet pair "pair" w
@@ -305,6 +278,11 @@ endsnippet
 context "math()"
 snippet conj "conjugate" iA
 \overline{$1}$0
+endsnippet
+
+context "math()"
+snippet dual "dual space" iA
+^*
 endsnippet
 
 snippet sum "sum" w
@@ -347,7 +325,7 @@ snippet cb "^3" iA
 endsnippet
 
 context "math()"
-snippet rp "to the ... power" iA
+snippet pp "to the ... power" iA
 ^{$1}$0
 endsnippet
 
@@ -356,8 +334,13 @@ _{$1}$0
 endsnippet
 
 context "math()"
-snippet oo "\infty" iA
-\infty
+snippet '([^a-z])oo' "infinity" riA
+`!p snip.rv=match.group(1)`\infty
+endsnippet
+
+context "math()"
+snippet cnk "choose" w
+{$1\choose $2}$0
 endsnippet
 
 snippet rij "mrij" i
@@ -373,13 +356,23 @@ snippet >= "geq" iA
 endsnippet
 
 context "math()"
-snippet EE "geq" iA
-\exists 
+snippet EE "exists" iA
+\exists`!p
+if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
+	snip.rv = '\,'
+else:
+	snip.rv = ''
+`$0
 endsnippet
 
 context "math()"
 snippet AA "forall" iA
-\forall 
+\forall`!p
+if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
+	snip.rv = '\,'
+else:
+	snip.rv = ''
+`$0
 endsnippet
 
 context "math()"
@@ -450,8 +443,23 @@ $0
 endsnippet
 
 context "math()"
-snippet mcal "mathcal" iA
+snippet cal "mathcal" iA
 \mathcal{$1}$0
+endsnippet
+
+context "math()"
+snippet bb "mathbb" iA
+\mathbb{$1}$0
+endsnippet
+
+context "math()"
+snippet mrm "mathrm" iA
+\mathrm{$1}`!p
+if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
+	snip.rv = '\,'
+else:
+	snip.rv = ''
+`$0
 endsnippet
 
 snippet lll "l" iA
@@ -468,6 +476,57 @@ snippet xx "cross" iA
 \times 
 endsnippet
 
+context "math()"
+snippet and "logical and" iA
+\land 
+endsnippet
+
+priority 10
+context "math()"
+snippet orr "logical or" iA
+\lor 
+endsnippet
+
+context "math()"
+snippet vee "vee" iA
+\vee 
+endsnippet
+
+context "math()"
+snippet Vee "big vee" iA
+\bigvee 
+endsnippet
+
+context "math()"
+snippet wge "wedge product" iA
+\wedge 
+endsnippet
+
+context "math()"
+snippet Wge "big wedge product" iA
+\bigwedge
+endsnippet
+
+context "math()"
+snippet tens "tensor product" iA
+\otimes 
+endsnippet
+
+context "math()"
+snippet Tens "big tensor product" iA
+\bigotimes
+endsnippet
+
+context "math()"
+snippet dsum "direct sum" iA
+\oplus 
+endsnippet
+
+context "math()"
+snippet Dsum "big direct sum" iA
+\bigoplus
+endsnippet
+
 priority 100
 snippet ** "cdot" iA
 \cdot 
@@ -480,25 +539,37 @@ endsnippet
 
 priority 100
 context "math()"
-snippet '(?<!\\)(sin|cos|csc|sec|cot|log|exp|star|perp)' "ln" rwA
+snippet '(?<!\\)(sin|cos|csc|sec|cot|log|exp|perp)' "log" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec|int)' "arcsin" rwA
+snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec)' "arcsin" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(alpha|beta|gamma|Gamma|delta|theta|phi|psi|lambda|Lambda)' "alpha" rwA
+snippet '(?<!\\)(ord|dom|ran|card|int)' "int" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(sigma|Sigma|mu|eta|pi|tau|rho|kappa|zeta|chi|omega|Omega)' "arcsin" rwA
+snippet '(?<!\\)(Gamma|Delta|Theta|Lambda|Phi|Psi|Sigma|Omega)' "Alpha" rwA
+\\`!p snip.rv = match.group(1)`
+endsnippet
+
+priority 200
+context "math()"
+snippet '(?<!\\)(alpha|beta|gamma|delta|zeta|theta|iota|kappa|lambda)' "alpha" rwA
+\\`!p snip.rv = match.group(1)`
+endsnippet
+
+priority 150
+context "math()"
+snippet '(?<!\\)(eta|mu|pi|rho|sigma|tau|phi|chi|psi|omega)' "omega" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
@@ -517,7 +588,7 @@ endsnippet
 priority 300
 context "math()"
 snippet 'vphi' "varphi" rwA
-\varphi 
+\varphi
 endsnippet
 
 priority 300
@@ -535,8 +606,20 @@ endsnippet
 
 priority 200
 context "math()"
+snippet --> "xrightarrow" iA
+\xrightarrow{$1}$0
+endsnippet
+
+priority 200
+context "math()"
 snippet <-> "leftrightarrow" iA
 \leftrightarrow
+endsnippet
+
+priority 100
+context "math()"
+snippet into "inclution" iA
+\hookrightarrow
 endsnippet
 
 context "math()"
@@ -550,8 +633,13 @@ snippet invs "inverse" iA
 endsnippet
 
 context "math()"
-snippet compl "complement" iA
+snippet cpl "complement" iA
 ^{c}
+endsnippet
+
+context "math()"
+snippet cpo "complement" iA
+\circ 
 endsnippet
 
 context "math()"
@@ -567,20 +655,28 @@ snippet << "<<" iA
 \ll
 endsnippet
 
-
 snippet ~~ "~" iA
 \sim 
 endsnippet
 
 context "math()"
-snippet set "set" wA
-\\{$1\\}$0
+snippet ~= "similar" iA
+\simeq 
+endsnippet
+
+context "math()"
+snippet eqv "equivalent" iA
+\cong 
+endsnippet
+
+context "math()"
+snippet set "set" iA
+\\{${1:${VISUAL}}\\}$0
 endsnippet
 
 snippet || "mid" iA
  \mid 
 endsnippet
-
 
 context "math()"
 snippet cc "subset" Ai
@@ -646,7 +742,7 @@ endsnippet
 
 context "math()"
 snippet '(?<!i)sts' "text subscript" irA
-_\text{$1} $0
+_\text{$1}$0
 endsnippet
 
 context "math()"
@@ -674,13 +770,25 @@ endsnippet
 
 priority 10
 context "math()"
+snippet "tid" "tilde" riA
+\~{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "((\\)?[a-zA-Z]+)tid" "tilde" riA
+\~{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
 snippet "bar" "bar" riA
 \overline{$1}$0
 endsnippet
 
 priority 100
 context "math()"
-snippet "([a-zA-Z])bar" "bar" riA
+snippet "((\\)?[a-zA-Z]+)bar" "bar" riA
 \overline{`!p snip.rv=match.group(1)`}
 endsnippet
 
@@ -692,12 +800,8 @@ endsnippet
 
 priority 100
 context "math()"
-snippet "([a-zA-Z])hat" "hat" riA
+snippet "((\\)?[a-zA-Z]+)hat" "hat" riA
 \hat{`!p snip.rv=match.group(1)`}
-endsnippet
-
-snippet letw "let omega" iA
-Let $\Omega \subset \C$ be open.
 endsnippet
 
 # vim:ft=snippets

@@ -8,7 +8,7 @@ fi
 source $HOME/env.zsh
 
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git extract python pip colored-man-pages colorize command-not-found)
+plugins=(git extract python pip colored-man-pages colorize ag fd)
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
