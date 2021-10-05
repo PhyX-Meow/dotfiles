@@ -554,7 +554,7 @@ endsnippet
 
 priority 100
 context "math()"
-snippet '(?<!\\)(sin|cos|csc|sec|tan|cot|log|exp|perp|gcd|det|ker|img)' "log" rwA
+snippet '(?<!\\)(sin|cos|csc|sec|tan|cot|log|exp|perp|gcd|det|dim|ker|img)' "log" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
@@ -672,12 +672,7 @@ snippet invs "inverse" iA
 endsnippet
 
 context "math()"
-snippet cpl "complement" iA
-^{c}
-endsnippet
-
-context "math()"
-snippet cpo "complement" iA
+snippet comp "composite" iA
 \circ 
 endsnippet
 
