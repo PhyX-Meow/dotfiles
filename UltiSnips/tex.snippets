@@ -132,7 +132,7 @@ endsnippet
 
 snippet mk "Inline Math" wA
 \(${1:${VISUAL}}\)`!p
-if t[2] and t[2][0] not in ['，','。',',', '.', '?', '-', ' ']:
+if t[2] and t[2][0] not in ['，','。',',', '.', ':', '?', '-', ' ','\n']:
 	snip.rv = ' '
 else:
 	snip.rv = ''
@@ -164,6 +164,11 @@ endsnippet
 context "math()"
 snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "symbol frac" wrA
 \\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+context "math()"
+snippet quo "Quotient" iA
+/
 endsnippet
 
 priority 1000
@@ -267,12 +272,12 @@ snippet lrs "left[ right]" i
 \left[${1:${VISUAL}}\right] $0
 endsnippet
 
-snippet lra "leftangle rightangle" iA
+snippet lra "leftangle rightangle" i
 \left<${1:${VISUAL}}\right>$0
 endsnippet
 
-snippet pair "pair" w
-\left<$1, $2\right> $0
+snippet pair "pair" i
+\left<$1,$2\right> $0
 endsnippet
 
 context "math()"
@@ -320,11 +325,6 @@ snippet sr "^2" iA
 endsnippet
 
 context "math()"
-snippet cb "^3" iA
-^3
-endsnippet
-
-context "math()"
 snippet pp "to the ... power" iA
 ^{$1}$0
 endsnippet
@@ -357,6 +357,16 @@ endsnippet
 
 context "math()"
 snippet EE "exists" iA
+\exists`!p
+if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
+	snip.rv = '\,'
+else:
+	snip.rv = ''
+`$0
+endsnippet
+
+context "math()"
+snippet E! "exists" iA
 \exists`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
 	snip.rv = '\,'
@@ -455,7 +465,7 @@ endsnippet
 context "math()"
 snippet mrm "mathrm" iA
 \mathrm{$1}`!p
-if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
+if t[0] and t[0][0] not in ['(', '[', '-', ' ', '_']:
 	snip.rv = '\,'
 else:
 	snip.rv = ''
@@ -533,13 +543,18 @@ snippet ** "cdot" iA
 endsnippet
 
 context "math()"
-snippet norm "norm" iA
+snippet 'nrom|norm' "norm" riA
 \|$1\|$0
+endsnippet
+
+context "math()"
+snippet abs "abs" iA
+|$1|$0
 endsnippet
 
 priority 100
 context "math()"
-snippet '(?<!\\)(sin|cos|csc|sec|cot|log|exp|perp)' "log" rwA
+snippet '(?<!\\)(sin|cos|csc|sec|tan|cot|log|exp|perp|gcd|det|dim|ker|img)' "log" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
@@ -551,8 +566,20 @@ endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(ord|dom|ran|card|int)' "int" rwA
-\\`!p snip.rv = match.group(1)`
+snippet '(?<!\\)(ord|dom|ran|card)' "card" rwA
+\\`!p
+snip.rv = match.group(1)
+if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
+	snip.rv += '\,'
+else:
+	snip.rv += ''
+`$0
+endsnippet
+
+priority 150
+context "math()"
+snippet '(?<!th|.\\|.b)eta' "eta" rwA
+\eta
 endsnippet
 
 priority 200
@@ -563,25 +590,25 @@ endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(alpha|beta|gamma|delta|zeta|theta|iota|kappa|lambda)' "alpha" rwA
+snippet '(?<!\\)(alpha|beta|gamma|delta|zeta|theta|iota|lambda)' "alpha" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
-priority 150
+priority 200 
 context "math()"
-snippet '(?<!\\)(eta|mu|pi|rho|sigma|tau|phi|chi|psi|omega)' "omega" rwA
+snippet '(?<!\\)(mu|pi|rho|sigma|tau|phi|chi|psi|omega)' "omega" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
 priority 300
 context "math()"
-snippet 'eps' "epsilon" rwA
+snippet eps "epsilon" wA
 \varepsilon
 endsnippet
 
 priority 300
 context "math()"
-snippet 'vthe' "vartheta" rwA
+snippet vthe "vartheta" wA
 \vartheta
 endsnippet
 
@@ -589,6 +616,12 @@ priority 300
 context "math()"
 snippet 'vphi' "varphi" rwA
 \varphi
+endsnippet
+
+priority 300
+context "math()"
+snippet kpa "kappa" wA
+\kappa
 endsnippet
 
 priority 300
@@ -623,6 +656,16 @@ snippet into "inclution" iA
 endsnippet
 
 context "math()"
+snippet intR "integration over R" iA
+\int_{\mathbb{R${1:^n}}}$0
+endsnippet
+
+context "math()"
+snippet int "integration over R" w
+\int_{$1}^{$2}$3\dx $0
+endsnippet
+
+context "math()"
 snippet !> "mapsto" iA
 \mapsto 
 endsnippet
@@ -633,12 +676,7 @@ snippet invs "inverse" iA
 endsnippet
 
 context "math()"
-snippet cpl "complement" iA
-^{c}
-endsnippet
-
-context "math()"
-snippet cpo "complement" iA
+snippet comp "composite" iA
 \circ 
 endsnippet
 
@@ -665,12 +703,17 @@ snippet ~= "similar" iA
 endsnippet
 
 context "math()"
-snippet eqv "equivalent" iA
+snippet '(iso|eqv)' "equivalent" riA
 \cong 
 endsnippet
 
 context "math()"
-snippet set "set" iA
+snippet 'cong' "congruence" riA
+\equiv 
+endsnippet
+
+context "math()"
+snippet '(?<!sup|sub)set' "set" riA
 \\{${1:${VISUAL}}\\}$0
 endsnippet
 
@@ -678,9 +721,16 @@ snippet || "mid" iA
  \mid 
 endsnippet
 
+priority 100
 context "math()"
 snippet cc "subset" Ai
 \subset 
+endsnippet
+
+priority 200
+context "math()"
+snippet pcc "proper subset" Ai
+\subsetneq 
 endsnippet
 
 snippet notin "not in " iA
@@ -700,40 +750,50 @@ snippet Nn "cap" iA
 \cap 
 endsnippet
 
+priority 100
 snippet UU "cup" iA
 \cup 
 endsnippet
 
+priority 200
+snippet DUU "sqcup" iA
+\sqcup 
+endsnippet
+
 snippet uuu "bigcup" iA
-\bigcup_{${1:i \in ${2: I}}} $0
+\bigcup_{${1:i\in ${2:I}}} $0
+endsnippet
+
+snippet duu "bigsqcup" iA
+\bigsqcup_{${1:i\in ${2:I}}} $0
 endsnippet
 
 snippet nnn "bigcap" iA
-\bigcap_{${1:i \in ${2: I}}} $0
+\bigcap_{${1:i\in ${2:I}}} $0
 endsnippet
 
 snippet OO "emptyset" iA
 \emptyset
 endsnippet
 
-snippet RR "real" iA
+snippet RR "real numbers" iA
 \mathbb{R}
 endsnippet
 
-snippet QQ "Q" iA
+snippet QQ "rationals" iA
 \mathbb{Q}
 endsnippet
 
-snippet ZZ "Z" iA
+snippet ZZ "integers" iA
 \mathbb{Z}
 endsnippet
 
-snippet HH "H" iA
+snippet HH "upper half plane" iA
 \mathbb{H}
 endsnippet
 
-snippet DD "D" iA
-\mathbb{D}
+snippet CC "complex numbers" iA
+\mathbb{C}
 endsnippet
 
 snippet <! "normal" iA
@@ -746,7 +806,7 @@ _\text{$1}$0
 endsnippet
 
 context "math()"
-snippet tt "text" iA
+snippet '(?<!co)tt' "text" irA
 \text{$1}$0
 endsnippet
 
@@ -770,37 +830,37 @@ endsnippet
 
 priority 10
 context "math()"
-snippet "tid" "tilde" riA
-\~{$1}$0
+snippet 'tid' "tilde" riA
+\tilde{$1}$0
 endsnippet
 
 priority 100
 context "math()"
-snippet "((\\)?[a-zA-Z]+)tid" "tilde" riA
-\~{`!p snip.rv=match.group(1)`}
+snippet '((\\)?[a-zA-Z]+)tid' "tilde" riA
+\tilde{`!p snip.rv=match.group(1)`}
 endsnippet
 
 priority 10
 context "math()"
-snippet "bar" "bar" riA
-\overline{$1}$0
+snippet 'bar' "bar" riA
+\overline{${1:${VISUAL}}}$0
 endsnippet
 
 priority 100
 context "math()"
-snippet "((\\)?[a-zA-Z]+)bar" "bar" riA
+snippet '((\\)?[a-zA-Z]+)bar' "bar" riA
 \overline{`!p snip.rv=match.group(1)`}
 endsnippet
 
 priority 10
 context "math()"
-snippet "hat" "hat" riA
+snippet 'hat' "hat" riA
 \hat{$1}$0
 endsnippet
 
 priority 100
 context "math()"
-snippet "((\\)?[a-zA-Z]+)hat" "hat" riA
+snippet '((\\)?[a-zA-Z]+)hat' "hat" riA
 \hat{`!p snip.rv=match.group(1)`}
 endsnippet
 
