@@ -45,7 +45,7 @@ alias prob='vim ~/CodesWSL/TeX/Problems.tex'
 alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
 alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
-alias HW='cd ~/CodesWSL/TeX/Homework'
+alias HW='cd ~/TeX'
 alias texpre='vim ~/texmf/tex/latex/local/phyxmeow.sty'
 alias texsnip='vim ~/.vim/UltiSnips/tex.snippets'
 alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
