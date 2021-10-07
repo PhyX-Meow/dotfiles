@@ -285,9 +285,16 @@ snippet conj "conjugate" iA
 \overline{$1}$0
 endsnippet
 
+priority 100
 context "math()"
 snippet dual "dual space" iA
 ^*
+endsnippet
+
+priority 200
+context "math()"
+snippet *dual "double dual space" iA
+{**}
 endsnippet
 
 snippet sum "sum" w
