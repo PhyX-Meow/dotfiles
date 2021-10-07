@@ -169,10 +169,10 @@ Plug 'dense-analysis/ale'
   let g:ale_linters = { 'cs': ['OmniSharp'] }
 
 Plug 'sirver/ultisnips'
-  let g:UltiSnipsExpandTrigger = '<tab>'
-  let g:UltiSnipsJumpForwardTrigger = '<tab>'
-  let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 Plug 'honza/vim-snippets'
+  let g:UltiSnipsExpandTrigger = '<tab>'
+  let g:UltiSnipsJumpForwardTrigger = '<c-n>'
+  let g:UltiSnipsJumpBackwardTrigger = '<c-p>'
 
 Plug 'lervag/vimtex'
   let g:vimtex_compiler_progname=v:progname
@@ -180,6 +180,7 @@ Plug 'lervag/vimtex'
   let g:vimtex_view_general_viewer = 'zathura'
   let g:vimtex_view_method = 'zathura'
   let g:vimtex_quickfix_mode=0
+  let g:vimtex_include_search_enabled = 0
 
 Plug 'PietroPate/vim-tex-conceal'
   set conceallevel=2
@@ -286,7 +287,7 @@ set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,gbk,big5
 
 set nospell
-set dictionary=spell,/usr/share/dict/words
+set dictionary=spell,/usr/share/dict/words,~/.vim/spell/en.utf-8.add
 set complete+=k
 set spelllang=en_us,cjk
 set helplang=cn
@@ -315,7 +316,7 @@ vnoremap < <gv
 autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
 autocmd FileType tex let b:coc_suggest_disable = 1
-autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", '``':'"'} 
+autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", '``':'"'}
 
 set termguicolors
 set bg=dark

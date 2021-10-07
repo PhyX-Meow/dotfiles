@@ -132,7 +132,7 @@ endsnippet
 
 snippet mk "Inline Math" wA
 \(${1:${VISUAL}}\)`!p
-if t[2] and t[2][0] not in ['，','。',',', '.', '?', '-', ' ','\n']:
+if t[2] and t[2][0] not in ['，','。',',', '.', ':', '?', '-', ' ','\n']:
 	snip.rv = ' '
 else:
 	snip.rv = ''
@@ -578,12 +578,6 @@ endsnippet
 
 priority 150
 context "math()"
-snippet '(?<!\\s|.\\)int' "integrate" rwA
-\int
-endsnippet
-
-priority 150
-context "math()"
 snippet '(?<!th|.\\|.b)eta' "eta" rwA
 \eta
 endsnippet
@@ -620,7 +614,7 @@ endsnippet
 
 priority 300
 context "math()"
-snippet vphi "varphi" wA
+snippet 'vphi' "varphi" rwA
 \varphi
 endsnippet
 
@@ -659,6 +653,16 @@ priority 100
 context "math()"
 snippet into "inclution" iA
 \hookrightarrow
+endsnippet
+
+context "math()"
+snippet intR "integration over R" iA
+\int_{\mathbb{R${1:^n}}}$0
+endsnippet
+
+context "math()"
+snippet int "integration over R" w
+\int_{$1}^{$2}$3\dx $0
 endsnippet
 
 context "math()"
@@ -709,7 +713,7 @@ snippet 'cong' "congruence" riA
 endsnippet
 
 context "math()"
-snippet set "set" iA
+snippet '(?<!sup|sub)set' "set" riA
 \\{${1:${VISUAL}}\\}$0
 endsnippet
 
@@ -746,16 +750,26 @@ snippet Nn "cap" iA
 \cap 
 endsnippet
 
+priority 100
 snippet UU "cup" iA
 \cup 
 endsnippet
 
+priority 200
+snippet DUU "sqcup" iA
+\sqcup 
+endsnippet
+
 snippet uuu "bigcup" iA
-\bigcup_{${1:i \in ${2: I}}} $0
+\bigcup_{${1:i\in ${2:I}}} $0
+endsnippet
+
+snippet duu "bigsqcup" iA
+\bigsqcup_{${1:i\in ${2:I}}} $0
 endsnippet
 
 snippet nnn "bigcap" iA
-\bigcap_{${1:i \in ${2: I}}} $0
+\bigcap_{${1:i\in ${2:I}}} $0
 endsnippet
 
 snippet OO "emptyset" iA
@@ -816,37 +830,37 @@ endsnippet
 
 priority 10
 context "math()"
-snippet "tid" "tilde" riA
+snippet 'tid' "tilde" riA
 \tilde{$1}$0
 endsnippet
 
 priority 100
 context "math()"
-snippet "((\\)?[a-zA-Z]+)tid" "tilde" riA
+snippet '((\\)?[a-zA-Z]+)tid' "tilde" riA
 \tilde{`!p snip.rv=match.group(1)`}
 endsnippet
 
 priority 10
 context "math()"
-snippet "bar" "bar" riA
-\overline{$1}$0
+snippet 'bar' "bar" riA
+\overline{${1:${VISUAL}}}$0
 endsnippet
 
 priority 100
 context "math()"
-snippet "((\\)?[a-zA-Z]+)bar" "bar" riA
+snippet '((\\)?[a-zA-Z]+)bar' "bar" riA
 \overline{`!p snip.rv=match.group(1)`}
 endsnippet
 
 priority 10
 context "math()"
-snippet "hat" "hat" riA
+snippet 'hat' "hat" riA
 \hat{$1}$0
 endsnippet
 
 priority 100
 context "math()"
-snippet "((\\)?[a-zA-Z]+)hat" "hat" riA
+snippet '((\\)?[a-zA-Z]+)hat' "hat" riA
 \hat{`!p snip.rv=match.group(1)`}
 endsnippet
 
