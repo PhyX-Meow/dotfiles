@@ -1,0 +1,26 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{phyxmeow-zh}[2021/09/25 TeX Preamble]
+
+\RequirePackage{phyxmeow-common}
+\RequirePackage{ctex}
+
+\theoremstyle{plain}\newtheorem{theorem}{定理}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{定义}
+\theoremstyle{plain}\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{plain}\newtheorem{lemma}[theorem]{引理}
+\theoremstyle{plain}\newtheorem*{proposition}{命题}
+\theoremstyle{remark}\newtheorem*{remark}{评注}
+\renewcommand{\proofname}{证明}
+\crefname{equation}{式}{式}
+\crefname{figure}{图}{图}
+\crefname{definition}{定义}{定义}
+\crefname{theorem}{定理}{定理}
+\crefname{lemma}{引理}{引理}
+\crefname{corollary}{推论}{推论}
+\newcommand{\crefpairconjunction}{~和~}
+\newcommand{\crefmiddleconjunction}{、}
+\newcommand{\creflastconjunction}{~和~}
+\newcommand{\crefpairgroupconjunction}{~和~}
+\newcommand{\crefmiddlegroupconjunction}{、}
+\newcommand{\creflastgroupconjunction}{~和~}
+\newcommand{\crefrangeconjunction}{～}

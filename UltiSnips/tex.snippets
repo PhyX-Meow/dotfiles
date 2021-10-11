@@ -256,12 +256,20 @@ snippet floor "floor" iA
 \left\lfloor $1 \right\rfloor $0
 endsnippet
 
+context "math()"
 snippet pmat "pmat" iA
-\begin{pmatrix} $1 \end{pmatrix}$0
+\begin{pmatrix}
+	$1
+\end{pmatrix}
+$0
 endsnippet
 
+context "math()"
 snippet bmat "bmat" iA
-\begin{bmatrix} $1 \end{bmatrix}$0
+\begin{bmatrix}
+	$1
+\end{bmatrix}
+$0
 endsnippet
 
 snippet lr "left( right)" i
@@ -326,12 +334,12 @@ snippet prod "product" w
 endsnippet
 
 snippet part "d/dx" w
-\frac{\partial ${1:V}}{\partial ${2:x}} $0
+\frac{\partial ${1:f}}{\partial ${2:x_i}}$0
 endsnippet
 
 context "math()"
 snippet sq "\sqrt{}" iA
-\sqrt{${1:${VISUAL}}} $0
+\sqrt{${1:${VISUAL}}}$0
 endsnippet
 
 context "math()"
@@ -494,6 +502,11 @@ endsnippet
 context "math()"
 snippet nabl "nabla" iA
 \nabla 
+endsnippet
+
+context "math()"
+snippet lap "laplace" iA
+\triangle 
 endsnippet
 
 context "math()"

@@ -56,6 +56,6 @@ alias ghci='stack exec ghci'
 alias runghc='stack runghc'
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW='cd ~/CodesWSL/TeX/Homework'
-alias texpre='vim ~/texmf/tex/latex/local/phyxmeow.sty'
+alias texpre='vim ~/texmf/tex/latex/local/phyxmeow-common.sty'
 alias texsnip='vim ~/.vim/UltiSnips/tex.snippets'
 alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
