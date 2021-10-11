@@ -256,12 +256,20 @@ snippet floor "floor" iA
 \left\lfloor $1 \right\rfloor $0
 endsnippet
 
+context "math()"
 snippet pmat "pmat" iA
-\begin{pmatrix} $1 \end{pmatrix}$0
+\begin{pmatrix}
+	$1
+\end{pmatrix}
+$0
 endsnippet
 
+context "math()"
 snippet bmat "bmat" iA
-\begin{bmatrix} $1 \end{bmatrix}$0
+\begin{bmatrix}
+	$1
+\end{bmatrix}
+$0
 endsnippet
 
 snippet lr "left( right)" i
@@ -326,12 +334,12 @@ snippet prod "product" w
 endsnippet
 
 snippet part "d/dx" w
-\frac{\partial ${1:V}}{\partial ${2:x}} $0
+\frac{\partial ${1:f}}{\partial ${2:x_i}}$0
 endsnippet
 
 context "math()"
 snippet sq "\sqrt{}" iA
-\sqrt{${1:${VISUAL}}} $0
+\sqrt{${1:${VISUAL}}}$0
 endsnippet
 
 context "math()"
@@ -497,6 +505,11 @@ snippet nabl "nabla" iA
 endsnippet
 
 context "math()"
+snippet lap "laplace" iA
+\triangle 
+endsnippet
+
+context "math()"
 snippet xx "cross" iA
 \times 
 endsnippet
@@ -563,13 +576,13 @@ snippet 'nrom|norm' "norm" riA
 endsnippet
 
 context "math()"
-snippet abs "abs" iA
+snippet abs "absolute value" iA
 |$1|$0
 endsnippet
 
 priority 100
 context "math()"
-snippet '(?<!\\)(sin|cos|csc|sec|tan|cot|log|exp|perp|gcd|det|dim|ker|img)' "log" rwA
+snippet '(?<!\\)(sin|cos|csc|sec|tan|cot|log|exp|perp|gcd)' "log" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
@@ -581,14 +594,8 @@ endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(ord|dom|ran|card)' "card" rwA
-\\`!p
-snip.rv = match.group(1)
-if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
-	snip.rv += '\,'
-else:
-	snip.rv += ''
-`$0
+snippet '(?<!\\)(ord|dom|ran|card|sign|dim|ker|img|det)' "card" rwA
+\\`!p snip.rv = match.group(1)`
 endsnippet
 
 priority 150
