@@ -181,6 +181,7 @@ Plug 'lervag/vimtex'
   let g:vimtex_view_method = 'zathura'
   let g:vimtex_quickfix_mode=0
   let g:vimtex_include_search_enabled = 0
+  let g:vimtex_indent_ignored_envs = ['document', 'center', 'figure']
 
 Plug 'PietroPate/vim-tex-conceal'
   set conceallevel=2
