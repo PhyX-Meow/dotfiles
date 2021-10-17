@@ -48,7 +48,7 @@ snippet sec "section" bA
 $0
 endsnippet
 
-snippet xse "section*" bA
+snippet sex "section*" bA
 \section*{$1}
 $0
 endsnippet
@@ -485,6 +485,11 @@ snippet bb "mathbb" iA
 endsnippet
 
 context "math()"
+snippet Id "identity" iA
+\mathbbm{1}$0
+endsnippet
+
+context "math()"
 snippet mrm "mathrm" iA
 \mathrm{$1}`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ', '_']:
@@ -699,6 +704,11 @@ endsnippet
 context "math()"
 snippet comp "composite" iA
 \circ 
+endsnippet
+
+context "math()"
+snippet ino "interior" iA
+^\circ 
 endsnippet
 
 context "math()"
