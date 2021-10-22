@@ -233,7 +233,7 @@ snippet 'math(.*)math' "math" wr
 import subprocess
 code = match.group(1)
 code = 'ToString[' + code + ', TeXForm]'
-snip.rv = subprocess.check_output(['wolframscript', '-code', code])
+snip.rv = subprocess.check_output(['wolframscript.exe', '-code', code]).decode('utf8').rstrip()
 `
 endsnippet
 
@@ -748,8 +748,8 @@ snippet '(?<!sup|sub)set' "set" riA
 \\{${1:${VISUAL}}\\}$0
 endsnippet
 
-snippet || "mid" iA
- \mid 
+snippet || "divide" iA
+\mid 
 endsnippet
 
 priority 100
@@ -787,20 +787,20 @@ snippet UU "cup" iA
 endsnippet
 
 priority 200
-snippet DUU "sqcup" iA
+snippet DU "sqcup" iA
 \sqcup 
 endsnippet
 
 snippet uuu "bigcup" iA
-\bigcup_{${1:i\in ${2:I}}} $0
+\bigcup_{${1:i\in ${2:I}}}$0
 endsnippet
 
 snippet duu "bigsqcup" iA
-\bigsqcup_{${1:i\in ${2:I}}} $0
+\bigsqcup_{${1:i\in ${2:I}}}$0
 endsnippet
 
 snippet nnn "bigcap" iA
-\bigcap_{${1:i\in ${2:I}}} $0
+\bigcap_{${1:i\in ${2:I}}}$0
 endsnippet
 
 snippet OO "emptyset" iA
