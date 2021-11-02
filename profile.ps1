@@ -18,7 +18,7 @@ Set-PSReadLineOption -PredictionSource History
 # Colorlize
 Import-Module Get-ChildItemColor
 Import-Module posh-git
-Invoke-Expression (oh-my-posh --init --shell pwsh --config ~/pwsh_theme.omp.json)
+Invoke-Expression (oh-my-posh --init --shell pwsh --config ~/gitRepo/dotfiles/pwsh_theme.omp.json)
 colortool -q GruvboxDark.itermcolors
 
 # Alias
