@@ -166,13 +166,13 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 Plug 'dense-analysis/ale'
   let g:ale_disable_lsp = 1
-  let g:ale_linters = { 'cs': ['OmniSharp'] }
+  let g:ale_linters = { 'cs': ['OmniSharp'], 'tex': ['chktex', 'lacheck', 'texlab'] }
 
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
   let g:UltiSnipsExpandTrigger = '<tab>'
-  let g:UltiSnipsJumpForwardTrigger = '<c-n>'
-  let g:UltiSnipsJumpBackwardTrigger = '<c-p>'
+  let g:UltiSnipsJumpForwardTrigger = '<tab>'
+  let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 Plug 'lervag/vimtex'
   let g:vimtex_compiler_progname=v:progname
@@ -316,7 +316,6 @@ vnoremap < <gv
 " autocmd
 autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
-autocmd FileType tex let b:coc_suggest_disable = 1
 autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", '``':'"'}
 
 set termguicolors
