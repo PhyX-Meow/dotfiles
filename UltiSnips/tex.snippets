@@ -316,10 +316,6 @@ snippet sum "sum" w
 \sum_{n=${1:1}}^{${2:\infty}} ${3:a_n z^n}
 endsnippet
 
-snippet taylor "taylor" w
-\sum_{${1:k}=${2:0}}^{${3:\infty}} ${4:c_$1} (x-a)^$1 $0
-endsnippet
-
 snippet lim "limit" w
 \lim_{${1:n} \to ${2:\infty}} 
 endsnippet
@@ -363,10 +359,6 @@ endsnippet
 context "math()"
 snippet cnk "choose" w
 {$1\choose $2}$0
-endsnippet
-
-snippet rij "mrij" i
-(${1:x}_${2:n})_{${3:$2}\\in${4:\\N}}$0
 endsnippet
 
 snippet <= "leq" iA
