@@ -370,6 +370,11 @@ snippet >= "geq" iA
 endsnippet
 
 context "math()"
+snippet 'dd' "differential" ri
+\dif 
+endsnippet
+
+context "math()"
 snippet EE "exists" iA
 \exists`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
@@ -608,32 +613,14 @@ endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(alpha|beta|gamma|delta|zeta|theta|iota|lambda)' "alpha" riA
+snippet '(?<!\\)(alpha|beta|gamma|delta|zeta|theta|iota|lambda|eps)' "alpha" riA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
 priority 200 
 context "math()"
-snippet '(?<!\\)(mu|pi|rho|sigma|tau|phi|chi|psi|omega)' "omega" riA
+snippet '(?<!\\)(mu|pi|rho|sigma|tau|phi|chi|psi|omega|vphi|vthe)' "omega" riA
 \\`!p snip.rv = match.group(1)`
-endsnippet
-
-priority 300
-context "math()"
-snippet eps "epsilon" iA
-\varepsilon
-endsnippet
-
-priority 300
-context "math()"
-snippet vthe "vartheta" iA
-\vartheta
-endsnippet
-
-priority 300
-context "math()"
-snippet 'vphi' "varphi" riA
-\varphi
 endsnippet
 
 priority 300
@@ -680,7 +667,7 @@ endsnippet
 
 context "math()"
 snippet int "integration over R" w
-\int_{$1}^{$2}$3\dx $0
+\int_{$1}^{$2}$3\dif $0
 endsnippet
 
 context "math()"
