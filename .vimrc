@@ -182,10 +182,13 @@ Plug 'lervag/vimtex'
   let g:vimtex_quickfix_mode=0
   let g:vimtex_include_search_enabled = 0
   let g:vimtex_indent_ignored_envs = ['document', 'center', 'figure']
+  let g:vimtex_matchparen_enabled = 0
 
-Plug 'PietroPate/vim-tex-conceal'
-  set conceallevel=2
-  let g:tex_conceal='abdmg'
+Plug 'andymass/vim-matchup'
+
+" Plug 'PietroPate/vim-tex-conceal'
+" Plug 'KeitaNakamura/tex-conceal.vim'
+  " let g:tex_conceal='abdmg'
 
 Plug 'easymotion/vim-easymotion'
 
@@ -279,6 +282,7 @@ set autochdir
 set autoread
 set wildmenu
 set bsdir=buffer
+set conceallevel=2
 filetype plugin indent on
 
 " Encoding
