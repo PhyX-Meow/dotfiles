@@ -31,11 +31,11 @@ endif
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-      " \ pumvisible() ? "\<C-n>" :
-      " \ <SID>check_back_space() ? "\<TAB>" :
-      " \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <TAB>
+       \ pumvisible() ? "\<C-n>" :
+       \ <SID>check_back_space() ? "\<TAB>" :
+       \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -174,6 +174,8 @@ Plug 'honza/vim-snippets'
   let g:UltiSnipsJumpForwardTrigger = '<tab>'
   let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
+" Plug 'PietroPate/vim-tex-conceal'
+" Plug 'KeitaNakamura/tex-conceal.vim'
 Plug 'lervag/vimtex'
   let g:vimtex_compiler_progname=v:progname
   let g:tex_flavor='latex'
@@ -183,12 +185,15 @@ Plug 'lervag/vimtex'
   let g:vimtex_include_search_enabled = 0
   let g:vimtex_indent_ignored_envs = ['document', 'center', 'figure']
   let g:vimtex_matchparen_enabled = 0
-
+  let g:tex_conceal = 'abdmg'
+  let g:vimtex_imaps_leader = ';'
+  let g:vimtex_syntax_custom_cmds = [
+    \{'name': 'colon', 'mathmode': 1, 'concealchar': ':'},
+    \{'name': 'eps', 'mathmode': 1, 'concealchar': 'ε'},
+    \{'name': 'vthe', 'mathmode': 1, 'concealchar': 'ϑ'},
+    \{'name': 'vphi', 'mathmode': 1, 'concealchar': 'φ'}
+    \]
 Plug 'andymass/vim-matchup'
-
-" Plug 'PietroPate/vim-tex-conceal'
-" Plug 'KeitaNakamura/tex-conceal.vim'
-  " let g:tex_conceal='abdmg'
 
 Plug 'easymotion/vim-easymotion'
 
