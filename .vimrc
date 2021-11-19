@@ -189,6 +189,8 @@ Plug 'lervag/vimtex'
   let g:vimtex_imaps_leader = ';'
   let g:vimtex_syntax_custom_cmds = [
     \{'name': 'colon', 'mathmode': 1, 'concealchar': ':'},
+    \{'name': 'card', 'mathmode': 1, 'concealchar': '#'},
+    \{'name': 'dif', 'mathmode': 1, 'concealchar': 'd'},
     \{'name': 'eps', 'mathmode': 1, 'concealchar': 'ε'},
     \{'name': 'vthe', 'mathmode': 1, 'concealchar': 'ϑ'},
     \{'name': 'vphi', 'mathmode': 1, 'concealchar': 'φ'}
