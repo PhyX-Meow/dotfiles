@@ -111,8 +111,8 @@ zinit light romkatv/powerlevel10k
 ZLE_RPROMPT_INDENT=0
 
 zinit light zsh-users/zsh-autosuggestions
-
 zinit light zdharma-continuum/fast-syntax-highlighting
+# zinit light zsh-users/zsh-syntax-highlighting
 
 # Autojump
 FZ_HISTORY_CD_CMD="_zlua"
