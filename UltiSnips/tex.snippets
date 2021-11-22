@@ -381,6 +381,11 @@ snippet pd "partial" i
 endsnippet
 
 context "math()"
+snippet nd "derivative" i
+\nabla_{$1}$0
+endsnippet
+
+context "math()"
 snippet EE "exists" iA
 \exists`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
@@ -584,12 +589,12 @@ endsnippet
 
 context "math()"
 snippet 'nrom|norm' "norm" riA
-\|$1\|$0
+\|${1:${VISUAL}}\|$0
 endsnippet
 
 context "math()"
 snippet abs "absolute value" iA
-|$1|$0
+|${1:${VISUAL}}|$0
 endsnippet
 
 priority 100
