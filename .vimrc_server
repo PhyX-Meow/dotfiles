@@ -1,6 +1,8 @@
 " Plug
 call plug#begin('~/.vim/plugged')
 
+Plug 'lervag/vimtex'
+
 Plug 'easymotion/vim-easymotion'
 
 Plug 'justinmk/vim-sneak'
@@ -116,4 +118,3 @@ set termguicolors
 set bg=dark
 syntax on
 colorscheme gruvbox8
-
