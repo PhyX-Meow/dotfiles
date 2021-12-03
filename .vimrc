@@ -327,7 +327,7 @@ vnoremap < <gv
 " autocmd
 autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
-autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", '``':'"'}
+autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
 
 set termguicolors
 set bg=dark

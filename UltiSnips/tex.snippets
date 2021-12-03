@@ -272,23 +272,23 @@ snippet bmat "bmat" iA
 endsnippet
 
 snippet lr "left( right)" i
-\left(${1:${VISUAL}}\right) $0
+\left(${1:${VISUAL}}\right)$0
 endsnippet
 
 snippet lr| "left| right|" i
-\left|${1:${VISUAL}}\right| $0
+\left|${1:${VISUAL}}\right|$0
 endsnippet
 
 snippet lrb "left\{ right\}" i
-\left\\{${1:${VISUAL}}\right\\} $0
+\left\\{${1:${VISUAL}}\right\\}$0
 endsnippet
 
 snippet lrs "left[ right]" i
-\left[${1:${VISUAL}}\right] $0
+\left[${1:${VISUAL}}\right]$0
 endsnippet
 
 snippet lra "leftangle rightangle" i
-\left<${1:${VISUAL}}\right>$0
+\left<${1:${VISUAL}}\right> $0
 endsnippet
 
 snippet '(pair|pari)' "pair" ri
@@ -413,47 +413,6 @@ if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
 else:
 	snip.rv = ''
 `$0
-endsnippet
-
-context "math()"
-snippet xnn "xn" iA
-x_{n}
-endsnippet
-
-context "math()"
-snippet ynn "yn" iA
-y_{n}
-endsnippet
-
-
-context "math()"
-snippet xii "xi" iA
-x_{i}
-endsnippet
-
-context "math()"
-snippet yii "yi" iA
-y_{i}
-endsnippet
-
-context "math()"
-snippet xjj "xj" iA
-x_{j}
-endsnippet
-
-context "math()"
-snippet yjj "yj" iA
-y_{j}
-endsnippet
-
-context "math()"
-snippet xp1 "x" iA
-x_{n+1}
-endsnippet
-
-context "math()"
-snippet xmm "x" iA
-x_{m}
 endsnippet
 
 snippet R0+ "R0+" iA
@@ -635,7 +594,7 @@ endsnippet
 
 priority 200 
 context "math()"
-snippet '(?<!\\)(mu|pi|rho|sigma|tau|phi|chi|psi|omega|vphi|vthe)' "omega" riA
+snippet '(?<!\\)(muu|pii|rho|sigma|tau|phi|chi|psi|omega|vphi|vthe)' "omega" riA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
@@ -739,7 +698,7 @@ snippet 'cong' "congruence" riA
 endsnippet
 
 context "math()"
-snippet '(?<!sup|sub)set' "set" riA
+snippet '(?<!sup|sub|pty)set' "set" riA
 \\{${1:${VISUAL}}\\}$0
 endsnippet
 
@@ -751,6 +710,12 @@ priority 100
 context "math()"
 snippet cc "subset" Ai
 \subset 
+endsnippet
+
+priority 200
+context "math()"
+snippet ucc "supset" Ai
+\supset 
 endsnippet
 
 priority 200
