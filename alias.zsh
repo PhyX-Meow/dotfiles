@@ -34,6 +34,7 @@ alias ll='colorls -lA --sd --gs --group-directories-first'
 alias clr='clear'
 alias py='conda activate base'
 alias lab='jupyter lab --no-browser'
+alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
 alias tlup='sudo tlmgr update --self --all --reinstall-forcibly-removed'
 alias tlcc='sudo rm /usr/local/texlive/2021/tlpkg/backups/*'
 alias pyup='pip install --user --upgrade pip jupyterlab-mathjax3 jupyterlab_code_formatter jupyter-lsp jupyterlab-lsp jupyterlab-git theme-darcula'

@@ -329,11 +329,6 @@ snippet prod "product" w
 endsnippet
 
 context "math()"
-snippet part "d/dx" w
-\frac{\partial ${1:f}}{\partial ${2:x_i}}$0
-endsnippet
-
-context "math()"
 snippet sq "\sqrt{}" iA
 \sqrt{${1:${VISUAL}}}$0
 endsnippet
@@ -371,18 +366,43 @@ snippet >= "geq" iA
 endsnippet
 
 context "math()"
+snippet pD "d/dx" w
+\pdif{${1:f}}{${2:x_i}}$0
+endsnippet
+
+context "math()"
 snippet dd "differential" i
-\dif 
+\dif  
 endsnippet
 
 context "math()"
 snippet pd "partial" i
-\partial
+\partial`!p
+if t[0] and t[0][0] not in ['^', ' ', '_', '\\']:
+	snip.rv = ' '
+else:
+	snip.rv = ''
+`$0
 endsnippet
 
 context "math()"
-snippet nd "derivative" i
+snippet nd "nabla" iA
+\nabla`!p
+if t[0] and t[0][0] not in ['^', ' ', '_', '\\']:
+	snip.rv = ' '
+else:
+	snip.rv = ''
+`$0
+endsnippet
+
+context "math()"
+snippet nD "covariant derivative" i
 \nabla_{$1}$0
+endsnippet
+
+context "math()"
+snippet lap "laplace" iA
+\triangle 
 endsnippet
 
 context "math()"
@@ -476,16 +496,6 @@ snippet lll "l" iA
 endsnippet
 
 context "math()"
-snippet nabl "nabla" iA
-\nabla 
-endsnippet
-
-context "math()"
-snippet lap "laplace" iA
-\triangle 
-endsnippet
-
-context "math()"
 snippet xx "cross" iA
 \times 
 endsnippet
@@ -576,7 +586,7 @@ endsnippet
 
 priority 150
 context "math()"
-snippet '(?<!th|.\\|.b)eta' "eta" riA
+snippet '(?<!th|.\\|.b|.z)eta' "eta" riA
 \eta
 endsnippet
 
@@ -822,7 +832,7 @@ endsnippet
 priority 10
 context "math()"
 snippet 'tid' "tilde" riA
-\tilde{$1}$0
+\tilde{${1:${VISUAL}}}$0
 endsnippet
 
 priority 100
@@ -846,7 +856,7 @@ endsnippet
 priority 10
 context "math()"
 snippet 'hat' "hat" riA
-\hat{$1}$0
+\hat{${1:${VISUAL}}}$0
 endsnippet
 
 priority 100
