@@ -32,6 +32,7 @@ alias cp='cp -i'
 alias ls='colorls --group-directories-first'
 alias ll='colorls -lA --sd --gs --group-directories-first'
 alias clr='clear'
+alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
 alias pyup='pip install --user --upgrade pip'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg;Pkg.update()'"

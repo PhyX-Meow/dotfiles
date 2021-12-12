@@ -185,7 +185,6 @@ Plug 'lervag/vimtex'
   let g:vimtex_include_search_enabled = 0
   let g:vimtex_indent_ignored_envs = ['document', 'center', 'figure']
   let g:vimtex_matchparen_enabled = 0
-  let g:tex_conceal = 'abdmg'
   let g:vimtex_imaps_leader = ';'
   let g:vimtex_syntax_custom_cmds = [
     \{'name': 'colon', 'mathmode': 1, 'concealchar': ':'},
@@ -196,6 +195,7 @@ Plug 'lervag/vimtex'
     \{'name': 'vphi', 'mathmode': 1, 'concealchar': 'φ'}
     \]
 Plug 'andymass/vim-matchup'
+  let g:matchup_override_vimtex = 1
 
 Plug 'easymotion/vim-easymotion'
 
@@ -307,7 +307,7 @@ language messages zh_CN.utf-8
 
 " UI Settings
 set cursorline
-set cursorcolumn
+" set cursorcolumn
 if has("gui_running")
   set go=
   set lines=32
@@ -327,7 +327,8 @@ vnoremap < <gv
 " autocmd
 autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
-autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", '``':'"'}
+autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
+autocmd FileType tex set nocursorcolumn
 
 set termguicolors
 set bg=dark
