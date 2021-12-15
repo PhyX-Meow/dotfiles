@@ -198,8 +198,9 @@ Plug 'andymass/vim-matchup'
   let g:matchup_override_vimtex = 1
 
 Plug 'easymotion/vim-easymotion'
-
 Plug 'justinmk/vim-sneak'
+Plug 'rhysd/clever-f.vim'
+
 
 if has('nvim')
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -307,6 +308,7 @@ language messages zh_CN.utf-8
 
 " UI Settings
 set cursorline
+set cursorcolumn
 " set cursorcolumn
 if has("gui_running")
   set go=
@@ -328,7 +330,7 @@ vnoremap < <gv
 autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
 autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
-autocmd FileType tex set nocursorcolumn
+autocmd FileType tex setlocal nocursorcolumn
 
 set termguicolors
 set bg=dark
