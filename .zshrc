@@ -111,8 +111,13 @@ zinit light romkatv/powerlevel10k
 ZLE_RPROMPT_INDENT=0
 
 zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma-continuum/fast-syntax-highlighting
-# zinit light zsh-users/zsh-syntax-highlighting
+# zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-syntax-highlighting
+    typeset -A ZSH_HIGHLIGHT_STYLES
+    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=cyan'
+    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=cyan'
+    ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 # Autojump
 FZ_HISTORY_CD_CMD="_zlua"

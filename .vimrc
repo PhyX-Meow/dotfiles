@@ -1,4 +1,6 @@
-" Plug
+set nocompatible
+
+" Plugins
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -265,7 +267,6 @@ Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
-set nocompatible
 set number
 set relativenumber
 set history=8192
