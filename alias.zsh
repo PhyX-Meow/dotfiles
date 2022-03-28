@@ -19,7 +19,7 @@ alias upxy="
 	unset ALL_PROXY;
     unset HTTP_PROXY;
     unset HTTPS_PROXY;"
-alias vim="DISPLAY=$win_host:0 vim --servername VIM"
+alias vim="DISPLAY=$win_host:0 gvim -v --servername VIM"
 alias yay='yay --pacman powerpill'
 alias zrc='vim ~/.zshrc'
 alias zre='source ~/.zshrc'
