@@ -56,5 +56,5 @@ Return
 #c::Run, "C:\Program Files\Microsoft VS Code\Code.exe"
 Return
 
-#m::Run, "C:\Program Files\Wolfram Research\Mathematica\12.3\Mathematica.exe"
+#m::Run, "C:\Program Files\Wolfram Research\Mathematica\13.0\Mathematica.exe"
 Return
