@@ -35,7 +35,7 @@ alias py='conda activate base'
 alias lab='jupyter lab --no-browser'
 alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
 alias tlup='sudo tlmgr update --self --all --reinstall-forcibly-removed'
-alias tlcc='sudo rm /usr/local/texlive/2021/tlpkg/backups/*'
+alias tlcc='sudo rm /usr/local/texlive/current/tlpkg/backups/*'
 alias pyup='pip install --user --upgrade pip jupyterlab-mathjax3 jupyterlab_code_formatter jupyter-lsp jupyterlab-lsp jupyterlab-git theme-darcula'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg;Pkg.update()'"
@@ -51,9 +51,7 @@ alias note='vim ~/note.txt'
 alias prob='vim ~/CodesWSL/TeX/Problems.tex'
 alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
 alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
-# alias ghci='stack ghci'
-alias ghci='stack exec ghci'
-alias runghc='stack runghc'
+alias ghcup="ghcup --downloader wget"
 alias sudoedit="DISPLAY=$win_host:0 sudoedit"
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW='cd ~/CodesWSL/TeX/Homework'
