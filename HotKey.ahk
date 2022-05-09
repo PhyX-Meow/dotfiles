@@ -58,3 +58,8 @@ Return
 
 #m::Run, "C:\Program Files\Wolfram Research\Mathematica\13.0\Mathematica.exe"
 Return
+
+#IfWinActive ahk_exe WindowsTerminal.exe
+{
+	!Enter::!^j
+}
