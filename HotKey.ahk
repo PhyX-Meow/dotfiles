@@ -1,61 +1,30 @@
-#NoEnv
 #SingleInstance force
-SendMode Input
-; DetectHiddenWindows, on
 SetWinDelay 0
+; DetectHiddenWindows, on
 
-; SwitchToWindowsTerminal()
-; {
-;     windowHandleId := WinExist("ahk_exe WindowsTerminal.exe")
-;     windowExistsAlready := windowHandleId > 0
-
-;     ; If the Windows Terminal is already open, determine if we should put it in focus or minimize it.
-;     if (windowExistsAlready = true)
-;     {
-;         activeWindowHandleId := WinExist("A")
-;         windowIsAlreadyActive := activeWindowHandleId == windowHandleId
-
-;         if (windowIsAlreadyActive)
-;         {
-;             ; Minimize the window.
-;             WinMinimize, "ahk_id %windowHandleId%"
-;         }
-;         else
-;         {
-;             ; Put the window in focus.
-;             WinActivate, "ahk_id %windowHandleId%"
-;             WinShow, "ahk_id %windowHandleId%"
-;         }
-;     }
-;     ; Else it's not already open, so launch it.
-;     else
-;     {
-;         Run, wt
-;     }
-; }
-; ; Hotkey to use Win+` to launch/restore the Windows Terminal.
-; #`::SwitchToWindowsTerminal()
-
-#`::
-    terminal := WinExist("ahk_exe WindowsTerminal.exe")
-    if (terminal) 
-    {
-        active := WinActive("ahk_id " terminal)
-        if (active)
-            WinMinimize, ahk_id %active%
+RunOrActivate(name, command) {
+    window := WinExist("ahk_exe" name)
+    if window {
+        active := WinActive("ahk_id" window)
+        if active
+            WinMinimize("ahk_id" active)
         else
-            WinActivate, ahk_id %terminal%
-    }
-    else
-        Run, wt.exe
-Return
+            WinActivate("ahk_id" window)
+    } else
+        Run command
+    return
+}
 
+<<<<<<< HEAD
 #b::Run, "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 Return
+=======
+#`:: RunOrActivate("WindowsTerminal.exe", "wt.exe")
+>>>>>>> main
 
-#c::Run, "C:\Program Files\Microsoft VS Code\Code.exe"
-Return
+#b:: RunOrActivate("msedge.exe", "C:\Program Files (x86)\Microsoft\Edge Beta\Application\msedge.exe")
 
+<<<<<<< HEAD
 #m::Run, "C:\Program Files\Wolfram Research\Mathematica\13.0\Mathematica.exe"
 Return
 
@@ -63,3 +32,12 @@ Return
 {
 	!Enter::!^j
 }
+=======
+#c:: Run "C:\Program Files\Microsoft VS Code\Code.exe"
+
+#m:: Run "C:\Program Files\Wolfram Research\Mathematica\13.0\Mathematica.exe"
+
+#HotIf WinActive("ahk_exe WindowsTerminal.exe")
+!Enter:: Send "!^j"
+#HotIf
+>>>>>>> main
