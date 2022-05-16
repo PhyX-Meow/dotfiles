@@ -24,5 +24,5 @@ RunOrActivate(name, command) {
 #m:: Run "C:\Program Files\Wolfram Research\Mathematica\13.0\Mathematica.exe"
 
 #HotIf WinActive("ahk_exe WindowsTerminal.exe")
-!Enter:: !^j
+!Enter:: Send "!^j"
 #HotIf
