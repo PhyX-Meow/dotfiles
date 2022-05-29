@@ -8,9 +8,10 @@ export LD_LIBRARY_PATH=.:../lib:./lib
 export PATH="$HOME/.local/bin:$HOME/.ghcup/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 export MKL_DEBUG_CPU_TYPE=5
 export MKL_DYNAMIC=FALSE
-export MKL_NUM_THREADS=16
+export MKL_NUM_THREADS=8
 export DOTNET_ROOT="/usr/share/dotnet"
 export JULIA_PKG_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia"
+export OPENBLAS_NUM_THREADS=8
 export TEXLIVE_DOWNLOADER=wget
 
 export WINHOME="/mnt/c/Users/wuli"
