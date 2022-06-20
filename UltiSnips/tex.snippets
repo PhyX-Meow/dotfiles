@@ -12,6 +12,9 @@ def env(name):
 def fix_indent(snip):
     vim.eval('feedkeys("\<c-f>")')
 
+def fix_cursor(snip):
+	vim.eval('feedkeys("\<c-e>")')
+
 endglobal
 
 post_expand "fix_indent(snip)"

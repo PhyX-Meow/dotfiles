@@ -33,16 +33,16 @@ endif
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-       \ pumvisible() ? "\<C-n>" :
-       \ <SID>check_back_space() ? "\<TAB>" :
-       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+       " \ pumvisible() ? "\<C-n>" :
+       " \ <SID>check_back_space() ? "\<TAB>" :
+       " \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+  " let col = col('.') - 1
+  " return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -292,6 +292,7 @@ set autoread
 set wildmenu
 set bsdir=buffer
 set conceallevel=2
+set pumheight=15
 filetype plugin indent on
 
 " Encoding
@@ -332,6 +333,9 @@ autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
 autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
 autocmd FileType tex setlocal nocursorcolumn
+autocmd FileType tex let b:coc_suggest_blacklist = [
+    \ "alph", "bet", "gamm", "delt", "zet", "thet", "iot", "lambd", "sigm", "omeg",
+    \ "vth", "vph", "Gamm", "Delt", "Thet", "Lambd", "Sigm", "Omeg"]
 
 set termguicolors
 set bg=dark
