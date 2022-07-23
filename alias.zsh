@@ -31,6 +31,7 @@ alias cp='cp -i'
 alias ls='colorls --group-directories-first'
 alias ll='colorls -lA --sd --gs --group-directories-first'
 alias clr='clear'
+alias julia='LD_PRELOAD=/usr/lib/libstdc++.so.6 julia'
 alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
 alias juhs="jupyter console --kernel=haskell"
 alias pyup='pip install --user --upgrade pip'

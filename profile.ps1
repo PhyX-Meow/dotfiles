@@ -22,12 +22,14 @@ Invoke-Expression (oh-my-posh --init --shell pwsh --config ~/gitRepo/dotfiles/pw
 colortool -q GruvboxDark.itermcolors
 
 # Alias
-Function which($cmd) {
-	Get-Command -All $cmd
+Function which {
+	Get-Command -All $args
 }
-Function prc(){
+Function prc {
 	code "C:\Users\wuli\Documents\Powershell\profile.ps1"
 }
-
+Function ytdl {
+	yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
+}
 # Autojump
 Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")

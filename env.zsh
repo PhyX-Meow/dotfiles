@@ -1,7 +1,6 @@
 # Set language environment
 export LC_CTYPE="zh_CN.UTF-8"
 export LANG="zh_CN.UTF-8"
-export LC_ALL="zh_CN.UTF-8"
 
 # Set environment variables
 export LD_LIBRARY_PATH=.:../lib:./lib
