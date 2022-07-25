@@ -239,9 +239,7 @@ Plug 'kdheepak/JuliaFormatter.vim'
 
 Plug 'neovimhaskell/haskell-vim'
 
-Plug 'whonore/Coqtail'
-
-Plug 'OmniSharp/omnisharp-vim'
+Plug 'kovisoft/slimv'
 
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'junegunn/fzf.vim'

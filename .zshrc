@@ -111,8 +111,8 @@ zinit light romkatv/powerlevel10k
 ZLE_RPROMPT_INDENT=0
 
 zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma-continuum/fast-syntax-highlighting
-# zinit light zsh-users/zsh-syntax-highlighting
+# zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-syntax-highlighting
     typeset -A ZSH_HIGHLIGHT_STYLES
     ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=cyan'
     ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=cyan'
@@ -126,6 +126,3 @@ zinit light skywind3000/z.lua
 
 # asdf.sh
 . /opt/asdf-vm/asdf.sh
-
-# Filetypes
-zstyle ':completion:*:*:vim:*' file-patterns '^*.(o|out|aux|bbl|blg|bcf|run.xml|xdv|fls|nav|snm|tuc|fdb_latexmk|gz|div|pdf|log):source-files' '*:all-files'

@@ -38,7 +38,7 @@ alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
 alias juhs="jupyter console --kernel=haskell"
 alias tlup='sudo tlmgr update --self --all --reinstall-forcibly-removed'
 alias tlcc='sudo rm /usr/local/texlive/current/tlpkg/backups/*'
-alias pyup='pip install --user --upgrade pip jupyterlab-mathjax3 jupyterlab-git theme-darcula jill wget'
+alias pyup='pip install --user --upgrade pip jupyterlab-mathjax3 theme-darcula jill wget'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg;Pkg.update()'"
 alias jlcc="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg,Dates;Pkg.gc(;collect_delay=Hour(0))'"
@@ -54,6 +54,7 @@ alias prob='vim ~/CodesWSL/TeX/Problems.tex'
 alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
 alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 alias ghcup="ghcup --downloader wget"
+alias idris="rlwrap idris2"
 alias sudoedit="DISPLAY=$win_host:0 sudoedit"
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW='cd ~/CodesWSL/TeX/Homework'
