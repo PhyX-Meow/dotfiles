@@ -4,45 +4,37 @@ set nocompatible
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" TextEdit might fail if hidden is not set.
-set hidden
-
 " Some servers have issues with backup files, see #649.
 set nobackup
 set nowritebackup
-
-" Give more space for displaying messages.
-" set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
 
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+" set signcolumn=yes
+set signcolumn=number
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 " inoremap <silent><expr> <TAB>
-       " \ pumvisible() ? "\<C-n>" :
-       " \ <SID>check_back_space() ? "\<TAB>" :
-       " \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      " \ coc#pum#visible() ? coc#pum#next(1):
+      " \ CheckBackspace() ? "\<Tab>" :
+      " \ coc#refresh()
+" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" function! s:check_back_space() abort
-  " let col = col('.') - 1
-  " return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -50,11 +42,6 @@ if has('nvim')
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-			      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -68,15 +55,13 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
   else
-    execute '!' . &keywordprg . " " . expand('<cword>')
+    call feedkeys('K', 'in')
   endif
 endfunction
 
@@ -108,6 +93,9 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
@@ -120,14 +108,14 @@ xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
-" if has('nvim-0.4.0') || has('patch-8.2.0750')
-  " nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  " nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  " inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  " inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  " vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  " vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-" endif
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 " Use CTRL-S for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
@@ -135,13 +123,13 @@ nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format :call  CocActionAsync('format')
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold   :call  CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR     :call  CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -168,7 +156,7 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 Plug 'dense-analysis/ale'
   let g:ale_disable_lsp = 1
-  let g:ale_linters = { 'cs': ['OmniSharp'], 'tex': ['chktex', 'lacheck', 'texlab'] }
+  let g:ale_linters = { 'tex': ['chktex', 'texlab'] }
 
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
@@ -265,7 +253,55 @@ Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
-set number
+" Defx settings
+call defx#custom#option('_', {
+  \ 'columns': 'indent:git:icons:filename',
+  \ 'winwidth': 30,
+  \ 'split': 'vertical',
+  \ 'direction': 'topleft',
+  \ 'show_ignored_files': 0,
+  \ 'buffer_name': '',
+  \ 'toggle': 1,
+  \ 'resume': 1
+  \ })
+
+  nmap <silent> <Leader>e :Defx -search=`expand('%:p')` <cr>
+  autocmd FileType defx call s:defx_mappings()
+
+  function! s:defx_mappings() abort
+    nnoremap <silent><buffer><expr> c      defx#do_action('copy')
+    nnoremap <silent><buffer><expr> m      defx#do_action('move')
+    nnoremap <silent><buffer><expr> p      defx#do_action('paste')
+    nnoremap <silent><buffer><expr> K      defx#do_action('new_directory')
+    nnoremap <silent><buffer><expr> N      defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> S      defx#do_action('toggle_sort', 'time')
+    nnoremap <silent><buffer><expr> d      defx#do_action('remove')
+    nnoremap <silent><buffer><expr> r      defx#do_action('rename')
+    nnoremap <silent><buffer><expr> !      defx#do_action('execute_command')
+    nnoremap <silent><buffer><expr> yy     defx#do_action('yank_path')
+    nnoremap <silent><buffer><expr> ~      defx#do_action('cd')
+    nnoremap <silent><buffer><expr> q      defx#do_action('quit')
+    nnoremap <silent><buffer><expr> s      defx#do_action('toggle_select') . 'j'
+    nnoremap <silent><buffer><expr> *      defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> j      line('.') == line('$') ? 'gg' : 'j'
+    nnoremap <silent><buffer><expr> k      line('.') == 1 ? 'G' : 'k'
+    nnoremap <silent><buffer><expr> i      <SID>defx_toggle_tree()
+    nnoremap <silent><buffer><expr> l      <SID>defx_toggle_tree()
+    nnoremap <silent><buffer><expr> h      defx#do_action('close_tree')
+    nnoremap <silent><buffer><expr> .      defx#do_action('toggle_ignored_files')
+    nnoremap <silent><buffer><expr> <c-l>  defx#do_action('redraw')
+  endfunction
+  
+  function! s:defx_toggle_tree() abort
+    " Open current file, or toggle directory expand/collapse
+    if defx#is_directory()
+      return defx#do_action('open_or_close_tree')
+    endif
+    return defx#do_action('multi', ['drop'])
+  endfunction
+
+
+set hidden
 set relativenumber
 set history=8192
 set visualbell
@@ -285,7 +321,7 @@ set smartcase
 set backspace=indent,eol,start
 set magic
 set mouse=a
-set autochdir
+" set autochdir
 set autoread
 set wildmenu
 set bsdir=buffer
@@ -322,18 +358,21 @@ endif
 nnoremap <C-n> :nohl<CR>
 " insert mode mapping
 inoremap jj <Esc>
-inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " visual mode mapping
 vnoremap > >gv
 vnoremap < <gv
 " autocmd
 autocmd FileType markdown setlocal spell
-autocmd FileType tex setlocal spell
-autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
-autocmd FileType tex setlocal nocursorcolumn
-autocmd FileType tex let b:coc_suggest_blacklist = [
-    \ "alph", "bet", "gamm", "delt", "zet", "thet", "iot", "lambd", "sigm", "omeg",
-    \ "vth", "vph", "Gamm", "Delt", "Thet", "Lambd", "Sigm", "Omeg"]
+autocmd FileType tex
+  \ setlocal spell |
+  \ setlocal nocursorcolumn |
+  \ let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
+autocmd FileType vim
+  \ setlocal tabstop=2 |
+  \ setlocal shiftwidth=2 |
+  \ setlocal softtabstop=2
+autocmd FileType defx setlocal norelativenumber
 
 set termguicolors
 set bg=dark
