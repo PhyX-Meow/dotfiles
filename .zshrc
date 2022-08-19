@@ -10,21 +10,6 @@ source $HOME/env.zsh
 export ZSH="$HOME/.oh-my-zsh"
 plugins=(extract python pip colored-man-pages colorize ag fd)
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/wuli/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/wuli/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/wuli/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/wuli/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -111,8 +96,8 @@ zinit light romkatv/powerlevel10k
 ZLE_RPROMPT_INDENT=0
 
 zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma-continuum/fast-syntax-highlighting
-# zinit light zsh-users/zsh-syntax-highlighting
+# zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-syntax-highlighting
     typeset -A ZSH_HIGHLIGHT_STYLES
     ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=cyan'
     ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=cyan'
@@ -123,6 +108,3 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 FZ_HISTORY_CD_CMD="_zlua"
 zinit light changyuheng/fz
 zinit light skywind3000/z.lua
-
-# Filetypes
-zstyle ':completion:*:*:vim:*' file-patterns '^*.(o|out|aux|bbl|blg|bcf|run.xml|xdv|fls|nav|snm|tuc|fdb_latexmk|gz|div|pdf|log):source-files' '*:all-files'

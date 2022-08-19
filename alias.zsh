@@ -47,6 +47,7 @@ alias prob='vim ~/CodesWSL/TeX/Problems.tex'
 alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
 alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 alias ghcup="ghcup --downloader wget"
+alias idris="rlwrap idris2"
 alias sudoedit="DISPLAY=$win_host:0 sudoedit"
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW='cd ~/TeX'
