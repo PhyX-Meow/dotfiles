@@ -13,13 +13,14 @@
 \RequirePackage{enumerate}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
+% \RequirePackage{tikz-cd}
 \RequirePackage{tikz-3dplot}
 \RequirePackage{xcolor}
-\RequirePackage{xypic}
-\RequirePackage{subfig}
+\RequirePackage[all,cmtip]{xy}
+\RequirePackage{subcaption}
 \RequirePackage[colorlinks=true]{hyperref}
 \RequirePackage{cleveref}
-\RequirePackage[hyperref=true,backend=biber,sorting=none,backref=true]{biblatex}
+\RequirePackage[hyperref=true,backend=biber,style=alphabetic,backref=true,url=false]{biblatex}
 \RequirePackage{bm} % Bold math
 \RequirePackage{bbm}
 
@@ -37,4 +38,6 @@
 \newcommand{\eps}{\varepsilon}
 \newcommand{\vphi}{\varphi}
 \newcommand{\vthe}{\vartheta}
+\newcommand{\II}{I\!I}
+\renewcommand{\emptyset}{\varnothing}
 \newcommand{\pdif}[2]{\frac{\partial #1}{\partial #2}}
