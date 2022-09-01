@@ -23,7 +23,6 @@ snippet it "Individual item" b
 \item $0
 endsnippet
 
-
 snippet template "My template" b
 \documentclass[UTF8,12pt]{article}
 \usepackage{phyxmeow}
@@ -93,11 +92,10 @@ snippet table "Table environment" b
 endsnippet
 
 snippet fig "Figure environment" b
-\begin{figure}[${1:htpb}]
+\begin{figure}[${1:htb}]
 	\centering
 	${2:\includegraphics[width=0.8\textwidth]{$3}}
-	\caption{${4:$3}}
-	\label{fig:${5:${3/\W+/-/g}}}
+	\caption{${4:$3}}\label{fig:${5:${3/\W+/-/g}}}
 \end{figure}
 endsnippet
 
@@ -221,6 +219,17 @@ snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
 `!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
 endsnippet
 
+context "math()"
+snippet '(bb{[RCHS]})([\dnk])' "auto supscript for mathbb" wrA
+`!p snip.rv = match.group(1)`^`!p snip.rv = match.group(2)`
+endsnippet
+
+context "math()"
+snippet '(bb{[Z]})([\dmnpq])' "auto subscript for mathbb" wrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+# To do: add auto a_{ii} a_{jj} a_{kk} a_{nn}
 
 snippet sympy "sympyblock " w
 sympy $1 sympy$0
@@ -276,8 +285,7 @@ context "math()"
 snippet pmat "pmat" iA
 \begin{pmatrix}
 	$1
-\end{pmatrix}
-$0
+\end{pmatrix}$0
 endsnippet
 
 context "math()"
@@ -355,7 +363,7 @@ snippet sr "^2" iA
 endsnippet
 
 context "math()"
-snippet pp "to the ... power" iA
+snippet '_?pp' "to the ... power" riA
 ^{$1}$0
 endsnippet
 
@@ -765,10 +773,6 @@ snippet inn "in " iA
 \in 
 endsnippet
 
-snippet NN "n" iA
-\mathbb{N}
-endsnippet
-
 snippet Nn "cap" iA
 \cap 
 endsnippet
@@ -799,24 +803,9 @@ snippet OO "emptyset" iA
 \emptyset
 endsnippet
 
-snippet RR "real numbers" iA
-\mathbb{R}
-endsnippet
-
-snippet QQ "rationals" iA
-\mathbb{Q}
-endsnippet
-
-snippet ZZ "integers" iA
-\mathbb{Z}
-endsnippet
-
-snippet HH "upper half plane" iA
-\mathbb{H}
-endsnippet
-
-snippet CC "complex numbers" iA
-\mathbb{C}
+context "math()"
+snippet '([NZQRCHS])\1' "mathbb letters" riA
+\mathbb{`!p snip.rv=match.group(1)`}
 endsnippet
 
 snippet <! "normal" iA
