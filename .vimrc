@@ -300,6 +300,7 @@ call defx#custom#option('_', {
 
 
 set hidden
+set number
 set relativenumber
 set history=8192
 set visualbell
@@ -371,6 +372,7 @@ autocmd FileType vim
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2
 autocmd FileType defx setlocal norelativenumber
+autocmd FileType defx setlocal nonumber
 
 set termguicolors
 set bg=dark
