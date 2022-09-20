@@ -1,0 +1,32 @@
+{
+    "diagnostic.displayByAle": true,
+    "suggest.minTriggerInputLength": 3,
+    "suggest.snippetIndicator": "[+] ",
+    "suggest.timeout": 1000,
+    "suggest.removeDuplicateItems": true,
+    "coc.preferences.useQuickfixForLocations": true,
+    "coc.source.file.triggerCharacters": [
+        "/"
+    ],
+    "julia.executablePath": "/usr/bin/julia",
+    "rust-analyzer.server.path": "/usr/bin/rust-analyzer",
+    "languageserver": {
+        "haskell": {
+            "command": "haskell-language-server-wrapper",
+            "args": [
+                "--lsp"
+            ],
+            "rootPatterns": [
+                "*.cabal",
+                "stack.yaml",
+                "cabal.project",
+                "package.yaml",
+                "hie.yaml"
+            ],
+            "filetypes": [
+                "haskell",
+                "lhaskell"
+            ]
+        }
+    }
+}
