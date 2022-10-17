@@ -391,12 +391,12 @@ endsnippet
 
 context "math()"
 snippet pD "d/dx" w
-\pdif{${1:f}}{${2:x_i}}$0
+\pdv{${1:f}}{${2:x_i}}$0
 endsnippet
 
 context "math()"
 snippet dd "differential" i
-\dif 
+\dd{$1}$0
 endsnippet
 
 context "math()"
@@ -874,6 +874,42 @@ priority 100
 context "math()"
 snippet '((\\)?[a-zA-Z]+)hat' "hat" riA
 \hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+snippet nbhd "neighbourhood" A
+neighbourhood
+endsnippet
+
+snippet homeom "homeomorphism" A
+homeomorphism
+endsnippet
+
+snippet homeoc "homeomorphic" A
+homeomorphism
+endsnippet
+
+snippet diffeom "diffeomorphism" A
+diffeomorphism
+endsnippet
+
+snippet diffeoc "diffeomorphic" A
+diffeomorphic
+endsnippet
+
+snippet isom "isomorphism" A
+isomorphism
+endsnippet
+
+snippet isoc "isomorphic" A
+isomorphic
+endsnippet
+
+snippet param "parameter" A
+parameter
+endsnippet
+
+snippet paran "parametrization" A
+parametrization
 endsnippet
 
 # vim:ft=snippets
