@@ -163,6 +163,7 @@ Plug 'honza/vim-snippets'
   let g:UltiSnipsExpandTrigger = '<tab>'
   let g:UltiSnipsJumpForwardTrigger = '<tab>'
   let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+  let g:UltiSnipsEnableSnipMate = 0
 
 " Plug 'PietroPate/vim-tex-conceal'
 " Plug 'KeitaNakamura/tex-conceal.vim'
