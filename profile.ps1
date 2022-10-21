@@ -18,8 +18,11 @@ Set-PSReadLineOption -PredictionSource History
 # Colorlize
 Import-Module Get-ChildItemColor
 Import-Module posh-git
-Invoke-Expression (oh-my-posh --init --shell pwsh --config ~/gitRepo/dotfiles/pwsh_theme.omp.json)
+Invoke-Expression (oh-my-posh init pwsh --config ~/gitRepo/dotfiles/pwsh_theme.omp.json)
 colortool -q GruvboxDark.itermcolors
+
+# Envs
+$env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
 
 # Alias
 Function which {
