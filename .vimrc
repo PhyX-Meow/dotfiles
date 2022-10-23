@@ -355,13 +355,14 @@ if has("gui_running")
 endif
 
 " normal mode mapping
-nnoremap <C-n> :nohl<CR>
+nnoremap <c-n> :nohl<CR>
 " insert mode mapping
 inoremap jj <Esc>
 inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " visual mode mapping
 vnoremap > >gv
 vnoremap < <gv
+
 " autocmd
 autocmd FileType markdown setlocal spell
 autocmd FileType tex

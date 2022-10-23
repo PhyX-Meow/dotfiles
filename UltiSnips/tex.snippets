@@ -1,28 +1,27 @@
 global !p
 def math():
-	return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+    return vim.eval('vimtex#syntax#in_mathzone()') == '1'
 
 def comment():
-	return vim.eval('vimtex#syntax#in_comment()') == '1'
+    return vim.eval('vimtex#syntax#in_comment()') == '1'
 
 def env(name):
-	[x,y] = vim.eval("vimtex#env#is_inside('" + name + "')")
-	return x != '0' and y != '0'
+    [x,y] = vim.eval("vimtex#env#is_inside('" + name + "')")
+    return x != '0' and y != '0'
 
 def fix_indent(snip):
     vim.eval('feedkeys("\<c-f>")')
 
-def fix_cursor(snip):
-	vim.eval('feedkeys("\<c-e>")')
-
 endglobal
 
 priority 100
+context "not math()"
 post_expand "fix_indent(snip)"
-snippet it "Individual item" b
+snippet itm "Individual item" b
 \item $0
 endsnippet
 
+priority 1
 snippet template "My template" b
 \documentclass[UTF8,12pt]{article}
 \usepackage{phyxmeow}
@@ -80,45 +79,42 @@ snippet ... "cdots" iA
 \cdots 
 endsnippet
 
+priority 1
 snippet table "Table environment" b
 \begin{table}[${1:htpb}]
-	\centering
-	\caption{${2:caption}}
-	\label{tab:${3:label}}
-	\begin{tabular}{${5:c}}
-	$0${5/((?<=.)c|l|r)|./(?1: & )/g}
-	\end{tabular}
+    \centering
+    \caption{${2:caption}}
+    \label{tab:${3:label}}
+    \begin{tabular}{${5:c}}
+    $0${5/((?<=.)c|l|r)|./(?1: & )/g}
+    \end{tabular}
 \end{table}
 endsnippet
 
 snippet fig "Figure environment" b
 \begin{figure}[${1:htb}]
-	\centering
-	${2:\includegraphics[width=0.8\textwidth]{$3}}
-	\caption{${4:$3}}\label{fig:${5:${3/\W+/-/g}}}
+    \centering
+    ${2:\includegraphics[width=0.8\textwidth]{$3}}
+    \caption{${4:$3}}\label{fig:${5:${3/\W+/-/g}}}
 \end{figure}
 endsnippet
 
 snippet enum "Enumerate" b
 \begin{enumerate}[$1]
-	\item $0
+    \item $0
 \end{enumerate}
 endsnippet
 
 snippet item "Itemize" b
 \begin{itemize}
-	\item $0
+    \item $0
 \end{itemize}
 endsnippet
 
 snippet desc "Description" b
 \begin{description}
-	\item[$1] $0
+    \item[$1] $0
 \end{description}
-endsnippet
-
-snippet pac "Package" b
-\usepackage[${1:options}]{${2:package}}$0
 endsnippet
 
 snippet => "implies" iA
@@ -130,47 +126,65 @@ snippet =< "implied by" iA
 endsnippet
 
 context "math()"
-snippet iff "iff" iA
+snippet iff "if and only if" iA
 \iff 
 endsnippet
 
 snippet mk "Inline Math" wA
 \(${1:${VISUAL}}\)`!p
 if t[2] and t[2][0] not in ['，','。',',', '.', ':', '?', '-', ' ','\n']:
-	snip.rv = ' '
+    snip.rv = ' '
 else:
-	snip.rv = ''
+    snip.rv = ''
 `$2
 endsnippet
 
 snippet dm "Display Math" wA
 \[
-	${1:${VISUAL}}
+    ${1:${VISUAL}}
 .\] $0
+endsnippet
+
+snippet eg "Example" b
+\begin{example}[$1]
+    ${2:${VISUAL}}
+\end{example}
+endsnippet
+
+snippet thm "Theorem" b
+\begin{theorem}[$1]
+    ${2:${VISUAL}}
+\end{theorem}
+endsnippet
+
+snippet rmk "Remark" b
+\begin{remark}
+    ${1:${VISUAL}}
+\end{remark}
 endsnippet
 
 snippet eqn "Numbered equation" b
 \begin{equation}\label{$1}
-	${2:${VISUAL}}
+    ${2:${VISUAL}}
 .\end{equation}
 endsnippet
 
 snippet aln "Align" b
 \begin{align*}
-	${1:${VISUAL}}
+    ${1:${VISUAL}}
 .\end{align*}
 endsnippet
 
 snippet ali "Numbered align" b
 \begin{align}
-	${1:${VISUAL}}
+    ${1:${VISUAL}}
 .\end{align}
 endsnippet
 
 snippet spl "Split" b
 \begin{equation}\label{$1}
 \begin{split}
-	${2:${VISUAL}}
+    ${2:${VISUAL}}
 .\end{split} \end{equation}
 endsnippet
 
@@ -201,10 +215,10 @@ stripped = match.string[:-1]
 depth = 0
 i = len(stripped) - 1
 while True:
-	if stripped[i] == ')': depth += 1
-	if stripped[i] == '(': depth -= 1
-	if depth == 0: break;
-	i-=1
+    if stripped[i] == ')': depth += 1
+    if stripped[i] == '(': depth -= 1
+    if depth == 0: break;
+    i-=1
 snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
 `{$1}$0
 endsnippet
@@ -220,7 +234,12 @@ snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
 endsnippet
 
 context "math()"
-snippet '(bb{[RCHS]})([\dnk])' "auto supscript for mathbb" wrA
+snippet '(bb{[RC])}P' "auto CP^n and RP^n" wrA
+`!p snip.rv = match.group(1)`P}
+endsnippet
+
+context "math()"
+snippet '(bb{[RCHSP]+})([\dnmk])' "auto supscript for mathbb" wrA
 `!p snip.rv = match.group(1)`^`!p snip.rv = match.group(2)`
 endsnippet
 
@@ -231,6 +250,7 @@ endsnippet
 
 # To do: add auto a_{ii} a_{jj} a_{kk} a_{nn}
 
+priority 1000
 snippet sympy "sympyblock " w
 sympy $1 sympy$0
 endsnippet
@@ -262,6 +282,7 @@ snip.rv = subprocess.check_output(['wolframscript.exe', '-code', code]).decode('
 `
 endsnippet
 
+priority 1
 snippet == "equals" iA
 &= $1 \\\\
 endsnippet
@@ -281,17 +302,18 @@ snippet floor "floor" iA
 \left\lfloor $1 \right\rfloor $0
 endsnippet
 
+priority 1
 context "math()"
 snippet pmat "pmat" iA
 \begin{pmatrix}
-	$1
+    $1
 \end{pmatrix}$0
 endsnippet
 
 context "math()"
 snippet bmat "bmat" iA
 \begin{bmatrix}
-	$1
+    $1
 \end{bmatrix}$0
 endsnippet
 
@@ -336,6 +358,7 @@ snippet *dual "double dual space" iA
 {**}
 endsnippet
 
+priority 1
 snippet sum "sum" w
 \sum_{n=${1:1}}^{${2:\infty}} ${3:a_n z^n}
 endsnippet
@@ -390,22 +413,22 @@ snippet >= "geq" iA
 endsnippet
 
 context "math()"
-snippet pD "d/dx" w
+snippet pD "d/dx" i
 \pdv{${1:f}}{${2:x_i}}$0
 endsnippet
 
 context "math()"
-snippet dd "differential" i
+snippet dd "differential" iA
 \dd{$1}$0
 endsnippet
 
 context "math()"
-snippet pd "partial" i
+snippet pd "partial" iA
 \partial`!p
 if t[0] and t[0][0] not in ['^', ' ', '_', '\\']:
-	snip.rv = ' '
+    snip.rv = ' '
 else:
-	snip.rv = ''
+    snip.rv = ''
 `$0
 endsnippet
 
@@ -413,9 +436,9 @@ context "math()"
 snippet nd "nabla" iA
 \nabla`!p
 if t[0] and t[0][0] not in ['^', ' ', '_', '\\']:
-	snip.rv = ' '
+    snip.rv = ' '
 else:
-	snip.rv = ''
+    snip.rv = ''
 `$0
 endsnippet
 
@@ -433,9 +456,9 @@ context "math()"
 snippet EE "exists" iA
 \exists`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
-	snip.rv = '\,'
+    snip.rv = '\,'
 else:
-	snip.rv = ''
+    snip.rv = ''
 `$0
 endsnippet
 
@@ -443,9 +466,9 @@ context "math()"
 snippet E! "exists" iA
 \exists!`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
-	snip.rv = '\,'
+    snip.rv = '\,'
 else:
-	snip.rv = ''
+    snip.rv = ''
 `$0
 endsnippet
 
@@ -453,9 +476,9 @@ context "math()"
 snippet AA "forall" iA
 \forall`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
-	snip.rv = '\,'
+    snip.rv = '\,'
 else:
-	snip.rv = ''
+    snip.rv = ''
 `$0
 endsnippet
 
@@ -465,18 +488,18 @@ endsnippet
 
 snippet plot "Plot" w
 \begin{figure}[$1]
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xmin= ${2:-10}, xmax= ${3:10},
-			ymin= ${4:-10}, ymax = ${5:10},
-			axis lines = middle,
-		]
-			\addplot[domain=$2:$3, samples=${6:100}]{$7};
-		\end{axis}
-	\end{tikzpicture}
-	\caption{$8}
-	\label{${9:$8}}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xmin= ${2:-10}, xmax= ${3:10},
+            ymin= ${4:-10}, ymax = ${5:10},
+            axis lines = middle,
+        ]
+            \addplot[domain=$2:$3, samples=${6:100}]{$7};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{$8}
+    \label{${9:$8}}
 \end{figure}
 endsnippet
 
@@ -509,9 +532,9 @@ context "math()"
 snippet mrm "mathrm" iA
 \mathrm{$1}`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ', '_']:
-	snip.rv = '\,'
+    snip.rv = '\,'
 else:
-	snip.rv = ''
+    snip.rv = ''
 `$0
 endsnippet
 
@@ -524,17 +547,18 @@ snippet xx "cross" iA
 \times 
 endsnippet
 
+priority 100
 context "math()"
 snippet and "logical and" iA
 \land 
 endsnippet
 
-priority 10
 context "math()"
 snippet orr "logical or" iA
 \lor 
 endsnippet
 
+priority 1
 context "math()"
 snippet vee "vee" iA
 \vee 
@@ -575,11 +599,6 @@ snippet Dsum "big direct sum" iA
 \bigoplus
 endsnippet
 
-priority 100
-snippet ** "cdot" iA
-\cdot 
-endsnippet
-
 context "math()"
 snippet 'nrom|norm' "norm" riA
 \|${1:${VISUAL}}\|$0
@@ -588,6 +607,10 @@ endsnippet
 context "math()"
 snippet abs "absolute value" iA
 |${1:${VISUAL}}|$0
+endsnippet
+
+snippet ** "cdot" iA
+\cdot 
 endsnippet
 
 priority 100
@@ -602,7 +625,6 @@ snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec)' "arcsin" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
-priority 200
 context "math()"
 snippet '(?<!\\)(ord|dom|ran|card|sign|dim|ker|img|det)' "card" rwA
 \\`!p snip.rv = match.group(1)`
@@ -620,13 +642,11 @@ snippet '(?<!\\)(Gamma|Delta|Theta|Lambda|Phi|Psi|Sigma|Omega)' "Alpha" riA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
-priority 200
 context "math()"
 snippet '(?<!\\)(alpha|beta|gamma|delta|zeta|theta|iota|lambda|eps)' "alpha" riA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
-priority 200 
 context "math()"
 snippet '(?<!\\)(muu|pii|rho|sigma|tau|phi|chi|psi|omega|vphi|vthe)' "omega" riA
 \\`!p snip.rv = match.group(1)`
@@ -638,13 +658,11 @@ snippet '(?<!\\)(muu|pii)' "pi/mu" riA
 \\`!p snip.rv = match.group(1)[0:2]`
 endsnippet
 
-priority 300
 context "math()"
 snippet kpa "kappa" iA
 \kappa
 endsnippet
 
-priority 300
 context "math()"
 snippet dint "integral" wA
 \int_{${1:-\infty}}^{${2:\infty}} ${3:${VISUAL}} $0
@@ -675,14 +693,15 @@ snippet into "inclution" iA
 \hookrightarrow
 endsnippet
 
+priority 1
 context "math()"
-snippet intR "integration over R" iA
-\int_{\mathbb{R${1:^n}}}$0
+snippet intR "integration over Region" iA
+\int_{${1:\mathbb{R}^n}}$0
 endsnippet
 
 context "math()"
-snippet int "integration over R" w
-\int_{$1}^{$2}$3\dif $0
+snippet int "integration" w
+\int_{$1}^{$2}$3\dd{$4}$0
 endsnippet
 
 context "math()"
@@ -691,7 +710,7 @@ snippet !> "mapsto" iA
 endsnippet
 
 context "math()"
-snippet invs "inverse" iA
+snippet inv "inverse" iA
 ^{-1}
 endsnippet
 
@@ -758,12 +777,13 @@ snippet ucc "supset" Ai
 \supset 
 endsnippet
 
-priority 200
 context "math()"
 snippet pcc "proper subset" Ai
 \subsetneq 
 endsnippet
 
+priority 1
+context "math()"
 snippet notin "not in " iA
 \not\in 
 endsnippet
@@ -773,32 +793,45 @@ snippet inn "in " iA
 \in 
 endsnippet
 
+context "math()"
 snippet Nn "cap" iA
 \cap 
 endsnippet
 
 priority 100
+context "math()"
 snippet UU "cup" iA
 \cup 
 endsnippet
 
 priority 200
+context "math()"
 snippet DU "sqcup" iA
 \sqcup 
 endsnippet
 
+context "math()"
+snippet <! "normal" iA
+\triangleleft 
+endsnippet
+
+priority 1
+context "math()"
 snippet uuu "bigcup" iA
 \bigcup_{${1:i\in ${2:I}}}$0
 endsnippet
 
+context "math()"
 snippet duu "bigsqcup" iA
 \bigsqcup_{${1:i\in ${2:I}}}$0
 endsnippet
 
+context "math()"
 snippet nnn "bigcap" iA
 \bigcap_{${1:i\in ${2:I}}}$0
 endsnippet
 
+context "math()"
 snippet OO "emptyset" iA
 \emptyset
 endsnippet
@@ -806,10 +839,6 @@ endsnippet
 context "math()"
 snippet '([NZQRCHS])\1' "mathbb letters" riA
 \mathbb{`!p snip.rv=match.group(1)`}
-endsnippet
-
-snippet <! "normal" iA
-\triangleleft 
 endsnippet
 
 context "math()"
@@ -825,14 +854,14 @@ endsnippet
 context "math()"
 snippet case "cases" wA
 \begin{cases}
-	$1
+    $1
 \end{cases}
 endsnippet
 
 snippet bigfun "Big function" iA
 \begin{align*}
-	$1: $2 &\longrightarrow $3 \\\\
-	$4 &\longmapsto $1($4) = $0
+    $1\colon $2 &\longrightarrow $3 \\\\
+    $4 &\longmapsto $0
 .\end{align*}
 endsnippet
 
@@ -874,6 +903,12 @@ priority 100
 context "math()"
 snippet '((\\)?[a-zA-Z]+)hat' "hat" riA
 \hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 1
+
+snippet emph "emphasis" w
+\emph{$1}$0
 endsnippet
 
 snippet nbhd "neighbourhood" A
