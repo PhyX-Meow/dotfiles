@@ -1,6 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{phyxmeow-common}[2021/09/25 TeX Preamble]
 
+\RequirePackage[dvipsnames,svgnames,x11names]{xcolor}
 \RequirePackage{geometry}
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
@@ -16,7 +17,6 @@
 \RequirePackage{tensor}
 \RequirePackage{commath}        
 \RequirePackage{physics}
-\RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
 \RequirePackage{tikz-3dplot}
@@ -25,10 +25,11 @@
 \RequirePackage{pgfplots}
   \pgfplotsset{compat=newest}
 \RequirePackage{subcaption}
-\RequirePackage[linkcolor=blue]{hyperref}
+\RequirePackage[colorlinks=true,linkcolor=blue]{hyperref}
 \RequirePackage{cleveref}
 \RequirePackage[hyperref=true,backend=biber,style=alphabetic,backref=true,url=false]{biblatex}
 \RequirePackage{bm}
+\RequirePackage{bbm}
 \RequirePackage{slashed}
 
 \DeclareMathOperator{\sign}{sign}
