@@ -418,7 +418,12 @@ endsnippet
 
 context "math()"
 snippet pD "d/dx" i
-\pdv{${1:f}}{${2:x_i}}$0
+\pdv{${1:f}}{${2:x^i}}$0
+endsnippet
+
+context "math()"
+snippet pd "d/dx" iA
+\pdv{${2:x^${3:i}}}$0
 endsnippet
 
 context "math()"
@@ -427,7 +432,7 @@ snippet dd "differential" iA
 endsnippet
 
 context "math()"
-snippet pd "partial" iA
+snippet pt "partial" iA
 \partial`!p
 if t[0] and t[0][0] not in ['^', ' ', '_', '\\']:
     snip.rv = ' '
@@ -714,7 +719,7 @@ snippet !> "mapsto" iA
 endsnippet
 
 context "math()"
-snippet inv "inverse" iA
+snippet '(?<!\\s)inv' "inverse" riA
 ^{-1}
 endsnippet
 
