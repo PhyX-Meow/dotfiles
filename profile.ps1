@@ -21,6 +21,10 @@ Import-Module posh-git
 Invoke-Expression (oh-my-posh init pwsh --config ~/gitRepo/dotfiles/pwsh_theme.omp.json)
 colortool -q GruvboxDark.itermcolors
 
+# gsudo
+Import-Module (Get-Command 'gsudoModule.psd1').Source
+Set-Alias 'sudo' 'gsudo'
+
 # Envs
 $env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
 
