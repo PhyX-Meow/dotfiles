@@ -645,6 +645,11 @@ snippet '(?<!th|.\\|.b|.z)eta' "eta" riA
 \eta
 endsnippet
 
+context "math()"
+snippet '(?<!.\\|\\v)(phi)' "phi" riA
+\phi
+endsnippet
+
 priority 200
 context "math()"
 snippet '(?<!\\)(Gamma|Delta|Theta|Lambda|Phi|Psi|Sigma|Omega)' "Alpha" riA
@@ -657,7 +662,7 @@ snippet '(?<!\\)(alpha|beta|gamma|delta|zeta|theta|iota|lambda|eps)' "alpha" riA
 endsnippet
 
 context "math()"
-snippet '(?<!\\)(muu|pii|rho|sigma|tau|phi|chi|psi|omega|vphi|vthe)' "omega" riA
+snippet '(?<!\\)(muu|pii|rho|sigma|tau|chi|psi|omega|vphi|vthe)' "omega" riA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
@@ -670,6 +675,11 @@ endsnippet
 context "math()"
 snippet kpa "kappa" iA
 \kappa
+endsnippet
+
+context "math()"
+snippet lda "lambda" iA
+\lambda
 endsnippet
 
 context "math()"
