@@ -19,7 +19,7 @@ Set-PSReadLineOption -PredictionSource History
 Import-Module Get-ChildItemColor
 Import-Module posh-git
 Invoke-Expression (oh-my-posh init pwsh --config ~/gitRepo/dotfiles/pwsh_theme.omp.json)
-colortool -q GruvboxDark.itermcolors
+colortool -q OneHalfDark.itermcolors
 
 # gsudo
 Import-Module (Get-Command 'gsudoModule.psd1').Source
@@ -33,7 +33,7 @@ Function which {
 	Get-Command -All $args
 }
 Function prc {
-	code "C:\Users\wuli\Documents\Powershell\profile.ps1"
+	code "C:\Users\XueHa\Documents\Powershell\profile.ps1"
 }
 Function ytdl {
 	yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
