@@ -39,4 +39,4 @@ Function ytdl {
 	yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
 }
 # Autojump
-Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
+Invoke-Expression ($(lua "C:\Users\XueHa\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
