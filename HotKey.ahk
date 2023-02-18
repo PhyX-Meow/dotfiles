@@ -21,7 +21,7 @@ RunOrActivate(name, command) {
 
 #c:: Run "C:\Program Files\Microsoft VS Code\Code.exe"
 
-#m:: Run "C:\Program Files\Wolfram Research\Mathematica\13.1\Mathematica.exe"
+#m:: Run "C:\Program Files\Wolfram Research\Mathematica\13.2\Mathematica.exe"
 
 #HotIf WinActive("ahk_exe WindowsTerminal.exe")
 !Enter:: Send "!^j"

@@ -206,8 +206,9 @@ Plug 'kristijanhusak/defx-git'
 Plug 'preservim/nerdcommenter'
   let g:NERDSpaceDelims = 1
 
-Plug 'LunarWatcher/auto-pairs'
 " Plug 'jiangmiao/auto-pairs'
+Plug 'LunarWatcher/auto-pairs'
+  let g:AutoPairsShortcutFastWrap = '<C-q>'
 
 Plug 'tpope/vim-surround'
 
