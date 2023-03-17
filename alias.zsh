@@ -34,14 +34,13 @@ alias ls='exa --icons'
 alias l='exa --long --icons --git'
 alias ll='exa --long --all --icons --git --header'
 alias clr='clear'
-alias py='conda activate base'
 alias lab='jupyter lab --no-browser'
 alias julia='LD_PRELOAD=/usr/lib/libstdc++.so.6 julia'
 alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
 alias juhs="jupyter console --kernel=haskell"
 alias tlup='sudo tlmgr update --self --all --reinstall-forcibly-removed'
 alias tlcc='sudo rm /usr/local/texlive/current/tlpkg/backups/*'
-alias pyup='pip install --user --upgrade pip jupyterlab-mathjax3 theme-darcula jill wget'
+alias pyup='pip install --user --upgrade pip theme-darcula'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg;Pkg.update()'"
 alias jlcc="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg,Dates;Pkg.gc(;collect_delay=Hour(0))'"

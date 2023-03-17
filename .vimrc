@@ -209,6 +209,7 @@ Plug 'preservim/nerdcommenter'
 " Plug 'jiangmiao/auto-pairs'
 Plug 'LunarWatcher/auto-pairs'
   let g:AutoPairsShortcutFastWrap = '<C-q>'
+  let g:AutoPairsMapBS = 1
 
 Plug 'tpope/vim-surround'
 

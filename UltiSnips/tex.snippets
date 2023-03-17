@@ -101,13 +101,13 @@ endsnippet
 
 snippet enum "Enumerate" b
 \begin{enumerate}[$1]
-    \item $0
+\item $0
 \end{enumerate}
 endsnippet
 
 snippet item "Itemize" b
 \begin{itemize}
-    \item $0
+\item $0
 \end{itemize}
 endsnippet
 
@@ -778,6 +778,11 @@ endsnippet
 context "math()"
 snippet '(?<!sup|sub|pty)set' "set" riA
 \\{${1:${VISUAL}}\\}$0
+endsnippet
+
+context "math()"
+snippet eval "eval" i
+\eval{${1:${VISUAL}}}_{$2}$0
 endsnippet
 
 snippet || "divide" iA
