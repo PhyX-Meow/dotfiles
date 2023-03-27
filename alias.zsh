@@ -39,7 +39,7 @@ alias julia='LD_PRELOAD=/usr/lib/libstdc++.so.6 julia'
 alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
 alias juhs="jupyter console --kernel=haskell"
 alias tlup='sudo tlmgr update --self --all --reinstall-forcibly-removed'
-alias tlcc='sudo rm /usr/local/texlive/current/tlpkg/backups/*'
+alias tlcc='sudo rm /opt/texlive/current/tlpkg/backups/*'
 alias pyup='pip install --user --upgrade pip theme-darcula'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg;Pkg.update()'"
