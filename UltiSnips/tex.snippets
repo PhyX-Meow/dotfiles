@@ -145,6 +145,13 @@ snippet dm "Display Math" wA
 .\] $0
 endsnippet
 
+snippet xy "Xy Matrix" w
+\[
+\xymatrix{
+    ${1:${VISUAL}}
+}\] $0
+endsnippet
+
 snippet eg "Example" b
 \begin{example}[$1]
     ${2:${VISUAL}}
@@ -579,12 +586,12 @@ snippet Vee "big vee" iA
 endsnippet
 
 context "math()"
-snippet wge "wedge product" iA
+snippet wed "wedge product" iA
 \wedge 
 endsnippet
 
 context "math()"
-snippet Wge "big wedge product" iA
+snippet Wed "big wedge product" iA
 \bigwedge
 endsnippet
 

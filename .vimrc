@@ -359,6 +359,10 @@ endif
 
 " normal mode mapping
 nnoremap <c-n> :nohl<CR>
+nnoremap j gj
+nnoremap k gk
+nnoremap H ^
+nnoremap L $
 " insert mode mapping
 inoremap jj <Esc>
 inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
