@@ -15,13 +15,27 @@ RunOrActivate(name, command) {
     return
 }
 
+SwitchActivate(name) {
+    window := WinExist("ahk_exe" name)
+    if window {
+        active := WinActive("ahk_id" window)
+        if active
+            WinMinimize("ahk_id" active)
+        else
+            WinActivate("ahk_id" window)
+    }
+    return
+}
+
 #`:: RunOrActivate("WindowsTerminal.exe", "wt.exe")
 
 #b:: RunOrActivate("msedge.exe", "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 
+#m:: RunOrActivate("Mathematica.exe", "C:\Program Files\Wolfram Research\Mathematica\13.2\Mathematica.exe")
+
 #c:: Run "C:\Program Files\Microsoft VS Code\Code.exe"
 
-#m:: Run "C:\Program Files\Wolfram Research\Mathematica\13.2\Mathematica.exe"
+#p:: SwitchActivate("X410.exe")
 
 #HotIf WinActive("ahk_exe WindowsTerminal.exe")
 !Enter:: Send "!^j"
