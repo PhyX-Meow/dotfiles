@@ -35,7 +35,6 @@ alias l='exa --long --icons --git'
 alias ll='exa --long --all --icons --git --header'
 alias clr='clear'
 alias lab='jupyter lab --no-browser'
-alias julia='LD_PRELOAD=/usr/lib/libstdc++.so.6 julia'
 alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
 alias juhs="jupyter console --kernel=haskell"
 alias tlup='sudo tlmgr update --self --all --reinstall-forcibly-removed'
@@ -59,4 +58,3 @@ alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW='cd ~/CodesWSL/TeX/Homework'
 alias texpre='vim ~/texmf/tex/latex/local/phyxmeow-common.sty'
 alias texsnip='vim ~/.vim/UltiSnips/tex.snippets'
-alias tserver="ssh -i $HOME/keys/TencentServer root@43.129.74.141"
