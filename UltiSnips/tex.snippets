@@ -14,6 +14,8 @@ def fix_indent(snip):
 
 endglobal
 
+clearsnippets part ss xx
+
 priority 100
 context "not math()"
 post_expand "fix_indent(snip)"
@@ -24,12 +26,12 @@ endsnippet
 priority 1
 snippet template "My template" b
 \documentclass[UTF8,12pt]{article}
-\usepackage{phyxmeow}
+\usepackage[${1:plain}]{phyxmeow}
 \geometry{a4paper,scale=0.8}
 \allowdisplaybreaks{}
 
-\title{$1}
-\author{$2}
+\title{$2}
+\author{$3}
 
 \begin{document}
 \maketitle
@@ -540,11 +542,6 @@ snippet bb "mathbb" iA
 endsnippet
 
 context "math()"
-snippet Id "identity" iA
-\mathbbm{1}$0
-endsnippet
-
-context "math()"
 snippet mrm "mathrm" iA
 \mathrm{$1}`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ', '_']:
@@ -642,7 +639,7 @@ snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec)' "arcsin" rwA
 endsnippet
 
 context "math()"
-snippet '(?<!\\)(ord|dom|ran|card|sign|dim|ker|img|det)' "card" rwA
+snippet '(?<!\\)(ord|dom|ran|card|sign|dim|ker|img|det|Id)' "card" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
@@ -873,11 +870,6 @@ snippet '([NZQRCHS])\1' "mathbb letters" riA
 endsnippet
 
 context "math()"
-snippet '(?<!i)stt' "text subscript" irA
-_\text{$1}$0
-endsnippet
-
-context "math()"
 snippet '(?<!co)tt' "text" irA
 \text{$1}$0
 endsnippet
@@ -977,7 +969,5 @@ endsnippet
 snippet paran "parametrization" A
 parametrization
 endsnippet
-
-clearsnippets part ss
 
 # vim:ft=snippets
