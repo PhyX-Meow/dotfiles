@@ -8,7 +8,6 @@
     "coc.source.file.triggerCharacters": [
         "/"
     ],
-    "julia.executablePath": "/usr/bin/julia",
     "rust-analyzer.server.path": "/usr/bin/rust-analyzer",
     "languageserver": {
         "haskell": {

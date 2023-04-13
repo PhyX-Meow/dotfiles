@@ -175,6 +175,7 @@ Plug 'lervag/vimtex'
   let g:vimtex_quickfix_mode=0
   let g:vimtex_include_search_enabled = 0
   let g:vimtex_indent_ignored_envs = ['document', 'center', 'figure']
+  let g:vimtex_indent_on_ampersands = 0
   let g:vimtex_matchparen_enabled = 0
   let g:vimtex_imaps_leader = ';'
   let g:vimtex_syntax_custom_cmds = [
@@ -369,6 +370,8 @@ inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " visual mode mapping
 vnoremap > >gv
 vnoremap < <gv
+vnoremap H ^
+vnoremap L $
 
 " autocmd
 autocmd FileType markdown setlocal spell

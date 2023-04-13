@@ -1,36 +1,91 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{phyxmeow-common}[2021/09/25 TeX Preamble]
 
+%% Options
+
+\DeclareOption{plain}{
+  \let\phyxmeow@plain\@empty
+}
+\DeclareOption{newtx}{
+  \let\phyxmeow@plain\@empty
+  \let\phyxmeow@NewTX\@empty
+}
+\DeclareOption{unicode}{
+  \let\phyxmeow@NewModern\@empty
+}
+\DeclareOption{fourier}{
+  \let\phyxmeow@Fourier\@empty
+}
+\DeclareOption{stix2}{
+  \let\phyxmeow@STIXTwo\@empty
+}
+\DeclareOption*{\PackageWarning{phyxmeow}{Unknown option '\CurrentOption'.}}
+\ProcessOptions\relax
+
+%% Load Packages
+
 \RequirePackage[dvipsnames,svgnames,x11names]{xcolor}
 \RequirePackage{geometry}
+
 \RequirePackage{amsmath}
-\RequirePackage{amssymb}
-\RequirePackage{latexsym}
-\RequirePackage{mathrsfs}
-\RequirePackage{eucal}
 \RequirePackage{amsthm}
 \RequirePackage{mathtools}
+
+\RequirePackage{mathrsfs}
 \RequirePackage{stmaryrd}
-\RequirePackage{esint}
+\RequirePackage{bbm}
+
 \RequirePackage{extarrows}
 \RequirePackage{enumerate}
 \RequirePackage{tensor}
-\RequirePackage{commath}        
+% \RequirePackage{commath}
 \RequirePackage{physics}
+
 \RequirePackage{graphicx}
+\RequirePackage{subcaption}
 \RequirePackage{tikz}
 \RequirePackage{tikz-3dplot}
 \RequirePackage{tikz-cd}
 \RequirePackage[all,cmtip]{xy}
 \RequirePackage{pgfplots}
   \pgfplotsset{compat=newest}
-\RequirePackage{subcaption}
+\usepackage{tcolorbox}
+  \tcbuselibrary{most}
+
 \RequirePackage[colorlinks=true,linkcolor=blue]{hyperref}
 \RequirePackage{cleveref}
 \RequirePackage[hyperref=true,backend=biber,style=alphabetic,backref=true,url=false]{biblatex}
-\RequirePackage{bm}
-\RequirePackage{bbm}
-\RequirePackage{slashed}
+
+\@ifundefined{phyxmeow@plain}{
+  \RequirePackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+  \newcommand{\Id}{\mathbb{1}}
+}{
+  \RequirePackage{latexsym}
+  \@ifundefined{phyxmeow@NewTX}{
+    \RequirePackage{amssymb}
+    \RequirePackage{eucal}
+  }{
+    \RequirePackage{newtx}
+  }
+  \RequirePackage{bm}
+  \RequirePackage{bbm}
+  \newcommand{\Id}{\mathbbm{1}}
+}
+
+\@ifundefined{phyxmeow@Fourier}{
+}{
+  \RequirePackage{fourier-otf}
+}
+
+\@ifundefined{phyxmeow@NewModern}{}{
+  \RequirePackage[default]{fontsetup}
+}
+
+\@ifundefined{phyxmeow@STIXTwo}{}{
+  \RequirePackage[stixtwo]{fontsetup}
+}
+
+%% Define Commands
 
 \DeclareMathOperator{\sign}{sign}
 \DeclareMathOperator{\dom}{dom}
