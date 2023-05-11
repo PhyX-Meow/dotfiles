@@ -25,6 +25,7 @@ endsnippet
 
 priority 1
 snippet template "My template" b
+% !TeX program = xelatex
 \documentclass[UTF8,12pt]{article}
 \usepackage[${1:plain}]{phyxmeow}
 \geometry{a4paper,scale=0.8}
@@ -293,7 +294,7 @@ endsnippet
 
 priority 1
 snippet == "equals" iA
-&= $1 \\\\
+&=$1 \\\\
 endsnippet
 
 snippet != "not equal" iA
@@ -931,7 +932,7 @@ endsnippet
 priority 1
 
 snippet emph "emphasis" w
-\emph{$1}$0
+\emph{${1:${VISUAL}}}$0
 endsnippet
 
 snippet nbhd "neighbourhood" A

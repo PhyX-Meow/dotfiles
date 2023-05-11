@@ -11,13 +11,23 @@
   \let\phyxmeow@NewTX\@empty
 }
 \DeclareOption{unicode}{
-  \let\phyxmeow@NewModern\@empty
+  \def\phyxmeow@fontsetup{default}
 }
 \DeclareOption{fourier}{
   \let\phyxmeow@Fourier\@empty
 }
 \DeclareOption{stix2}{
-  \let\phyxmeow@STIXTwo\@empty
+  \def\phyxmeow@fontsetup{stixtwo}
+}
+\DeclareOption{libertinus}{
+  \def\phyxmeow@fontsetup{libertinus}
+}
+\DeclareOption{xcharter}{
+
+    \def\phyxmeow@fontsetup{xcharter}
+}
+\DeclareOption{concrete}{
+  \def\phyxmeow@fontsetup{concrete}
 }
 \DeclareOption*{\PackageWarning{phyxmeow}{Unknown option '\CurrentOption'.}}
 \ProcessOptions\relax
@@ -77,12 +87,8 @@
   \RequirePackage{fourier-otf}
 }
 
-\@ifundefined{phyxmeow@NewModern}{}{
-  \RequirePackage[default]{fontsetup}
-}
-
-\@ifundefined{phyxmeow@STIXTwo}{}{
-  \RequirePackage[stixtwo]{fontsetup}
+\@ifundefined{phyxmeow@fontsetup}{}{
+  \RequirePackage[\phyxmeow@fontsetup]{fontsetup}
 }
 
 %% Define Commands
