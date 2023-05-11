@@ -205,7 +205,14 @@ Plug 'kristijanhusak/defx-icons'
 Plug 'kristijanhusak/defx-git'
 
 Plug 'preservim/nerdcommenter'
+  let g:NERDDefaultAlign = 'left'
   let g:NERDSpaceDelims = 1
+  let g:NERDCompactSexyComs = 1
+  let g:NERDCommentEmptyLines = 1
+  let g:NERDToggleCheckAllLines = 1
+  let g:NERDCustomDelimiters = {
+    \ 'julia': { 'left': '#', 'leftAlt': '#=', 'rightAlt': '=#' }
+    \ }
 
 " Plug 'jiangmiao/auto-pairs'
 Plug 'LunarWatcher/auto-pairs'
