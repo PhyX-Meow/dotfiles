@@ -210,6 +210,10 @@ Plug 'preservim/nerdcommenter'
   let g:NERDCompactSexyComs = 1
   let g:NERDCommentEmptyLines = 1
   let g:NERDToggleCheckAllLines = 1
+  map <leader>cc <plug>NERDCommenterToggle
+  map <leader>c<space> <plug>NERDCommenterComment
+  map <c-_> <plug>NERDCommenterToggle
+  " for ctrl + /
   let g:NERDCustomDelimiters = {
     \ 'julia': { 'left': '#', 'leftAlt': '#=', 'rightAlt': '=#' }
     \ }

@@ -9,8 +9,8 @@ export MKL_DEBUG_CPU_TYPE=5
 export MKL_DYNAMIC=FALSE
 export MKL_NUM_THREADS=8
 export DOTNET_ROOT="/usr/share/dotnet"
-export JULIA_PKG_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia"
-export JULIAUP_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia-releases"
+# export JULIA_PKG_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia"
+# export JULIAUP_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia-releases"
 export OPENBLAS_NUM_THREADS=8
 export TEXLIVE_DOWNLOADER=wget
 
