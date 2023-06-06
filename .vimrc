@@ -186,6 +186,7 @@ Plug 'lervag/vimtex'
     \{'name': 'vthe', 'mathmode': 1, 'concealchar': 'ϑ'},
     \{'name': 'vphi', 'mathmode': 1, 'concealchar': 'φ'}
     \]
+
 Plug 'andymass/vim-matchup'
   let g:matchup_override_vimtex = 1
 
@@ -253,10 +254,14 @@ Plug 'puremourning/vimspector'
 
 Plug 'sheerun/vim-polyglot'
 
-Plug 'lifepillar/vim-gruvbox8'
-    let g:gruvbox_italics = 0
-Plug 'sainnhe/gruvbox-material'
 Plug 'morhetz/gruvbox'
+Plug 'lifepillar/vim-gruvbox8'
+  let g:gruvbox_italics = 0
+  let g:gruvbox_italicize_strings = 0
+  let g:gruvbox_plugin_hi_groups = 1
+  let g:gruvbox_filetype_hi_groups = 1
+Plug 'sainnhe/gruvbox-material'
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
   let g:airline_theme = 'gruvbox'

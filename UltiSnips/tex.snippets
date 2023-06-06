@@ -292,11 +292,6 @@ snip.rv = subprocess.check_output(['wolframscript.exe', '-code', code]).decode('
 `
 endsnippet
 
-priority 1
-snippet == "equals" iA
-&=$1 \\\\
-endsnippet
-
 snippet != "not equal" iA
 \neq 
 endsnippet
@@ -452,7 +447,7 @@ else:
 endsnippet
 
 context "math()"
-snippet nd "nabla" iA
+snippet '(?<!u)nd' "nabla" riA
 \nabla`!p
 if t[0] and t[0][0] not in ['^', ' ', '_', '\\']:
     snip.rv = ' '
@@ -646,7 +641,7 @@ endsnippet
 
 priority 150
 context "math()"
-snippet '(?<!th|.\\|.b|.z)eta' "eta" riA
+snippet '(?<!th|Th|.\\|.b|.z)eta' "eta" riA
 \eta
 endsnippet
 
@@ -776,7 +771,7 @@ snippet '(iso|eqv)' "equivalent" riA
 endsnippet
 
 context "math()"
-snippet 'cong' "congruence" riA
+snippet '==' "congruence" riA
 \equiv 
 endsnippet
 
@@ -814,7 +809,7 @@ endsnippet
 priority 1
 context "math()"
 snippet notin "not in " iA
-\not\in 
+\notin 
 endsnippet
 
 context "math()"
