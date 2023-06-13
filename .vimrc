@@ -184,7 +184,8 @@ Plug 'lervag/vimtex'
     \{'name': 'dif', 'mathmode': 1, 'concealchar': 'd'},
     \{'name': 'eps', 'mathmode': 1, 'concealchar': 'ε'},
     \{'name': 'vthe', 'mathmode': 1, 'concealchar': 'ϑ'},
-    \{'name': 'vphi', 'mathmode': 1, 'concealchar': 'φ'}
+    \{'name': 'vphi', 'mathmode': 1, 'concealchar': 'φ'},
+    \{'name': 'dd', 'mathmode': 1, 'concealchar': 'd'}
     \]
 
 Plug 'andymass/vim-matchup'
