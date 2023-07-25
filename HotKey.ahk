@@ -31,7 +31,7 @@ SwitchActivate(name) {
 
 #b:: RunOrActivate("msedge.exe", "C:\Program Files (x86)\Microsoft\Edge Beta\Application\msedge.exe")
 
-#m:: RunOrActivate("Mathematica.exe", "C:\Program Files\Wolfram Research\Mathematica\13.2\Mathematica.exe")
+#m:: RunOrActivate("Mathematica.exe", "C:\Program Files\Wolfram Research\Mathematica\13.3\Mathematica.exe")
 
 #c:: Run "C:\Program Files\Microsoft VS Code\Code.exe"
 

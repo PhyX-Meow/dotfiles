@@ -185,6 +185,8 @@ Plug 'lervag/vimtex'
     \{'name': 'eps', 'mathmode': 1, 'concealchar': 'ε'},
     \{'name': 'vthe', 'mathmode': 1, 'concealchar': 'ϑ'},
     \{'name': 'vphi', 'mathmode': 1, 'concealchar': 'φ'},
+    \{'name': 'lap', 'mathmode': 1, 'concealchar': 'Δ'},
+    \{'name': 'into', 'mathmode': 1, 'concealchar': '↪'},
     \{'name': 'dd', 'mathmode': 1, 'concealchar': 'd'}
     \]
 

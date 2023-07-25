@@ -71,6 +71,7 @@
 \@ifundefined{phyxmeow@plain}{
   \RequirePackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
   \newcommand{\Id}{\mathbb{1}}
+  \newcommand{\lap}{\increment}
 }{
   \RequirePackage{latexsym}
   \@ifundefined{phyxmeow@NewTX}{
@@ -82,6 +83,7 @@
   \RequirePackage{bm}
   \RequirePackage{bbm}
   \newcommand{\Id}{\mathbbm{1}}
+  \newcommand{\lap}{\Delta}
 }
 
 \@ifundefined{phyxmeow@Fourier}{
@@ -112,4 +114,5 @@
 \renewcommand{\emptyset}{\varnothing}
 \newcommand{\acts}{\curvearrowright}
 \newcommand{\xrr}{\xlongrightarrow}
+\newcommand{\into}{\hookrightarrow}
 \newcommand{\pdif}[2]{\frac{\partial #1}{\partial #2}}
