@@ -7,6 +7,13 @@ Import-Module "$($(Get-Item $(Get-Command scoop).Path).Directory.Parent.FullName
 Invoke-Expression (&scoop-search --hook)
 #endregion
 
+#region mamba initialize
+# !! Contents within this block are managed by 'mamba shell init' !!
+$Env:MAMBA_ROOT_PREFIX = "C:\Users\wuli\scoop\persist\micromamba\mamba"
+$Env:MAMBA_EXE = "C:\Users\wuli\scoop\apps\micromamba\current\micromamba.exe"
+(& $Env:MAMBA_EXE 'shell' 'hook' -s 'powershell' -p $Env:MAMBA_ROOT_PREFIX) | Out-String | Invoke-Expression
+#endregion
+
 # PSReadline
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
@@ -23,12 +30,16 @@ colortool -q GruvboxDark.itermcolors
 
 # gsudo
 Import-Module (Get-Command 'gsudoModule.psd1').Source
-Set-Alias 'sudo' 'gsudo'
 
-# Envs
+# Autojump
+Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
+
+# Env
 $env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
 
 # Alias
+Set-Alias 'sudo' 'gsudo'
+Set-Alias 'mamba' 'micromamba'
 Function which {
 	Get-Command -All $args
 }
@@ -38,5 +49,3 @@ Function prc {
 Function ytdl {
 	yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
 }
-# Autojump
-Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
