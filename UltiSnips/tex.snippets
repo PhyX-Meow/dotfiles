@@ -365,10 +365,10 @@ endsnippet
 
 priority 1
 snippet sum "sum" w
-\sum_{${1:n=${2:1}}}^{${3:\infty}}$0
+\sum_{${1:n=${2:0}}}^{${3:\infty}}$0
 endsnippet
 
-snippet sumZ "sum" iA 
+snippet Sum "sum" iA 
 \sum_{${1:n\ge 0}}$0
 endsnippet
 
@@ -463,7 +463,7 @@ endsnippet
 
 context "math()"
 snippet lap "laplace" iA
-\triangle 
+\lap 
 endsnippet
 
 context "math()"
@@ -709,12 +709,12 @@ endsnippet
 priority 100
 context "math()"
 snippet into "inclution" iA
-\hookrightarrow
+\into
 endsnippet
 
 priority 1
 context "math()"
-snippet intR "integration over Region" iA
+snippet Int "integration over Region" iA
 \int_{${1:\mathbb{R}^n}}$0
 endsnippet
 
