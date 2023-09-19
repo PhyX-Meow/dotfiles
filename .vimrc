@@ -231,6 +231,8 @@ Plug 'tpope/vim-surround'
 
 Plug 'Chiel92/vim-autoformat'
 
+Plug 'mbbill/undotree'
+
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
   let g:asyncrun_open = 6
@@ -245,7 +247,7 @@ Plug 'kdheepak/JuliaFormatter.vim'
 
 Plug 'neovimhaskell/haskell-vim'
 
-Plug 'kovisoft/slimv'
+" Plug 'kovisoft/slimv'
 
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'junegunn/fzf.vim'

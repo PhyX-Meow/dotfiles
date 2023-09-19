@@ -109,9 +109,6 @@ FZ_HISTORY_CD_CMD="_zlua"
 zinit light changyuheng/fz
 zinit light skywind3000/z.lua
 
-# asdf.sh
-. /opt/asdf-vm/asdf.sh
-
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba init' !!
 export MAMBA_EXE="/usr/bin/micromamba";
