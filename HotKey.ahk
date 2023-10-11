@@ -37,6 +37,8 @@ SwitchActivate(name) {
 
 #p:: SwitchActivate("X410.exe")
 
+#j:: Run "wt.exe new-tab -p `"Julia in WSL`""
+
 #HotIf WinActive("ahk_exe WindowsTerminal.exe")
 !Enter:: Send "!^j"
 #HotIf
