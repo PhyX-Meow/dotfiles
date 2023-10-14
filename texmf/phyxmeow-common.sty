@@ -31,6 +31,9 @@
 \DeclareOption{concrete}{
   \def\phyxmeow@fontsetup{concrete}
 }
+\DeclareOption{xy}{
+  \def\phyxmeow@xy\@empty
+}
 \DeclareOption*{\PackageWarning{phyxmeow}{Unknown option '\CurrentOption'.}}
 \ProcessOptions\relax
 
@@ -38,6 +41,7 @@
 
 \RequirePackage[dvipsnames,svgnames,x11names]{xcolor}
 \RequirePackage{geometry}
+\RequirePackage{microtype}
 
 \RequirePackage{amsmath}
 \RequirePackage{amsthm}
@@ -56,8 +60,12 @@
 \RequirePackage{subcaption}
 \RequirePackage{tikz}
 \RequirePackage{tikz-3dplot}
-\RequirePackage{tikz-cd}
-\RequirePackage[all,cmtip]{xy}
+  \tikzset{every picture/.style={line width=0.75pt}}
+\RequirePackage{quiver}
+% \RequirePackage{tikz-cd}
+\@ifundefined{phyxmeow@xy}{}{
+  \RequirePackage[all,cmtip]{xy}
+}
 \RequirePackage{pgfplots}
   \pgfplotsset{compat=newest}
 \usepackage{tcolorbox}

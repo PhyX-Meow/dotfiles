@@ -190,6 +190,10 @@ Plug 'lervag/vimtex'
     \{'name': 'dd', 'mathmode': 1, 'concealchar': 'd'}
     \]
 
+Plug 'kaarmu/typst.vim'
+  let g:typst_pdf_viewer = 'zathura'
+Plug 'MrPicklePinosaur/typst-conceal.vim'
+
 Plug 'andymass/vim-matchup'
   let g:matchup_override_vimtex = 1
 
@@ -216,8 +220,8 @@ Plug 'preservim/nerdcommenter'
   let g:NERDToggleCheckAllLines = 1
   map <leader>cc <plug>NERDCommenterToggle
   map <leader>c<space> <plug>NERDCommenterComment
-  map <c-_> <plug>NERDCommenterToggle
   " for ctrl + /
+  map <c-_> <plug>NERDCommenterToggle
   let g:NERDCustomDelimiters = {
     \ 'julia': { 'left': '#', 'leftAlt': '#=', 'rightAlt': '=#' }
     \ }
@@ -399,7 +403,17 @@ autocmd FileType markdown setlocal spell
 autocmd FileType tex
   \ setlocal spell |
   \ setlocal nocursorcolumn |
+  \ setlocal tabstop=2 |
+  \ setlocal shiftwidth=2 |
+  \ setlocal softtabstop=2 |
   \ let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
+autocmd FileType typst
+  \ setlocal spell |
+  \ setlocal nocursorcolumn |
+  \ setlocal tabstop=2 |
+  \ setlocal shiftwidth=2 |
+  \ setlocal softtabstop=2 |
+  \ nnoremap <leader>ll :TypstWatch<CR>
 autocmd FileType vim
   \ setlocal tabstop=2 |
   \ setlocal shiftwidth=2 |
