@@ -13,6 +13,7 @@ export DOTNET_ROOT="/usr/share/dotnet"
 # export JULIAUP_SERVER="https://mirrors.tuna.tsinghua.edu.cn/julia-releases"
 export OPENBLAS_NUM_THREADS=8
 export TEXLIVE_DOWNLOADER=wget
+export TYPST_FONT_PATHS="/opt/texlive/current/texmf-dist/fonts/opentype/public/"
 
 export WINHOME="/mnt/c/Users/XueHa"
 export win_host="localhost"

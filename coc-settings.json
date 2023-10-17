@@ -26,6 +26,11 @@
                 "haskell",
                 "lhaskell"
             ]
+        },
+        "typst": {
+            "command": "typst-lsp",
+            "filetypes": ["typst"]
         }
     }
 }
+

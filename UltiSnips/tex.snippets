@@ -85,20 +85,20 @@ endsnippet
 priority 1
 snippet table "Table environment" b
 \begin{table}[${1:htpb}]
-    \centering
-    \caption{${2:caption}}
-    \label{tab:${3:label}}
-    \begin{tabular}{${5:c}}
-    $0${5/((?<=.)c|l|r)|./(?1: & )/g}
-    \end{tabular}
+  \centering
+  \caption{${2:caption}}
+  \label{tab:${3:label}}
+  \begin{tabular}{${5:c}}
+  $0${5/((?<=.)c|l|r)|./(?1: & )/g}
+  \end{tabular}
 \end{table}
 endsnippet
 
 snippet fig "Figure environment" b
 \begin{figure}[${1:htb}]
-    \centering
-    ${2:\includegraphics[width=0.8\textwidth]{$3}}
-    \caption{${4:$3}}\label{fig:${5:${3/\W+/-/g}}}
+  \centering
+  ${2:\includegraphics[width=0.8\textwidth]{$3}}
+  \caption{${4:$3}}\label{fig:${5:${3/\W+/-/g}}}
 \end{figure}
 endsnippet
 
@@ -116,7 +116,7 @@ endsnippet
 
 snippet desc "Description" b
 \begin{description}
-    \item[$1] $0
+  \item[$1] $0
 \end{description}
 endsnippet
 
@@ -144,57 +144,57 @@ endsnippet
 
 snippet dm "Display Math" wA
 \[
-    ${1:${VISUAL}}
+  ${1:${VISUAL}}
 .\] $0
 endsnippet
 
 snippet xy "Xy Matrix" w
 \[
 \xymatrix{
-    ${1:${VISUAL}}
+  ${1:${VISUAL}}
 }\] $0
 endsnippet
 
 snippet eg "Example" b
 \begin{example}[$1]
-    ${2:${VISUAL}}
+  ${2:${VISUAL}}
 \end{example}
 endsnippet
 
 snippet thm "Theorem" b
 \begin{theorem}[$1]
-    ${2:${VISUAL}}
+  ${2:${VISUAL}}
 \end{theorem}
 endsnippet
 
 snippet rmk "Remark" b
 \begin{remark}
-    ${1:${VISUAL}}
+  ${1:${VISUAL}}
 \end{remark}
 endsnippet
 
 snippet eqn "Numbered equation" b
 \begin{equation}\label{$1}
-    ${2:${VISUAL}}
+  ${2:${VISUAL}}
 .\end{equation}
 endsnippet
 
 snippet aln "Align" b
 \begin{align*}
-    ${1:${VISUAL}}
+  ${1:${VISUAL}}
 .\end{align*}
 endsnippet
 
 snippet ali "Numbered align" b
 \begin{align}
-    ${1:${VISUAL}}
+  ${1:${VISUAL}}
 .\end{align}
 endsnippet
 
 snippet spl "Split" b
 \begin{equation}\label{$1}
 \begin{split}
-    ${2:${VISUAL}}
+  ${2:${VISUAL}}
 .\end{split} \end{equation}
 endsnippet
 
@@ -234,8 +234,13 @@ snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
 endsnippet
 
 context "math()"
-snippet '([A-Za-z])(\d)' "auto subscript" wrA
+snippet '([A-Za-w])(\d)' "auto subscript" wrA
 `!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+context "math()"
+snippet '([xyz])(\d)' "auto supscript" wrA
+`!p snip.rv = match.group(1)`^`!p snip.rv = match.group(2)`
 endsnippet
 
 context "math()"
@@ -311,14 +316,14 @@ priority 1
 context "math()"
 snippet pmat "pmat" iA
 \begin{pmatrix}
-    $1
+  $1
 \end{pmatrix}$0
 endsnippet
 
 context "math()"
 snippet bmat "bmat" iA
 \begin{bmatrix}
-    $1
+  $1
 \end{bmatrix}$0
 endsnippet
 
@@ -502,18 +507,18 @@ endsnippet
 
 snippet plot "Plot" w
 \begin{figure}[$1]
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-            xmin= ${2:-10}, xmax= ${3:10},
-            ymin= ${4:-10}, ymax = ${5:10},
-            axis lines = middle,
-        ]
-            \addplot[domain=$2:$3, samples=${6:100}]{$7};
-        \end{axis}
-    \end{tikzpicture}
-    \caption{$8}
-    \label{${9:$8}}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      xmin= ${2:-10}, xmax= ${3:10},
+      ymin= ${4:-10}, ymax = ${5:10},
+      axis lines = middle,
+    ]
+      \addplot[domain=$2:$3, samples=${6:100}]{$7};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{$8}
+  \label{${9:$8}}
 \end{figure}
 endsnippet
 
@@ -828,6 +833,11 @@ snippet UU "cup" iA
 \cup 
 endsnippet
 
+context "math()"
+snippet \sinn "in " iA
+s\in 
+endsnippet
+
 priority 200
 context "math()"
 snippet DU "sqcup" iA
@@ -873,14 +883,14 @@ endsnippet
 context "math()"
 snippet case "cases" wA
 \begin{cases}
-    $1
+  $1
 \end{cases}
 endsnippet
 
 snippet bigfun "Big function" iA
 \begin{align*}
-    $1\colon $2 &\longrightarrow $3 \\\\
-    $4 &\longmapsto $0
+  $1\colon $2 &\longrightarrow $3 \\\\
+  $4 &\longmapsto $0
 .\end{align*}
 endsnippet
 
