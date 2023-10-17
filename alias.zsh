@@ -30,12 +30,12 @@ alias envs='vim ~/env.zsh'
 alias cp='cp -i'
 # alias ls='colorls --group-directories-first'
 # alias ll='colorls -lA --sd --gs --group-directories-first'
-alias ls='exa --icons --group-directories-first'
-alias l='exa --long --icons --git --group-directories-first'
-alias ll='exa --long --all --icons --git --header --group-directories-first'
+alias ls='exa --icons --group-directories-first --time-style=long-iso'
+alias l='exa --long --icons --git --group-directories-first --time-style=long-iso'
+alias ll='exa --long --all --icons --git --header --group-directories-first --time-style=long-iso'
 alias clr='clear'
 # alias lab='jupyter lab --no-browser'
-alias pluto="julia -e 'import Pluto;Pluto.run(port=8889)'"
+alias pluto="julia -e 'import Pluto;cd(\"/home/wuli/CodesWSL/Julia/\");Pluto.run(port=8889)'"
 # alias juhs="jupyter console --kernel=haskell"
 alias pyup='pip install --user --upgrade pip'
 alias mamba=micromamba
