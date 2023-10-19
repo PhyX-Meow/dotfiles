@@ -28,7 +28,7 @@ snippet template "My template" b
 % !TeX program = xelatex
 \documentclass[UTF8,12pt]{article}
 \usepackage[${1:unicode}]{phyxmeow}
-\geometry{a4paper,scale=0.8}
+\geometry{a4paper,margin=1in}
 \allowdisplaybreaks{}
 
 \title{$2}
@@ -203,6 +203,7 @@ snippet // "Fraction" iA
 \\frac{$1}{$2}$0
 endsnippet
 
+context "math()"
 snippet / "Fraction" i
 \\frac{${VISUAL}}{$1}$0
 endsnippet
@@ -217,7 +218,7 @@ snippet quo "Quotient" iA
 /
 endsnippet
 
-priority 1000
+priority 10
 context "math()"
 snippet '^.*\)/' "() frac" wrA
 `!p
@@ -233,6 +234,7 @@ snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
 `{$1}$0
 endsnippet
 
+priority 1
 context "math()"
 snippet '([A-Za-w])(\d)' "auto subscript" wrA
 `!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
@@ -265,12 +267,12 @@ endsnippet
 
 # To do: add auto a_{ii} a_{jj} a_{kk} a_{nn}
 
-priority 1000
+priority 100
 snippet sympy "sympyblock " w
 sympy $1 sympy$0
 endsnippet
 
-priority 10000
+priority 1000
 snippet 'sympy(.*)sympy' "sympy" wr
 `!p
 from sympy import *
@@ -282,12 +284,12 @@ snip.rv = eval('latex(' + match.group(1).replace('\\', '').replace('^', '**').re
 `
 endsnippet
 
-priority 1000
+priority 100
 snippet math "mathematicablock" w
 math $1 math$0
 endsnippet
 
-priority 10000
+priority 1000
 snippet 'math(.*)math' "math" wr
 `!p
 import subprocess
@@ -452,7 +454,7 @@ else:
 endsnippet
 
 context "math()"
-snippet '(?<!u)nd' "nabla" riA
+snippet '(?<!i|I|u)nd' "nabla" riA
 \nabla`!p
 if t[0] and t[0][0] not in ['^', ' ', '_', '\\']:
     snip.rv = ' '
@@ -464,6 +466,11 @@ endsnippet
 context "math()"
 snippet nD "covariant derivative" i
 \nabla_{$1}$0
+endsnippet
+
+context "math()"
+snippet 'ind' "indices" riA
+\indices{$1}$0
 endsnippet
 
 context "math()"
@@ -596,6 +603,11 @@ endsnippet
 context "math()"
 snippet '(?<!\\)tens' "tensor product" riA
 \otimes 
+endsnippet
+
+context "math()"
+snippet 'Ind' "complex tensor" riA
+\tensor{$1}{$2}$0
 endsnippet
 
 context "math()"
@@ -913,13 +925,18 @@ endsnippet
 priority 10
 context "math()"
 snippet 'bar' "bar" riA
+\bar{${1:${VISUAL}}}$0
+endsnippet
+
+context "math()"
+snippet 'Bar' "bar" riA
 \overline{${1:${VISUAL}}}$0
 endsnippet
 
 priority 100
 context "math()"
-snippet '((\\)?[a-zA-Z]+)bar' "bar" riA
-\overline{`!p snip.rv=match.group(1)`}
+snippet '(\\[a-zA-Z]+|[a-zA-Z])bar' "bar" riA
+\bar{`!p snip.rv=match.group(1)`}
 endsnippet
 
 priority 10
