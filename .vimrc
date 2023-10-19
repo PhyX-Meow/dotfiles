@@ -374,12 +374,11 @@ language messages zh_CN.utf-8
 " UI Settings
 set cursorline
 set cursorcolumn
-" set cursorcolumn
 if has("gui_running")
   set go=
-  set lines=32
   set guifont=Fira\ Code\ 11,等距更纱黑体\ SC\ 11
   set guifontwide=等距更纱黑体\ SC\ 11
+  set lines=32
   set columns=100
 endif
 
