@@ -1,0 +1,50 @@
+global !p
+def math():
+	# return vim.eval('typst#in_mode("math")') == '1'
+	return 1
+
+def code():
+    return vim.eval('typst#in_mode("code")') == '1'
+
+def markup(name):
+    return vim.eval('typst#in_mode("markup")') == '1'
+
+def fix_indent(snip):
+    vim.eval('feedkeys("\<c-f>")')
+
+endglobal
+
+snippet mk "Inline Math" wA
+$${1:${VISUAL}}$`!p
+if t[2] and t[2][0] not in ['，','。',',', '.', ':', '?', '-', ' ','\n']:
+    snip.rv = ' '
+else:
+    snip.rv = ''
+`$2
+endsnippet
+
+snippet dm "Display Math" wA
+$
+  ${1:${VISUAL}}
+$ $0
+endsnippet
+
+context "math()"
+snippet sr "^2" iA
+^2
+endsnippet
+
+context "math()"
+snippet '_?pp' "to the ... power" riA
+^($1)$0
+endsnippet
+
+context "math()"
+snippet __ "subscript" iA
+_($1)$0
+endsnippet
+
+context "math()"
+snippet '(?<!\\s)inv' "inverse" riA
+^{-1}
+endsnippet

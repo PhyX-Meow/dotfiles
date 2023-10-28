@@ -388,8 +388,15 @@ nnoremap j gj
 nnoremap k gk
 nnoremap H ^
 nnoremap L $
+nnoremap <c-j> J"_x
+nnoremap <c-s> :w<CR>
+nnoremap ; "_
+nnoremap <silent> <c-k> :call autopairs#AutoPairsJump()<CR>
 " insert mode mapping
 inoremap jj <Esc>
+" inoremap <silent> <c-k> <Esc>:call autopairs#Keybinds#IgnoreInsertEnterCmd(":call autopairs#AutoPairsJump()")<CR>a
+inoremap <silent> <c-k> <Esc>:call autopairs#AutoPairsJump()<CR>a
+inoremap <c-s> <Esc>:w<CR>a
 inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " visual mode mapping
 vnoremap > >gv
@@ -406,12 +413,14 @@ autocmd FileType tex
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2 |
   \ let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
+  " \ let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''", "\\(":"\\)", "\\[":"\\]"}
 autocmd FileType typst
   \ setlocal spell |
   \ setlocal nocursorcolumn |
   \ setlocal tabstop=2 |
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2 |
+  \ let b:AutoPairs = {'`':'`', '```':'```', '"':'"', '(':')', '[':']', '{':'}', "$":"$"} |
   \ nnoremap <leader>ll :TypstWatch<CR>
 autocmd FileType vim
   \ setlocal tabstop=2 |

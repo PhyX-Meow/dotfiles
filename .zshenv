@@ -4,7 +4,7 @@ export LANG="zh_CN.UTF-8"
 
 # Set environment variables
 export LD_LIBRARY_PATH=.:../lib:./lib
-export PATH="$HOME/.local/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$PATH"
 export MKL_DEBUG_CPU_TYPE=5
 export MKL_DYNAMIC=FALSE
 export MKL_NUM_THREADS=8
