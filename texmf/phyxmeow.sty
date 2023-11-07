@@ -1,10 +1,10 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{phyxmeow}[2021/09/25 TeX Preamble]
 
-\DeclareOption*{\let\@Options\CurrentOption}
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{phyxmeow-common}}
 \ProcessOptions\relax
 
-\RequirePackage[\@Options]{phyxmeow-common}
+\RequirePackage{phyxmeow-common}
 
 \theoremstyle{plain}\newtheorem{theorem}{Theorem}
 \theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
