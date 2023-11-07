@@ -380,11 +380,11 @@ snippet Sum "sum" iA
 endsnippet
 
 snippet lim "limit" w
-\lim_{${1:n} \to ${2:\infty}} 
+\lim_{${1:n}\to ${2:\infty}} 
 endsnippet
 
 snippet limsup "limsup" w
-\limsup_{${1:n} \to ${2:\infty}} 
+\limsup_{${1:n}\to ${2:\infty}} 
 endsnippet
 
 snippet prod "product" w
@@ -435,7 +435,7 @@ endsnippet
 
 context "math()"
 snippet pd "d/dx" iA
-\pdv{${2:x^${3:i}}}$0
+\pd{${2:x^${3:i}}}$0
 endsnippet
 
 context "math()"
@@ -456,7 +456,7 @@ endsnippet
 context "math()"
 snippet '(?<!i|I|u)nd' "nabla" riA
 \nabla`!p
-if t[0] and t[0][0] not in ['^', ' ', '_', '\\']:
+if t[0] and t[0][0] not in ['^', ' ', '_', '\\', '\'']:
     snip.rv = ' '
 else:
     snip.rv = ''

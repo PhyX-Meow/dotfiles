@@ -165,8 +165,6 @@ Plug 'honza/vim-snippets'
   let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
   let g:UltiSnipsEnableSnipMate = 0
 
-" Plug 'PietroPate/vim-tex-conceal'
-" Plug 'KeitaNakamura/tex-conceal.vim'
 Plug 'lervag/vimtex'
   let g:vimtex_compiler_progname=v:progname
   let g:tex_flavor='latex'
@@ -189,6 +187,12 @@ Plug 'lervag/vimtex'
     \{'name': 'into', 'mathmode': 1, 'concealchar': '↪'},
     \{'name': 'dd', 'mathmode': 1, 'concealchar': 'd'}
     \]
+  let g:vimtex_indent_delims = {
+    \ 'open' : ['{'],
+    \ 'close' : ['}'],
+    \ 'close_indented' : 1,
+    \ 'include_modified_math' : 1,
+    \}
 
 Plug 'kaarmu/typst.vim'
   let g:typst_pdf_viewer = 'zathura'
@@ -388,8 +392,15 @@ nnoremap j gj
 nnoremap k gk
 nnoremap H ^
 nnoremap L $
+nnoremap <c-j> J"_x
+nnoremap <c-s> :w<CR>
+nnoremap ; "_
+nnoremap <silent> ;; :call autopairs#AutoPairsJump()<CR>
 " insert mode mapping
 inoremap jj <Esc>
+" inoremap <silent> ;; <Esc>:call autopairs#Keybinds#IgnoreInsertEnterCmd(":call autopairs#AutoPairsJump()")<CR>a
+inoremap <silent> <c-k> <Esc>:call autopairs#AutoPairsJump()<CR>a
+inoremap <c-s> <Esc>:w<CR>a
 inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " visual mode mapping
 vnoremap > >gv
@@ -406,12 +417,14 @@ autocmd FileType tex
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2 |
   \ let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
+  " \ let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''", "\\(":"\\)", "\\[":"\\]"}
 autocmd FileType typst
   \ setlocal spell |
   \ setlocal nocursorcolumn |
   \ setlocal tabstop=2 |
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2 |
+  \ let b:AutoPairs = {'`':'`', '```':'```', '"':'"', '(':')', '[':']', '{':'}', "$":"$"} |
   \ nnoremap <leader>ll :TypstWatch<CR>
 autocmd FileType vim
   \ setlocal tabstop=2 |

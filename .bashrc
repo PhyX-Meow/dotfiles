@@ -8,12 +8,19 @@ export LC_CTYPE="zh_CN.UTF-8"
 export LANG="zh_CN.UTF-8"
 export LC_ALL="zh_CN.UTF-8"
 
+export LD_LIBRARY_PATH=.:../lib:./lib
+export PATH="$HOME/.local/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$PATH"
+export MKL_DEBUG_CPU_TYPE=5
+export MKL_DYNAMIC=FALSE
+export MKL_NUM_THREADS=8
+export DOTNET_ROOT="/usr/share/dotnet"
+export OPENBLAS_NUM_THREADS=8
+export TEXLIVE_DOWNLOADER=wget
+export TYPST_FONT_PATHS="/opt/texlive/current/texmf-dist/fonts/opentype/public/"
+
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
-
-export DISPLAY=`cat /etc/resolv.conf | grep nameserver | awk '{print $2}'`:0
-export PULSE_SERVER=`cat /etc/resolv.conf | grep nameserver | awk '{print $2}'`
 
 colors() {
 	local fgc bgc vals seq0

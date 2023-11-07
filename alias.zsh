@@ -26,7 +26,7 @@ alias zre='source ~/.zshrc'
 alias zup='omz update'
 alias vrc='vim ~/.vimrc'
 alias alrc='vim ~/alias.zsh'
-alias envs='vim ~/env.zsh'
+alias zenv='vim ~/.zshenv'
 alias cp='cp -i'
 # alias ls='colorls --group-directories-first'
 # alias ll='colorls -lA --sd --gs --group-directories-first'
@@ -40,9 +40,10 @@ alias pluto="julia -e 'import Pluto;cd(\"/home/wuli/CodesWSL/Julia/\");Pluto.run
 alias pyup='pip install --user --upgrade pip'
 alias mamba=micromamba
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
-alias jlup="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg;Pkg.update()'"
-alias jlcc="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 julia -e 'using Pkg,Dates;Pkg.gc(;collect_delay=Hour(0))'"
-alias tldr="http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 tldr"
+alias jlup="run_with_proxy julia -e 'using Pkg;Pkg.update()'"
+alias jlcc="run_with_proxy julia -e 'using Pkg,Dates;Pkg.gc(;collect_delay=Hour(0))'"
+alias tldr="run_with_proxy tldr"
+alias wd="run_with_proxy wd"
 alias p10kcfg='p10k configure'
 alias please='sudo'
 alias plz='sudo'
@@ -58,3 +59,4 @@ alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW='cd ~/TeX'
 alias texpre='vim ~/texmf/tex/latex/local/phyxmeow-common.sty'
 alias texsnip='vim ~/.vim/UltiSnips/tex.snippets'
+alias typsnip='vim ~/.vim/UltiSnips/typst.snippets'

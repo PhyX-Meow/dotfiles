@@ -1,5 +1,5 @@
-\NeedsTeXFormat{LaTeX2e}[1994/06/01]
-\ProvidesPackage{phyxmeow-common}[2021/09/25 TeX Preamble]
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{phyxmeow-common}[2023/10/28 TeX Preamble]
 
 %% Options
 
@@ -32,10 +32,10 @@
   \def\phyxmeow@fontsetup{concrete}
 }
 \DeclareOption{xy}{
-  \def\phyxmeow@xy\@empty
+  \let\phyxmeow@xy\@empty
 }
 \DeclareOption{cjk}{
-  \def\phyxmeow@cjk\@empty
+  \let\phyxmeow@cjk\@empty
 }
 \DeclareOption*{\PackageWarning{phyxmeow}{Unknown option '\CurrentOption'.}}
 \ProcessOptions\relax
@@ -57,14 +57,22 @@
 \RequirePackage{enumerate}
 \RequirePackage{tensor}
 % \RequirePackage{commath}
-\RequirePackage{physics}
+% \RequirePackage{physics}
+\RequirePackage{physics2}
+  \usephysicsmodule{ab,xmat}
+\RequirePackage{fixdif}
+  \newcommand{\dd}{\d}
+\RequirePackage{derivative}
+  \newcommand{\dv}{\odv}
+  \newcommand{\pd}[1]{\pdv{}{#1}}
+  \newcommand{\eval}[1]{#1\Big|}
 
 \RequirePackage{graphicx}
 \RequirePackage{subcaption}
 \RequirePackage{tikz}
 \RequirePackage{tikz-3dplot}
   \tikzset{every picture/.style={line width=0.75pt}}
-\RequirePackage{quiver}
+\RequirePackage{phyxmeow-quiver}
 % \RequirePackage{tikz-cd}
 \@ifundefined{phyxmeow@xy}{}{
   \RequirePackage[all,cmtip]{xy}
@@ -108,7 +116,7 @@
 }
 
 \@ifundefined{phyxmeow@cjk}{}{
-  \usepackage{xeCJK}
+  \RequirePackage{xeCJK}
   \setCJKmainfont{FZShuSong-Z01}[BoldFont=FZXiaoBiaoSong-B05,ItalicFont=FZKai-Z03]
   \setCJKsansfont{FZXiHeiI-Z08}[BoldFont=FZHei-B01]
   \setCJKmonofont{FZFangSong-Z02}
@@ -139,5 +147,4 @@
 \newcommand{\acts}{\curvearrowright}
 \newcommand{\xrr}{\xlongrightarrow}
 \newcommand{\into}{\hookrightarrow}
-\newcommand{\pdif}[2]{\frac{\partial #1}{\partial #2}}
-\renewcommand{\op}{\operatorname}
+\newcommand{\op}{\operatorname}
