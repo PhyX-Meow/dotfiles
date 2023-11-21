@@ -14,6 +14,20 @@ def fix_indent(snip):
 
 endglobal
 
+snippet template "My template" b
+#import "@phyxmeow/preamble:0.1.0": *
+#show: preamble.with(
+  font: "$1",
+  numbering: "1.1",
+)
+
+#align(center)[#text(20pt)[
+  *$2*
+]#v(0.5cm)]
+
+$0
+endsnippet
+
 snippet mk "Inline Math" wA
 $${1:${VISUAL}}$`!p
 if t[2] and t[2][0] not in ['，','。',',', '.', ':', '?', '-', ' ','\n']:
