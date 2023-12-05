@@ -4,11 +4,18 @@
 %% Options
 
 \DeclareOption{plain}{
+  \let\phyxmeow@bbm\@empty
+  \let\phyxmeow@nounicode\@empty
   \let\phyxmeow@plain\@empty
 }
 \DeclareOption{newtx}{
-  \let\phyxmeow@plain\@empty
+  \let\phyxmeow@bbm\@empty
+  \let\phyxmeow@nounicode\@empty
   \let\phyxmeow@NewTX\@empty
+}
+\DeclareOption{times}{
+  \let\phyxmeow@nounicode\@empty
+  \let\phyxmeow@times\@empty
 }
 \DeclareOption{unicode}{
   \def\phyxmeow@fontsetup{default}
@@ -30,6 +37,9 @@
 }
 \DeclareOption{concrete}{
   \def\phyxmeow@fontsetup{concrete}
+}
+\DeclareOption{cambria}{
+  \def\phyxmeow@fontsetup{cambria}
 }
 \DeclareOption{xy}{
   \let\phyxmeow@xy\@empty
@@ -87,21 +97,36 @@
 \RequirePackage[hyperref=true,backend=biber,style=alphabetic,backref=true,url=false]{biblatex}
 
 \@ifundefined{phyxmeow@plain}{
-  \RequirePackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+}{
+  \RequirePackage{latexsym}
+  \RequirePackage{amssymb}
+  \RequirePackage{eucal}
+}
+
+\@ifundefined{phyxmeow@NewTX}{}{
+  \RequirePackage{newtx}
+}
+
+\@ifundefined{phyxmeow@times}{
+}{
+  \RequirePackage[scaled=0.92]{helvet}
+  \renewcommand{\rmdefault}{ptm}
+  \RequirePackage[subscriptcorrection,nofontinfo,mtpbb,mtpccal,mtpscr,mtpfrak,amssymbols]{mtpro2}
+}
+
+\@ifundefined{phyxmeow@bbm}{
   \newcommand{\Id}{\mathbb{1}}
+}{
+  \RequirePackage{bbm}
+  \newcommand{\Id}{\mathbbm{1}}
+}
+
+\@ifundefined{phyxmeow@nounicode}{
+  \RequirePackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
   \newcommand{\lap}{\increment}
   \renewcommand{\emptyset}{⌀}
 }{
-  \RequirePackage{latexsym}
-  \@ifundefined{phyxmeow@NewTX}{
-    \RequirePackage{amssymb}
-    \RequirePackage{eucal}
-  }{
-    \RequirePackage{newtx}
-  }
   \RequirePackage{bm}
-  \RequirePackage{bbm}
-  \newcommand{\Id}{\mathbbm{1}}
   \newcommand{\lap}{\Delta}
   \renewcommand{\emptyset}{\varnothing}
 }
