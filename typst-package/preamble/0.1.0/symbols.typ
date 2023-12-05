@@ -30,6 +30,9 @@
 #let cc = math.subset
 #let tens = math.times.circle
 #let dsum = math.plus.circle
+#let wed = math.and
+#let iff = $<=>$
+
 
 // Math Shorthands
 #let shorthands = (
@@ -53,5 +56,6 @@
   locate(loc => {
     let shift = _integral_shift_state_.final(loc)
     math.attach(math.integral, br:[#h(shift)#a], tr:[#h(shift)#b])
+    h(shift/2)
   })
 }
