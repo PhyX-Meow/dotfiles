@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+DISPLAY=$win_host:0 GDK_BACKEND=x11 /usr/bin/zathura --config-dir="$HOME/.config/zathura_x410/" "$@"

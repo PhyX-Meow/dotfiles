@@ -204,7 +204,6 @@ Plug 'lervag/vimtex'
 Plug 'kaarmu/typst.vim'
   let g:typst_pdf_viewer = 'zathura'
   let g:typst_conceal_math = 0
-Plug 'MrPicklePinosaur/typst-conceal.vim'
 
 Plug 'andymass/vim-matchup'
   let g:matchup_override_vimtex = 1

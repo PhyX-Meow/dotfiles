@@ -1,13 +1,12 @@
 global !p
 def math():
-	# return vim.eval('typst#in_mode("math")') == '1'
-	return 1
+	return vim.eval('typst#in_math()') == '1'
 
 def code():
-    return vim.eval('typst#in_mode("code")') == '1'
+    return vim.eval('typst#in_code()') == '1'
 
-def markup(name):
-    return vim.eval('typst#in_mode("markup")') == '1'
+def markup():
+    return vim.eval('typst#in_markup()') == '1'
 
 def fix_indent(snip):
     vim.eval('feedkeys("\<c-f>")')
@@ -18,7 +17,7 @@ snippet template "My template" b
 #import "@phyxmeow/preamble:0.1.0": *
 #show: preamble.with(
   font: "$1",
-  numbering: "1.1",
+  numbering: "1.1.",
 )
 
 #align(center)[#text(20pt)[
