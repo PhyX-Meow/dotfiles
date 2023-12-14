@@ -29,7 +29,7 @@ SwitchActivate(name) {
 
 #`:: RunOrActivate("WindowsTerminal.exe", "wt.exe")
 
-#b:: RunOrActivate("msedge.exe", "C:\Program Files (x86)\Microsoft\Edge Beta\Application\msedge.exe")
+#b:: RunOrActivate("msedge.exe", "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 
 #m:: RunOrActivate("Mathematica.exe", "C:\Program Files\Wolfram Research\Mathematica\13.3\Mathematica.exe")
 

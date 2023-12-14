@@ -1,0 +1,10 @@
+[wsl2]
+localhostForwarding=true
+networkingMode=mirrored
+dnsTunneling=true
+firewall=true
+autoProxy=true
+
+[experimental]
+autoMemoryReclaim=gradual
+sparseVhd=true
