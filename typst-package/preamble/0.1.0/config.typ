@@ -38,7 +38,7 @@
   proof-styling: proof-style-phyxmeow,
 )
 
-#import "@preview/physica:0.9.0": *
+#import "@preview/physica:0.9.1": *
   #let div = math.op("div")
   #let curl
   #let grad
@@ -78,7 +78,7 @@
 
   if font == "concrete" {
     set text(
-      font: ("CMU Concrete"),
+      font: "CMU Concrete",
       size: font-size,
       weight: 500,
     )
@@ -90,12 +90,24 @@
     body
   } else if font == "xcharter" {
     set text(
-      font: ("XCharter"),
+      font: "XCharter",
       size: font-size,
       weight: 400,
     )
     show math.equation: set text(
       font: "XCharter Math",
+      size: font-size,
+      weight: 400,
+    )
+    body
+  } else if font == "cambria" {
+    set text(
+      font: "Cambria",
+      size: font-size,
+      weight: 400,
+    )
+    show math.equation: set text(
+      font: "Cambria Math",
       size: font-size,
       weight: 400,
     )
