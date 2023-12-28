@@ -1,6 +1,6 @@
 #import "symbols.typ": *
 
-#import "@preview/lemmify:0.1.5": default-theorems, thm-style-simple, thm-style-proof
+#import "@preview/lemmify:0.1.5": default-theorems
 #let thm-style-phyxmeow(
   thm-type,
   name,
@@ -23,11 +23,14 @@
   body
 ) = block(width: 100%, breakable: true)[#{
   emph(thm-type)
+  if number != none {
+    emph(" " + number)
+  }
   if name != none {
     emph(" " + name)
   }
   emph(".") + body + h(1fr) + $square$
-}] // Note: No proof numbering here
+}]
 #let (
   theorem, lemma, corollary, proposition, example,
   proof, definition, remark, rules: theorem-rules

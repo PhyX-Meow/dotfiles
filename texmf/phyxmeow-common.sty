@@ -185,3 +185,8 @@
 \newcommand{\lmt}{\longmapsto}
 \newcommand{\into}{\hookrightarrow}
 \newcommand{\op}{\operatorname}
+
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
