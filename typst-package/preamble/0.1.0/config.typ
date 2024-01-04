@@ -15,7 +15,7 @@
     " " + [(#name)]
   }
   strong(".") + body
-}]
+}] + v(0.0em, weak: true) + h(0em)
 #let proof-style-phyxmeow(
   thm-type,
   name,
@@ -30,7 +30,7 @@
     emph(" " + name)
   }
   emph(".") + body + h(1fr) + $square$
-}]
+}] + v(0.0em, weak: true) + h(0em)
 #let (
   theorem, lemma, corollary, proposition, example,
   proof, definition, remark, rules: theorem-rules
