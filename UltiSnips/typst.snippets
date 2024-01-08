@@ -1,24 +1,24 @@
 global !p
 def math():
-	# return vim.eval('typst#in_mode("math")') == '1'
-	return 1
+	return vim.eval('typst#in_math()') == '1'
 
 def code():
-    return vim.eval('typst#in_mode("code")') == '1'
+    return vim.eval('typst#in_code()') == '1'
 
-def markup(name):
-    return vim.eval('typst#in_mode("markup")') == '1'
+def markup():
+    return vim.eval('typst#in_markup()') == '1'
 
 def fix_indent(snip):
     vim.eval('feedkeys("\<c-f>")')
 
 endglobal
 
+priority 1
 snippet template "My template" b
 #import "@phyxmeow/preamble:0.1.0": *
 #show: preamble.with(
   font: "$1",
-  numbering: "1.1",
+  numbering: "1.1.",
 )
 
 #align(center)[#text(20pt)[
@@ -40,7 +40,7 @@ endsnippet
 snippet dm "Display Math" wA
 $
   ${1:${VISUAL}}
-$ $0
+. $ $0
 endsnippet
 
 context "math()"
@@ -59,6 +59,60 @@ _($1)$0
 endsnippet
 
 context "math()"
+snippet '([A-Za-w])(\d)' "auto subscript" wrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+context "math()"
+snippet '([xyz])(\d)' "auto supscript" wrA
+`!p snip.rv = match.group(1)`^`!p snip.rv = match.group(2)`
+endsnippet
+
+context "math()"
+snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
+endsnippet
+
+context "math()"
 snippet '(?<!\\s)inv' "inverse" riA
 ^(-1)
 endsnippet
+
+context "math()"
+snippet sq "square root" iA
+sqrt(${1:${VISUAL}})$0
+endsnippet
+
+context "math()"
+snippet sr "^2" iA
+^2
+endsnippet
+
+context "math()"
+snippet xx "cross" iA
+times 
+endsnippet
+
+context "math()"
+snippet ** "cdot" iA
+dot.c 
+endsnippet
+
+context "math()"
+snippet '(?<!,)\.\.\.' "cdots" riA
+dots.c 
+endsnippet
+
+priority 100
+context "math()"
+snippet dual "dual space" iA
+^*
+endsnippet
+
+priority 200
+context "math()"
+snippet *dual "double dual space" iA
+{**}
+endsnippet
+
+# vim:ft=snippets

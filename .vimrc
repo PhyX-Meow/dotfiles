@@ -192,6 +192,8 @@ Plug 'lervag/vimtex'
     \{'name': 'vphi', 'mathmode': 1, 'concealchar': 'φ'},
     \{'name': 'lap', 'mathmode': 1, 'concealchar': 'Δ'},
     \{'name': 'into', 'mathmode': 1, 'concealchar': '↪'},
+    \{'name': 'lrr', 'mathmode': 1, 'concealchar': '→'},
+    \{'name': 'lmt', 'mathmode': 1, 'concealchar': '↦'},
     \{'name': 'dd', 'mathmode': 1, 'concealchar': 'd'}
     \]
   let g:vimtex_indent_delims = {
@@ -204,7 +206,6 @@ Plug 'lervag/vimtex'
 Plug 'kaarmu/typst.vim'
   let g:typst_pdf_viewer = 'zathura'
   let g:typst_conceal_math = 0
-Plug 'MrPicklePinosaur/typst-conceal.vim'
 
 Plug 'andymass/vim-matchup'
   let g:matchup_override_vimtex = 1

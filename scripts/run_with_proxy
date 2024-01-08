@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+http_proxy=http://$win_host:8128 https_proxy=http://$win_host:8128 "$@"

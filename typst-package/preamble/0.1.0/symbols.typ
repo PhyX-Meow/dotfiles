@@ -8,7 +8,6 @@
 #let re = math.op("\u{211C}")
 #let im = math.op("\u{2111}")
 #let card = math.op("\u{0023}")
-#let div = math.op("div")
 
 // Symbol Alias
 #let eps = math.epsilon
@@ -16,7 +15,8 @@
 #let phi = math.phi.alt
 #let vthe = math.theta.alt
 #let oo = math.infinity
-#let OO = math.emptyset
+#let _OO_state_ = state("emptyset symbol", math.emptyset)
+#let OO = locate(loc => _OO_state_.final(loc))
 #let Id = math.bb("1")
 #let II = [I#h(-.15em)I]
 #let acts = math.arrow.cw.half
@@ -33,7 +33,6 @@
 #let wed = math.and
 #let iff = $<=>$
 
-
 // Math Shorthands
 #let shorthands = (
   ($==$, math.equiv),
@@ -49,13 +48,4 @@
 #let pari(a,b) = [#sym.angle.l #a,#b #sym.angle.r]
 #let dd(x) = [#h(.1em) #differential(x)]
 #let comment(body) = []
-
-// The Fuck
-#let _integral_shift_state_ = state("integral_shift", 0.0em)
-#let Int(a,b) = {
-  locate(loc => {
-    let shift = _integral_shift_state_.final(loc)
-    math.attach(math.integral, br:[#h(shift)#a], tr:[#h(shift)#b])
-    h(shift/2)
-  })
-}
+#let Int(a,b) = math.attach(math.integral, br:a, tr:b)

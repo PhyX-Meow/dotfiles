@@ -16,15 +16,18 @@
 \DeclareOption{times}{
   \let\phyxmeow@nounicode\@empty
   \let\phyxmeow@times\@empty
+  % Need to compile with pdflatex
 }
 \DeclareOption{unicode}{
-  \def\phyxmeow@fontsetup{default}
+  \def\phyxmeow@fontsetup{default,amsbb}
+  \def\phyxmeow@scrfont{NewCMMath-Book.otf}
 }
 \DeclareOption{fourier}{
   \let\phyxmeow@Fourier\@empty
 }
 \DeclareOption{stix2}{
   \def\phyxmeow@fontsetup{stixtwo}
+  \def\phyxmeow@scrfont{STIX Two Math}
 }
 \DeclareOption{libertinus}{
   \def\phyxmeow@fontsetup{libertinus}
@@ -112,6 +115,10 @@
   \RequirePackage[scaled=0.92]{helvet}
   \renewcommand{\rmdefault}{ptm}
   \RequirePackage[subscriptcorrection,nofontinfo,mtpbb,mtpccal,mtpscr,mtpfrak,amssymbols]{mtpro2}
+  \newcommand*\mtpscale{0.910}
+  \newcommand*\mtpscriptscale{0.847}
+  \newcommand*\mtpscriptscriptscale{0.794}
+  \input{mtpro2-patch}
 }
 
 \@ifundefined{phyxmeow@bbm}{
@@ -138,6 +145,9 @@
 
 \@ifundefined{phyxmeow@fontsetup}{}{
   \RequirePackage[\phyxmeow@fontsetup]{fontsetup}
+  \@ifundefined{phyxmeow@scrfont}{}{
+    \setmathfont[StylisticSet=1,range=\mathscr]{\phyxmeow@scrfont}
+  }
 }
 
 \@ifundefined{phyxmeow@cjk}{}{
@@ -171,5 +181,12 @@
 \newcommand{\II}{I\!I}
 \newcommand{\acts}{\curvearrowright}
 \newcommand{\xrr}{\xlongrightarrow}
+\newcommand{\lrr}{\longrightarrow}
+\newcommand{\lmt}{\longmapsto}
 \newcommand{\into}{\hookrightarrow}
 \newcommand{\op}{\operatorname}
+
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
