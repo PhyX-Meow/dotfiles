@@ -29,7 +29,7 @@ Invoke-Expression (oh-my-posh init pwsh --config ~/gitRepo/dotfiles/pwsh_theme.o
 colortool -q GruvboxDark.itermcolors
 
 # gsudo
-Import-Module (Get-Command 'gsudoModule.psd1').Source
+# Import-Module (Get-Command 'gsudoModule.psd1').Source
 
 # Autojump
 Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
