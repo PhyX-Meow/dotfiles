@@ -38,7 +38,7 @@ Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init p
 $env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
 
 # Alias
-Set-Alias 'sudo' 'gsudo'
+# Set-Alias 'sudo' 'gsudo'
 Set-Alias 'mamba' 'micromamba'
 Function which {
 	Get-Command -All $args
