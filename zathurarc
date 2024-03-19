@@ -1,3 +1,5 @@
+set database sqlite
+
 set guioptions sv
 set selection-clipboard clipboard
 set synctex true

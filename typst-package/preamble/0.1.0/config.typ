@@ -41,16 +41,16 @@
   proof-styling: proof-style-phyxmeow,
 )
 
-#import "@preview/physica:0.9.1": *
+#import "@preview/physica:0.9.2": *
   #let div = math.op("div")
   #let curl
   #let grad
 
-#import "@preview/xarrow:0.2.0": xarrow
+#import "@preview/xarrow:0.3.0": xarrow
 
 #import "@preview/quick-maths:0.1.0"
 
-// #import "@preview/cetz:0.1.2"
+// #import "@preview/cetz:0.2.1"
 
 // #import "@preview/commute:0.2.0": node, arr, commutative-diagram
 

@@ -12,6 +12,7 @@ export DOTNET_ROOT="/usr/share/dotnet"
 export OPENBLAS_NUM_THREADS=8
 export TEXLIVE_DOWNLOADER=wget
 export TYPST_FONT_PATHS="/opt/texlive/current/texmf-dist/fonts/opentype/public/"
+export JULIA_PKG_SERVER="https://mirrors.pku.edu.cn/julia/"
 
 export WIN_HOME="/mnt/c/Users/wuli"
 export win_host="localhost"
