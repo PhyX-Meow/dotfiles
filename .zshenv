@@ -1,5 +1,4 @@
-# Set language environment
-export LC_CTYPE="zh_CN.UTF-8"
+# Set language environmentexport LC_CTYPE="zh_CN.UTF-8"
 export LANG="zh_CN.UTF-8"
 
 # Set environment variables
@@ -11,7 +10,7 @@ export MKL_NUM_THREADS=8
 export DOTNET_ROOT="/usr/share/dotnet"
 export OPENBLAS_NUM_THREADS=8
 export TEXLIVE_DOWNLOADER=wget
-export TYPST_FONT_PATHS="/opt/texlive/current/texmf-dist/fonts/opentype/public/"
+export TYPST_FONT_PATHS="/usr/share/texmf-dist/fonts/opentype/public/"
 
 export WINHOME="/mnt/c/Users/XueHa"
 export win_host="localhost"
