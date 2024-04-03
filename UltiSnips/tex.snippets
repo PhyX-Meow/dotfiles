@@ -81,7 +81,12 @@ endsnippet
 priority 100
 context "math()"
 snippet ... "cdots" iA
-\cdots 
+\cdots`!p
+if t[0] and t[0][0] not in ['^', ' ', '\\']:
+    snip.rv = ' '
+else:
+    snip.rv = ''
+`$0
 endsnippet
 
 priority 1
@@ -243,12 +248,12 @@ endsnippet
 
 priority 1
 context "math()"
-snippet '([A-Za-w])(\d)' "auto subscript" wrA
+snippet '([A-GI-Za-w])(\d)' "auto subscript" wrA
 `!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
 endsnippet
 
 context "math()"
-snippet '([xyz])(\d)' "auto supscript" wrA
+snippet '([xyzH])(\d)' "auto superscript" wrA
 `!p snip.rv = match.group(1)`^`!p snip.rv = match.group(2)`
 endsnippet
 
@@ -463,7 +468,7 @@ endsnippet
 context "math()"
 snippet '(?<!i|I|u)nd' "nabla" riA
 \nabla`!p
-if t[0] and t[0][0] not in ['^', ' ', '_', '\\', '\'']:
+if t[0] and t[0][0] not in ['^', ' ', '_', '\\', '\'', '+', '-']:
     snip.rv = ' '
 else:
     snip.rv = ''
@@ -609,7 +614,12 @@ endsnippet
 
 context "math()"
 snippet wed "wedge product" iA
-\wedge 
+\wedge`!p
+if t[0] and t[0][0] not in ['^', ' ', '\\']:
+    snip.rv = ' '
+else:
+    snip.rv = ''
+`$0
 endsnippet
 
 context "math()"
@@ -619,7 +629,12 @@ endsnippet
 
 context "math()"
 snippet '(?<!\\)tens' "tensor product" riA
-\otimes 
+\otimes`!p
+if t[0] and t[0][0] not in ['^', ' ', '\\']:
+    snip.rv = ' '
+else:
+    snip.rv = ''
+`$0
 endsnippet
 
 context "math()"

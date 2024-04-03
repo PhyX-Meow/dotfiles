@@ -27,7 +27,7 @@ Invoke-Expression (oh-my-posh init pwsh --config ~/gitRepo/dotfiles/pwsh_theme.o
 colortool -q OneHalfDark.itermcolors
 
 # gsudo
-Import-Module (Get-Command 'gsudoModule.psd1').Source
+# Import-Module (Get-Command 'gsudoModule.psd1').Source
 
 # Autojump
 Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
@@ -36,7 +36,7 @@ Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init p
 $env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
 
 # Alias
-Set-Alias 'sudo' 'gsudo'
+# Set-Alias 'sudo' 'gsudo'
 Set-Alias 'mamba' 'micromamba'
 Function which {
 	Get-Command -All $args
