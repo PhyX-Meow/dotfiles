@@ -263,6 +263,7 @@ Plug 'kdheepak/JuliaFormatter.vim'
   nnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(0)<CR>
 
 Plug 'neovimhaskell/haskell-vim'
+Plug 'edwinb/idris2-vim'
 
 " Plug 'kovisoft/slimv'
 
