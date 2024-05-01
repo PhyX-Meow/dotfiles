@@ -16,7 +16,7 @@
 #let vthe = math.theta.alt
 #let oo = math.infinity
 #let _OO_state_ = state("emptyset symbol", math.emptyset)
-#let OO = locate(loc => _OO_state_.final(loc))
+#let OO = context _OO_state_.get()
 #let Id = math.bb("1")
 #let II = [I#h(-.15em)I]
 #let acts = math.arrow.cw.half

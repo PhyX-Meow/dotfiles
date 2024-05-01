@@ -41,7 +41,7 @@
   proof-styling: proof-style-phyxmeow,
 )
 
-#import "@preview/physica:0.9.2": *
+#import "@preview/physica:0.9.3": *
   #let div = math.op("div")
   #let curl
   #let grad
