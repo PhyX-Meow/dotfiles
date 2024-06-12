@@ -82,6 +82,10 @@ bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 bindkey -a "^P" history-beginning-search-backward
 bindkey -a "^N" history-beginning-search-forward
+bindkey "OA" history-beginning-search-backward
+bindkey "OB" history-beginning-search-forward
+bindkey -a "OA" history-beginning-search-backward
+bindkey -a "OB" history-beginning-search-forward
 
 # FZF initialize
 export FZF_DEFAULT_COMMAND="fd --exclude={.git,.idea,.vscode,.sass-cache,node_modules,build} --type f"

@@ -9,7 +9,7 @@ def markup():
     return vim.eval('typst#in_markup()') == '1'
 
 def fix_indent(snip):
-    vim.eval('feedkeys("\<c-f>")')
+    vim.eval('feedkeys("\\<c-f>")')
 
 endglobal
 
