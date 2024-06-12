@@ -1,10 +1,12 @@
 [wsl2]
-localhostForwarding=true
 networkingMode=mirrored
+#networkingMode=NAT
 dnsTunneling=true
-firewall=true
-autoProxy=true
+ipv6=true
+firewall=false
+autoProxy=false
 
 [experimental]
+hostAddressLoopback=true
 autoMemoryReclaim=gradual
 sparseVhd=true
