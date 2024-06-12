@@ -38,6 +38,7 @@
   ($==$, math.equiv),
   ($~=$, math.tilde.eq),
   ($|-->$, math.arrow.r.long.bar ),
+  ($<|$, math.triangle.l ),
 )
 
 // Text Alias
