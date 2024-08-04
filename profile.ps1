@@ -9,9 +9,9 @@ Invoke-Expression (&scoop-search --hook)
 
 #region mamba initialize
 # !! Contents within this block are managed by 'mamba shell init' !!
-$Env:MAMBA_ROOT_PREFIX = "C:\Users\wuli\scoop\persist\micromamba\mamba"
-$Env:MAMBA_EXE = "C:\Users\wuli\scoop\apps\micromamba\current\micromamba.exe"
-(& $Env:MAMBA_EXE 'shell' 'hook' -s 'powershell' -p $Env:MAMBA_ROOT_PREFIX) | Out-String | Invoke-Expression
+$Env:MAMBA_ROOT_PREFIX = "$env:USERPROFILE\scoop\persist\micromamba\mamba"
+$Env:MAMBA_EXE = "$env:USERPROFILE\scoop\apps\micromamba\current\micromamba.exe"
+(& $Env:MAMBA_EXE 'shell' 'hook' -s 'powershell' -r $Env:MAMBA_ROOT_PREFIX) | Out-String | Invoke-Expression
 #endregion
 
 # PSReadline
@@ -23,16 +23,16 @@ Set-PSReadLineKeyHandler -Key 'Ctrl+d' -Function DeleteCharOrExit
 Set-PSReadLineOption -PredictionSource History
 
 # Colorlize
-Import-Module Get-ChildItemColor
+# Import-Module Get-ChildItemColor
 Import-Module posh-git
 Invoke-Expression (oh-my-posh init pwsh --config ~/gitRepo/dotfiles/pwsh_theme.omp.json)
-colortool -q GruvboxDark.itermcolors
+# colortool -q GruvboxDark.itermcolors
 
 # gsudo
 # Import-Module (Get-Command 'gsudoModule.psd1').Source
 
 # Autojump
-Invoke-Expression ($(lua "C:\Users\wuli\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
+Invoke-Expression ($(lua "$env:USERPROFILE\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
 
 # Env
 $env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
@@ -44,7 +44,7 @@ Function which {
 	Get-Command -All $args
 }
 Function prc {
-	code "C:\Users\wuli\Documents\Powershell\profile.ps1"
+	code "%USERPROFILE%\Documents\Powershell\profile.ps1"
 }
 Function ytdl {
 	yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
