@@ -15,8 +15,9 @@
 #let phi = math.phi.alt
 #let vthe = math.theta.alt
 #let oo = math.infinity
-#let _OO_state_ = state("emptyset symbol", math.emptyset)
-#let OO = context _OO_state_.get()
+// #let _OO_state_ = state("emptyset symbol", math.emptyset)
+// #let OO = context _OO_state_.get()
+#let OO = math.emptyset
 #let Id = math.bb("1")
 #let II = [I#h(-.15em)I]
 #let acts = math.arrow.cw.half
@@ -32,6 +33,8 @@
 #let dsum = math.plus.circle
 #let wed = math.and
 #let iff = $<=>$
+#let tant = scale(math.perp, y: -100%)
+#let breb = scale(math.perp, y: -100%)
 
 // Math Shorthands
 #let shorthands = (

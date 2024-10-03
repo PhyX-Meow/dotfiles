@@ -499,7 +499,7 @@ context "math()"
 snippet EE "exists" iA
 \exists`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
-    snip.rv = '\,'
+    snip.rv = '\\,'
 else:
     snip.rv = ''
 `$0
@@ -509,7 +509,7 @@ context "math()"
 snippet E! "uniquely exists" iA
 \exists!`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
-    snip.rv = '\,'
+    snip.rv = '\\,'
 else:
     snip.rv = ''
 `$0
@@ -519,7 +519,7 @@ context "math()"
 snippet AA "forall" iA
 \forall`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ']:
-    snip.rv = '\,'
+    snip.rv = '\\,'
 else:
     snip.rv = ''
 `$0
@@ -575,7 +575,7 @@ context "math()"
 snippet mrm "mathrm" iA
 \mathrm{$1}`!p
 if t[0] and t[0][0] not in ['(', '[', '-', ' ', '_']:
-    snip.rv = '\,'
+    snip.rv = '\\,'
 else:
     snip.rv = ''
 `$0

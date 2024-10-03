@@ -1,12 +1,12 @@
 #import "symbols.typ": *
 
-#import "@preview/lemmify:0.1.5": default-theorems
+#import "@preview/lemmify:0.1.6": default-theorems
 #let thm-style-phyxmeow(
   thm-type,
   name,
   number,
   body
-) = block(width: 100%, breakable: true)[#{
+) = align(left, block(width: 100%, breakable: true)[#{
   strong(thm-type)
   if number != none {
     strong(" " + number)
@@ -15,13 +15,13 @@
     " " + [(#name)]
   }
   strong(".") + body
-}] + v(0.0em, weak: true) + h(0em)
+}] + v(0.0em, weak: true) + h(0em))
 #let proof-style-phyxmeow(
   thm-type,
   name,
   number,
   body
-) = block(width: 100%, breakable: true)[#{
+) = align(left,block(width: 100%, breakable: true)[#{
   emph(thm-type)
   if number != none {
     emph(" " + number)
@@ -30,7 +30,7 @@
     emph(" " + name)
   }
   emph(".") + body + h(1fr) + $square$
-}] + v(0.0em, weak: true) + h(0em)
+}] + v(0.0em, weak: true) + h(0em))
 #let (
   theorem, lemma, corollary, proposition, example,
   proof, definition, remark, rules: theorem-rules
@@ -46,17 +46,15 @@
   #let curl
   #let grad
 
-#import "@preview/xarrow:0.3.0": xarrow
+#import "@preview/xarrow:0.3.1": xarrow
 
 #import "@preview/quick-maths:0.1.0"
 
-// #import "@preview/cetz:0.2.1"
+// #import "@preview/cetz:0.2.2"
 
 // #import "@preview/commute:0.2.0": node, arr, commutative-diagram
 
-#let default
-
-#let preamble(body, font: default, font-size: 12pt, numbering: "1.1.") = {
+#let preamble(body, font: "", font-size: 12pt, numbering: "1.1.") = {
   set page(
     paper: "a4",
     numbering: "1",
@@ -115,6 +113,32 @@
       weight: 400,
     )
     body
+  } else if font == "miama" {
+    set text(
+      font: "Miama Nueva",
+      size: font-size,
+      weight: 400,
+    )
+    show math.equation: set text(
+      font: "STIX Two Math",
+      size: font-size,
+      weight: 400,
+      stylistic-set: 1,
+    )
+    body
+  } else if font == "stix2" {
+    set text(
+      font: "STIX Two",
+      size: font-size,
+      weight: 400,
+    )
+    show math.equation: set text(
+      font: "STIX Two Math",
+      size: font-size,
+      weight: 400,
+      // stylistic-set: 1, // For mathscr
+    )
+    body
   } else {
     set text(
       font: "New Computer Modern",
@@ -125,9 +149,10 @@
       font: "New Computer Modern Math",
       size: font-size,
       weight: 450,
-      stylistic-set: 3,
+      features: ("cv01",),
+      // stylistic-set: 1, // For mathscr
     )
-    _OO_state_.update("\u{2300}")
+    // _OO_state_.update("\u{2300}")
     body
   }
 }

@@ -1,4 +1,5 @@
 set nocompatible
+language en_US.utf-8
 
 " Plugins
 call plug#begin('~/.vim/plugged')
@@ -272,8 +273,10 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'puremourning/vimspector'
   let g:vimspector_enable_mappings = 'HUMAN'
-  let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+  let g:vimspector_install_gadgets = [ 'vscode-cpptools', 'CodeLLDB' ]
   let g:vimspector_base_dir = expand('$HOME/.vim/vimspector')
+
+Plug 'https://codeberg.org/cwfoo/vim-text-omnicomplete', { 'do': 'make' }
 
 Plug 'sheerun/vim-polyglot'
 
@@ -379,11 +382,9 @@ set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,gbk,big5
 
 set nospell
-set dictionary=spell,/usr/share/dict/words,~/.vim/spell/en.utf-8.add
+set dictionary=spell,~/.vim/spell/en.utf-8.add,/usr/share/dict/words
 set complete+=k
-set spelllang=en_us,cjk
-set helplang=cn
-language messages zh_CN.utf-8
+set spelllang=en_us
 
 " UI Settings
 set cursorline
@@ -426,14 +427,15 @@ autocmd FileType tex
   \ setlocal tabstop=2 |
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2 |
+  \ setlocal omnifunc=text_omnicomplete#Complete |
   \ let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''"}
-  " \ let b:AutoPairs = {'(':')', '[':']', '{':'}', "`":"'", "``":"''", "\\(":"\\)", "\\[":"\\]"}
 autocmd FileType typst
   \ setlocal spell |
   \ setlocal nocursorcolumn |
   \ setlocal tabstop=2 |
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2 |
+  \ setlocal omnifunc=text_omnicomplete#Complete |
   \ let b:AutoPairs = {'`':'`', '```':'```', '"':'"', '(':')', '[':']', '{':'}', "$":"$"} |
   \ nnoremap <leader>ll :TypstWatch<CR>
 autocmd FileType vim

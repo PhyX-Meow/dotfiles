@@ -73,6 +73,19 @@ COMPLETION_WAITING_DOTS="true"
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'micromamba shell init' !!
+export MAMBA_EXE='/usr/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/wuli/micromamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+
 source $HOME/alias.zsh
 
 # Vim mode
@@ -110,20 +123,3 @@ zinit light zsh-users/zsh-syntax-highlighting
 FZ_HISTORY_CD_CMD="_zlua"
 zinit light changyuheng/fz
 zinit light skywind3000/z.lua
-
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba init' !!
-export MAMBA_EXE="/usr/bin/micromamba";
-export MAMBA_ROOT_PREFIX="/home/wuli/micromamba";
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    if [ -f "/home/wuli/micromamba/etc/profile.d/micromamba.sh" ]; then
-        . "/home/wuli/micromamba/etc/profile.d/micromamba.sh"
-    else
-        export  PATH="/home/wuli/micromamba/bin:$PATH"  # extra space after export prevents interference from conda init
-    fi
-fi
-unset __mamba_setup
-# <<< mamba initialize <<<

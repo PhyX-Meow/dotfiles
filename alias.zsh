@@ -40,7 +40,8 @@ alias pluto="julia -e 'import Pluto;cd(\"/home/wuli/CodesWSL/Julia/\");Pluto.run
 alias tlup='sudo tlmgr update --self --all --reinstall-forcibly-removed'
 alias tlcc='sudo rm /opt/texlive/current/tlpkg/backups/*'
 alias pyup='pip install --user --upgrade pip'
-alias mamba=micromamba
+alias mamba='micromamba'
+alias conda='micromamba'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="run_with_proxy julia --startup-file=no -e 'using Pkg;Pkg.update()'"
 alias jlcc="run_with_proxy julia --startup-file=no -e 'using Pkg,Dates;Pkg.gc(;collect_delay=Hour(0))'"
