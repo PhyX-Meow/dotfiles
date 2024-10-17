@@ -166,6 +166,29 @@ Plug 'dense-analysis/ale'
   let g:ale_disable_lsp = 1
   let g:ale_linters = { 'tex': ['chktex', 'texlab'] }
 
+" Plug 'vim-denops/denops.vim'
+" Plug 'Shougo/ddc.vim'
+
+" Plug 'yegappan/lsp'
+"   let lspOpts = #{
+"     \ aleSupport: v:true,
+"     \ autoHighlightDiags: v:true
+"     \ }
+"   autocmd User LspSetup call LspOptionsSet(lspOpts)
+" 
+"   let lspServers = [#{
+"     \	name: 'clang',
+"     \	filetype: ['c', 'cpp'],
+"     \	path: '/usr/bin/clangd',
+"     \	args: ['--background-index']
+"     \ }, #{
+"     \	name: 'typst',
+"     \	filetype: ['typst'],
+"     \	path: '/usr/bin/tinymist',
+"     \	args: ['lsp']
+"     \ }]
+"   autocmd User LspSetup call LspAddServer(lspServers)
+
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
   let g:UltiSnipsExpandTrigger = '<tab>'
@@ -265,8 +288,6 @@ Plug 'kdheepak/JuliaFormatter.vim'
 
 Plug 'neovimhaskell/haskell-vim'
 Plug 'edwinb/idris2-vim'
-
-" Plug 'kovisoft/slimv'
 
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'junegunn/fzf.vim'

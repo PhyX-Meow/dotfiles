@@ -15,7 +15,7 @@
     " " + [(#name)]
   }
   strong(".") + body
-}] + v(0.0em, weak: true) + h(0em))
+}] + v(0em, weak: true) + h(0em))
 #let proof-style-phyxmeow(
   thm-type,
   name,
@@ -30,7 +30,7 @@
     emph(" " + name)
   }
   emph(".") + body + h(1fr) + $square$
-}] + v(0.0em, weak: true) + h(0em))
+}] + v(0em, weak: true) + h(0em))
 #let (
   theorem, lemma, corollary, proposition, example,
   proof, definition, remark, rules: theorem-rules
@@ -49,6 +49,8 @@
 #import "@preview/xarrow:0.3.1": xarrow
 
 #import "@preview/quick-maths:0.1.0"
+
+#import "@preview/algo:0.3.3": algo, i, d, comment, code
 
 // #import "@preview/cetz:0.2.2"
 

@@ -43,3 +43,5 @@ export XCURSOR_SIZE=24
 
 # Set editor
 export EDITOR='gvim -v'
+
+source "$HOME/.env_override"

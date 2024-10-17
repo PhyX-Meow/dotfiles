@@ -28,7 +28,10 @@
             ]
         },
         "typst": {
-            "command": "typst-lsp",
+            "command": "tinymist",
+            "args": [
+                "lsp"
+            ],
             "filetypes": ["typst"]
         }
     }
