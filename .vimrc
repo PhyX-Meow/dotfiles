@@ -231,23 +231,20 @@ Plug 'kaarmu/typst.vim'
   let g:typst_pdf_viewer = 'zathura'
   let g:typst_conceal_math = 0
 
+Plug 'LunarWatcher/auto-pairs'
+  let g:AutoPairsPrefix = '<c-t>'
+  let g:AutoPairsShortcutJump = '<c-k>'
+  let g:AutoPairsShortcutFastWrap = '<c-q>'
+  let g:AutoPairsMapBS = 1
+
+Plug 'tpope/vim-surround'
+
 Plug 'andymass/vim-matchup'
   let g:matchup_override_vimtex = 1
 
 Plug 'easymotion/vim-easymotion'
-Plug 'justinmk/vim-sneak'
+" Plug 'justinmk/vim-sneak'
 Plug 'rhysd/clever-f.vim'
-
-
-if has('nvim')
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/defx.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'kristijanhusak/defx-icons'
-Plug 'kristijanhusak/defx-git'
 
 Plug 'preservim/nerdcommenter'
   let g:NERDDefaultAlign = 'left'
@@ -263,14 +260,17 @@ Plug 'preservim/nerdcommenter'
     \ 'julia': { 'left': '#', 'leftAlt': '#=', 'rightAlt': '=#' }
     \ }
 
-" Plug 'jiangmiao/auto-pairs'
-Plug 'LunarWatcher/auto-pairs'
-  let g:AutoPairsShortcutFastWrap = '<C-q>'
-  let g:AutoPairsMapBS = 1
+if has('nvim')
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'kristijanhusak/defx-icons'
+Plug 'kristijanhusak/defx-git'
 
-Plug 'tpope/vim-surround'
-
-Plug 'Chiel92/vim-autoformat'
+Plug 'vim-autoformat/vim-autoformat'
 
 Plug 'mbbill/undotree'
 
@@ -282,14 +282,15 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 Plug 'JuliaEditorSupport/julia-vim'
-Plug 'kdheepak/JuliaFormatter.vim'
-  vnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(1)<CR>
-  nnoremap <localleader>jf :<C-u>call JuliaFormatter#Format(0)<CR>
 
 Plug 'neovimhaskell/haskell-vim'
 Plug 'edwinb/idris2-vim'
 
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+  let g:Lf_ShortcutF = '<c-p>'
+  let g:Lf_WindowPosition = 'popup'
+  let g:Lf_ShowDevIcons = 1
+  " let g:Lf_CommandMap = {'<c-k>': ['<c-p>'], '<c-j>': ['<c-n>']}
 Plug 'junegunn/fzf.vim'
 
 Plug 'puremourning/vimspector'
@@ -331,40 +332,40 @@ call defx#custom#option('_', {
   \ 'resume': 1
   \ })
 
-  nmap <silent> <Leader>e :Defx -search=`expand('%:p')` <cr>
-  autocmd FileType defx call s:defx_mappings()
+nmap <silent> <Leader>e :Defx -search=`expand('%:p')` <cr>
+autocmd FileType defx call s:defx_mappings()
 
-  function! s:defx_mappings() abort
-    nnoremap <silent><buffer><expr> c      defx#do_action('copy')
-    nnoremap <silent><buffer><expr> m      defx#do_action('move')
-    nnoremap <silent><buffer><expr> p      defx#do_action('paste')
-    nnoremap <silent><buffer><expr> K      defx#do_action('new_directory')
-    nnoremap <silent><buffer><expr> N      defx#do_action('new_file')
-    nnoremap <silent><buffer><expr> S      defx#do_action('toggle_sort', 'time')
-    nnoremap <silent><buffer><expr> d      defx#do_action('remove')
-    nnoremap <silent><buffer><expr> r      defx#do_action('rename')
-    nnoremap <silent><buffer><expr> !      defx#do_action('execute_command')
-    nnoremap <silent><buffer><expr> yy     defx#do_action('yank_path')
-    nnoremap <silent><buffer><expr> ~      defx#do_action('cd')
-    nnoremap <silent><buffer><expr> q      defx#do_action('quit')
-    nnoremap <silent><buffer><expr> s      defx#do_action('toggle_select') . 'j'
-    nnoremap <silent><buffer><expr> *      defx#do_action('toggle_select_all')
-    nnoremap <silent><buffer><expr> j      line('.') == line('$') ? 'gg' : 'j'
-    nnoremap <silent><buffer><expr> k      line('.') == 1 ? 'G' : 'k'
-    nnoremap <silent><buffer><expr> i      <SID>defx_toggle_tree()
-    nnoremap <silent><buffer><expr> l      <SID>defx_toggle_tree()
-    nnoremap <silent><buffer><expr> h      defx#do_action('close_tree')
-    nnoremap <silent><buffer><expr> .      defx#do_action('toggle_ignored_files')
-    nnoremap <silent><buffer><expr> <c-l>  defx#do_action('redraw')
-  endfunction
-  
-  function! s:defx_toggle_tree() abort
-    " Open current file, or toggle directory expand/collapse
-    if defx#is_directory()
-      return defx#do_action('open_or_close_tree')
-    endif
-    return defx#do_action('multi', ['drop'])
-  endfunction
+function! s:defx_mappings() abort
+  nnoremap <silent><buffer><expr> c      defx#do_action('copy')
+  nnoremap <silent><buffer><expr> m      defx#do_action('move')
+  nnoremap <silent><buffer><expr> p      defx#do_action('paste')
+  nnoremap <silent><buffer><expr> K      defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> N      defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> S      defx#do_action('toggle_sort', 'time')
+  nnoremap <silent><buffer><expr> d      defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r      defx#do_action('rename')
+  nnoremap <silent><buffer><expr> !      defx#do_action('execute_command')
+  nnoremap <silent><buffer><expr> yy     defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> ~      defx#do_action('cd')
+  nnoremap <silent><buffer><expr> q      defx#do_action('quit')
+  nnoremap <silent><buffer><expr> s      defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> *      defx#do_action('toggle_select_all')
+  nnoremap <silent><buffer><expr> j      line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr> k      line('.') == 1 ? 'G' : 'k'
+  nnoremap <silent><buffer><expr> i      <SID>defx_toggle_tree()
+  nnoremap <silent><buffer><expr> l      <SID>defx_toggle_tree()
+  nnoremap <silent><buffer><expr> h      defx#do_action('close_tree')
+  nnoremap <silent><buffer><expr> .      defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> <c-l>  defx#do_action('redraw')
+endfunction
+
+function! s:defx_toggle_tree() abort
+  " Open current file, or toggle directory expand/collapse
+  if defx#is_directory()
+    return defx#do_action('open_or_close_tree')
+  endif
+  return defx#do_action('multi', ['drop'])
+endfunction
 
 
 set hidden
@@ -427,13 +428,16 @@ nnoremap L $
 nnoremap <c-j> J"_x
 nnoremap <c-s> :w<CR>
 nnoremap ; "_
-nnoremap <silent> ;; :call autopairs#AutoPairsJump()<CR>
+
 " insert mode mapping
 inoremap jj <Esc>
-" inoremap <silent> ;; <Esc>:call autopairs#Keybinds#IgnoreInsertEnterCmd(":call autopairs#AutoPairsJump()")<CR>a
-inoremap <silent> <c-k> <Esc>:call autopairs#AutoPairsJump()<CR>a
 inoremap <c-s> <Esc>:w<CR>a
 inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+inoremap <c-h> <c-k>
+" see `:h digraph`
+inoremap <silent> <c-k> <Esc>:call autopairs#AutoPairsJump()<CR>a
+inoremap <c-j> <Esc>%a
+
 " visual mode mapping
 vnoremap > >gv
 vnoremap < <gv

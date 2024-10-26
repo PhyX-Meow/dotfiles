@@ -2,6 +2,9 @@
 export LC_CTYPE="zh_CN.UTF-8"
 export LANG="zh_CN.UTF-8"
 
+# Set terminal color
+export COLORTERM='truecolor'
+
 # Set environment variables
 export LD_LIBRARY_PATH=.:../lib:./lib
 export PATH="$HOME/.local/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$PATH"

@@ -41,6 +41,29 @@
   proof-styling: proof-style-phyxmeow,
 )
 
+#let code(body, linenumber: true, alignment: center) = {
+  show raw.where(block: true): code => {
+    // set text(font: "Fira Code")
+    show raw: block.with(
+      breakable: true,
+      inset: 8pt,
+      stroke: 1pt + rgb("#888888"),
+      fill: rgb("#F8F8F8"),
+    )
+    if linenumber {
+      show raw.line: line => {
+        text(fill: gray)[#line.number]
+        h(1em)
+        line.body
+      }
+      code
+    } else {
+      code
+    }
+  }
+  align(alignment,body)
+}
+
 #import "@preview/physica:0.9.3": *
   #let div = math.op("div")
   #let curl
@@ -50,7 +73,7 @@
 
 #import "@preview/quick-maths:0.1.0"
 
-#import "@preview/algo:0.3.3": algo, i, d, comment, code
+#import "@preview/algo:0.3.3": algo, i, d, comment
 
 // #import "@preview/cetz:0.2.2"
 
