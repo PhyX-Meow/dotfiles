@@ -92,8 +92,11 @@
 }
 \RequirePackage{pgfplots}
   \pgfplotsset{compat=newest}
-\usepackage{tcolorbox}
+\RequirePackage{tcolorbox}
   \tcbuselibrary{most}
+\RequirePackage{fvextra}
+\usepackage[boxed,longend,commentsnumbered,titlenotnumbered]{algorithm2e}
+% \RequirePackage{minted}
 
 \RequirePackage[colorlinks=true,linkcolor=blue]{hyperref}
 \RequirePackage{cleveref}

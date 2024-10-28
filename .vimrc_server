@@ -1,66 +1,67 @@
-" Plug
+set nocompatible
+language en_US.utf-8
+
+" Plugins
 call plug#begin('~/.vim/plugged')
 
-Plug 'lervag/vimtex'
-
-Plug 'easymotion/vim-easymotion'
-
-Plug 'justinmk/vim-sneak'
-
-if has('nvim')
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/defx.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'kristijanhusak/defx-icons'
-Plug 'kristijanhusak/defx-git'
-
-Plug 'preservim/nerdcommenter'
-  let g:NERDSpaceDelims = 1
-
-Plug 'jiangmiao/auto-pairs'
+Plug 'LunarWatcher/auto-pairs'
+  let g:AutoPairsPrefix = '<c-t>'
+  let g:AutoPairsShortcutJump = '<c-k>'
+  let g:AutoPairsShortcutFastWrap = '<c-q>'
+  let g:AutoPairsMapBS = 1
 
 Plug 'tpope/vim-surround'
 
-Plug 'Chiel92/vim-autoformat'
+Plug 'andymass/vim-matchup'
 
-Plug 'skywind3000/asynctasks.vim'
-Plug 'skywind3000/asyncrun.vim'
-  let g:asyncrun_open = 6
+Plug 'easymotion/vim-easymotion'
+  nnoremap ; <Plug>(easymotion-prefix)
+Plug 'rhysd/clever-f.vim'
+Plug 'girishji/vimsuggest'
 
-Plug 'sheerun/vim-polyglot'
+Plug 'preservim/nerdcommenter'
+  let g:NERDDefaultAlign = 'left'
+  let g:NERDSpaceDelims = 1
+  let g:NERDCompactSexyComs = 1
+  let g:NERDCommentEmptyLines = 1
+  let g:NERDToggleCheckAllLines = 1
+  map <leader>cc <plug>NERDCommenterToggle
+  map <leader>c<space> <plug>NERDCommenterComment
+  " for ctrl + /
+  map <c-_> <plug>NERDCommenterToggle
+  let g:NERDCustomDelimiters = {
+    \ 'julia': { 'left': '#', 'leftAlt': '#=', 'rightAlt': '=#' }
+    \ }
+
+Plug 'mbbill/undotree'
+
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+Plug 'JuliaEditorSupport/julia-vim'
+
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+  let g:Lf_ShortcutF = '<c-p>'
+  let g:Lf_WindowPosition = 'popup'
+  let g:Lf_ShowDevIcons = 1
+  " let g:Lf_CommandMap = {'<c-k>': ['<c-p>'], '<c-j>': ['<c-n>']}
+Plug 'junegunn/fzf.vim'
+
 Plug 'lifepillar/vim-gruvbox8'
-Plug 'sainnhe/gruvbox-material'
-Plug 'morhetz/gruvbox'
+  let g:gruvbox_italics = 0
+  let g:gruvbox_italicize_strings = 0
+  let g:gruvbox_plugin_hi_groups = 1
+  let g:gruvbox_filetype_hi_groups = 1
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
   let g:airline_theme = 'gruvbox'
   let g:airline_powerline_fonts = 1
   set laststatus=2
-  let g:airline#extensions#tabline#enabled=1
-  let g:airline#extensions#ale#enabled = 1
 
 call plug#end()
 
 set hidden
-set nobackup
-set nowritebackup
-
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
-
-set nocompatible
 set number
 set relativenumber
 set history=8192
@@ -80,11 +81,13 @@ set ignorecase
 set smartcase
 set backspace=indent,eol,start
 set magic
-set mouse-=a
-set autochdir
+set mouse=
+" set autochdir
 set autoread
 set wildmenu
 set bsdir=buffer
+set conceallevel=2
+set pumheight=15
 filetype plugin indent on
 
 " Encoding
@@ -92,27 +95,43 @@ set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,gbk,big5
-
 set nospell
-set spelllang=en_us,cjk
-set helplang=cn
-language messages en_US.utf-8
 
 " UI Settings
 set cursorline
-set cursorcolumn
+set signcolumn=number
 
 " normal mode mapping
-nnoremap <C-n> :nohl<CR>
+nnoremap <silent> <c-n> :nohl<CR>
+nnoremap j gj
+nnoremap k gk
+nnoremap H ^
+nnoremap L $
+nnoremap <c-j> J"_x
+nnoremap <c-s> :w<CR>
+nnoremap , "_
+
 " insert mode mapping
 inoremap jj <Esc>
-inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+inoremap <c-s> <Esc>:w<CR>a
+inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+inoremap <c-h> <c-k>
+" see `:h digraph`
+inoremap <silent> <c-k> <Esc>:call autopairs#AutoPairsJump()<CR>a
+inoremap <c-j> <Esc>%a
+
 " visual mode mapping
 vnoremap > >gv
 vnoremap < <gv
+vnoremap H ^
+vnoremap L $
+
 " autocmd
 autocmd FileType markdown setlocal spell
-autocmd FileType tex setlocal spell
+autocmd FileType vim
+  \ setlocal tabstop=2 |
+  \ setlocal shiftwidth=2 |
+  \ setlocal softtabstop=2
 
 set termguicolors
 set bg=dark
