@@ -75,7 +75,6 @@ augroup end
 # Applying codeAction to the selected region.
 # Example: `<leader>aap` for current paragraph
 xmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-selected)
 
 # Remap keys for applying code actions at the cursor position
 nmap <leader>ac <Plug>(coc-codeaction-cursor)
@@ -428,7 +427,7 @@ autocmd FileType typst
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2 |
   \ setlocal omnifunc=text_omnicomplete#Complete |
-  \ silent! call airline#extensions#whitespace#disable()
+  \ silent! call airline#extensions#whitespace#disable() |
   \ b:AutoPairs = {'`': '`', '```': '```', '"': '"', '(': ')', '[': ']', '{': '}', "$": "$"} |
   \ nnoremap <leader>ll :TypstWatch<CR>
 autocmd FileType vim
