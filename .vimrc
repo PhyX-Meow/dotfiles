@@ -454,6 +454,7 @@ vnoremap > >gv
 vnoremap < <gv
 vnoremap H ^
 vnoremap L $
+vnoremap , "_
 
 # Autocmd
 def SetTextFile()
