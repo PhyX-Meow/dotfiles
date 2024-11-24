@@ -40,6 +40,10 @@ $env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
 # Alias
 # Set-Alias 'sudo' 'gsudo'
 Set-Alias 'mamba' 'micromamba'
+Set-Alias 'ls' 'eza_ls'
+Set-Alias 'l' 'eza_l'
+Set-Alias 'll' 'eza_ll'
+
 Function which {
 	Get-Command -All $args
 }
@@ -48,4 +52,13 @@ Function prc {
 }
 Function ytdl {
 	yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
+}
+function eza_ls {
+	eza --icons --group-directories-first --time-style=long-iso
+}
+function eza_l {
+	eza --long --icons --git --group-directories-first --time-style=long-iso
+}
+function eza_ll {
+	eza --long --all --icons --git --header --group-directories-first --time-style=long-iso -I 'ntuser.*|NTUSER.*'
 }
