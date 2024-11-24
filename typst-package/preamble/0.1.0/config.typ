@@ -1,5 +1,6 @@
 #import "symbols.typ": *
 
+// #import "@preview/ctheorems:1.1.3": *
 #import "@preview/lemmify:0.1.6": default-theorems
 #let thm-style-phyxmeow(
   thm-type,
@@ -41,27 +42,27 @@
   proof-styling: proof-style-phyxmeow,
 )
 
-#let code(body, linenumber: true, alignment: center) = {
+#let code(body, linenumber: true, block-algin: center, width: auto) = {
   show raw.where(block: true): code => {
     // set text(font: "Fira Code")
+    set align(left)
     show raw: block.with(
       breakable: true,
+      width: width,
       inset: 8pt,
       stroke: 1pt + rgb("#888888"),
       fill: rgb("#F8F8F8"),
     )
-    if linenumber {
-      show raw.line: line => {
+    show raw.line: line => {
+      if linenumber {
         text(fill: gray)[#line.number]
         h(1em)
-        line.body
       }
-      code
-    } else {
-      code
+      line.body
     }
+    code
   }
-  align(alignment,body)
+  align(block-algin, block(body))
 }
 
 #import "@preview/physica:0.9.3": *
@@ -71,7 +72,7 @@
 
 #import "@preview/xarrow:0.3.1": xarrow
 #import "@preview/quick-maths:0.1.0"
-#import "@preview/algo:0.3.3": algo, i, d, comment
+#import "@preview/algo:0.3.4": algo, i, d, comment
 #import "@preview/cetz:0.3.1"
 // #import "@preview/commute:0.2.0": node, arr, commutative-diagram
 #import "@preview/touying:0.5.3"
@@ -161,7 +162,7 @@
       // stylistic-set: 1, // For mathscr
     )
     body
-  } else {
+  } else if font == "ncm" {
     set text(
       font: "New Computer Modern",
       size: font-size,
@@ -175,6 +176,18 @@
       // stylistic-set: 1, // For mathscr
     )
     // _OO_state_.update("\u{2300}")
+    body
+  } else {
+    set text(
+      font: "Libertinus Serif",
+      size: font-size,
+      weight: 400,
+    )
+    show math.equation: set text(
+      font: "Libertinus Math",
+      size: font-size,
+      weight: 400,
+    )
     body
   }
 }

@@ -62,6 +62,8 @@ Plug 'honza/vim-snippets'
   g:UltiSnipsExpandTrigger = '<tab>'
   g:UltiSnipsJumpForwardTrigger = '<tab>'
   g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+  # g:UltiSnipsJumpForwardTrigger = '<c-k>'
+  # g:UltiSnipsJumpBackwardTrigger = '<esc>k'
   g:UltiSnipsEnableSnipMate = 0
 
 Plug 'lervag/vimtex'
@@ -98,6 +100,7 @@ Plug 'lervag/vimtex'
 Plug 'kaarmu/typst.vim'
   g:typst_pdf_viewer = 'zathura'
   g:typst_conceal_math = 0
+  g:typst_auto_open_quickfix = 0
 
 Plug 'LunarWatcher/auto-pairs'
   g:AutoPairsPrefix = '<c-t>'
@@ -144,13 +147,10 @@ Plug 'preservim/nerdcommenter'
   map <c-_> <plug>NERDCommenterToggle
     # for ctrl + /
 
-if has('nvim')
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/defx.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+
+Plug 'Shougo/defx.nvim'
 Plug 'kristijanhusak/defx-icons'
 Plug 'kristijanhusak/defx-git'
 
