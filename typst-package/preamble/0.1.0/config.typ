@@ -65,7 +65,7 @@
   align(block-algin, block(body))
 }
 
-#import "@preview/physica:0.9.3": *
+#import "@preview/physica:0.9.4": *
   #let div = math.op("div")
   #let curl
   #let grad
@@ -74,6 +74,8 @@
 #import "@preview/quick-maths:0.1.0"
 #import "@preview/algo:0.3.4": algo, i, d, comment
 #import "@preview/cetz:0.3.1"
+#import "@preview/fletcher:0.5.2" as fletcher: diagram, node, edge
+// #import "@preview/autofletcher:0.1.0": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
 // #import "@preview/commute:0.2.0": node, arr, commutative-diagram
 #import "@preview/touying:0.5.3"
 
