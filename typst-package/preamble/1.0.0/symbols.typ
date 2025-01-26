@@ -51,5 +51,5 @@
 // Functions
 #let pari(a,b) = [#sym.angle.l #a,#b #sym.angle.r]
 #let dd(x) = [#h(.1em) #differential(x)]
-#let comment(body) = []
+#let ignore(body) = []
 #let Int(a,b) = math.attach(math.integral, br:a, tr:b)

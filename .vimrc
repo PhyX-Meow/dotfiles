@@ -113,6 +113,7 @@ Plug 'andymass/vim-matchup'
 
 Plug 'easymotion/vim-easymotion'
   nnoremap ; <Plug>(easymotion-prefix)
+  vnoremap ; <Plug>(easymotion-prefix)
 Plug 'rhysd/clever-f.vim'
 # Plug 'girishji/vimsuggest'
 #   var vim_suggest = {}

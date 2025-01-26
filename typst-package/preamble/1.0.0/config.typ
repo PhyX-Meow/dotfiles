@@ -1,7 +1,8 @@
 #import "symbols.typ": *
 
 // #import "@preview/ctheorems:1.1.3": *
-#import "@preview/lemmify:0.1.6": default-theorems
+// #show: thmrules
+#import "@preview/lemmify:0.1.7": default-theorems
 #let thm-style-phyxmeow(
   thm-type,
   name,
@@ -24,9 +25,6 @@
   body
 ) = align(left,block(width: 100%, breakable: true)[#{
   emph(thm-type)
-  if number != none {
-    emph(" " + number)
-  }
   if name != none {
     emph(" " + name)
   }
@@ -71,13 +69,12 @@
   #let grad
 
 #import "@preview/xarrow:0.3.1": xarrow
-#import "@preview/quick-maths:0.1.0"
+#import "@preview/quick-maths:0.2.0"
 #import "@preview/algo:0.3.4": algo, i, d, comment
-#import "@preview/cetz:0.3.1"
-#import "@preview/fletcher:0.5.2" as fletcher: diagram, node, edge
+#import "@preview/cetz:0.3.2"
+#import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
 // #import "@preview/autofletcher:0.1.0": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
-// #import "@preview/commute:0.2.0": node, arr, commutative-diagram
-#import "@preview/touying:0.5.3"
+#import "@preview/touying:0.5.5"
 
 #let preamble(body, font: "", font-size: 12pt, numbering: "1.1.") = {
   set page(
