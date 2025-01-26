@@ -1,6 +1,6 @@
 [package]
 name = "preamble"
-version = "0.1.0"
+version = "1.0.0"
 entrypoint = "config.typ"
 authors = ["PhyX-Meow"]
 license = "Unlicense"
