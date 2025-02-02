@@ -32,7 +32,10 @@
             "args": [
                 "lsp"
             ],
-            "filetypes": ["typst"]
+            "filetypes": ["typst"],
+            "settings": {
+                "exportPdf": "onSave"
+            }
         }
     }
 }

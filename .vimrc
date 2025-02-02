@@ -10,48 +10,65 @@ set signcolumn=number
 # Plugins
 plug#begin('~/.vim/plugged')
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+# Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-# Plug 'yegappan/lsp'
-#   var lspOpts = {
-#     autoComplete: false,
-#     aleSupport: true,
-#     ultisnipsSupport: true,
-#   }
-#   autocmd User LspSetup call LspOptionsSet(lspOpts)
-#   var lspServers = [{
-#       name: 'clang',
-#       filetype: ['c', 'cpp'],
-#       path: 'clangd',
-#       args: ['--background-index']
-#     },
-#     {
-#       name: 'tinymist',
-#       filetype: ['typst'],
-#       path: 'tinymist',
-#       args: ['lsp']
-#     },
-#   ]
-#   autocmd User LspSetup call LspAddServer(lspServers)
-# Plug 'girishji/vimcomplete'
-# Plug 'girishji/ngram-complete.vim'
-#   g:vimcomplete_cr_enable = 0
-#   var vcOptions = {
-#     noNewlineInCompletionEver: true,
-#     ngram: {
-#         enable: true,
-#         priority: 11,
-#         bigram: false,
-#         filetypes: ['text', 'tex', 'typst'],
-#         filetypesComments: ['*'],
-#     },
-#     dictionary: {
-#       enable: true,
-#       priority: 10,
-#       filetypes: ['text', 'tex', 'typst']
-#     },
-#   }
-#   autocmd VimEnter * call VimCompleteOptionsSet(vcOptions)
+# Plug 'vim-denops/denops.vim'
+# Plug 'Shougo/ddc.vim'
+
+Plug 'yegappan/lsp'
+  var lspOpts = {
+    autoComplete: false,
+    showSignature: false,
+    aleSupport: true,
+    ultisnipsSupport: true,
+  }
+  autocmd User LspSetup call LspOptionsSet(lspOpts)
+  var lspServers = [
+    {
+      name: 'clang',
+      filetype: ['c', 'cpp'],
+      path: 'clangd',
+      args: ['--background-index']
+    },
+    {
+      name: 'tinymist',
+      filetype: ['typst'],
+      path: 'tinymist',
+      args: ['lsp'],
+      initializationOptions: {
+        exportPdf: "onSave"
+      }
+    },
+    {
+      name: 'texlab',
+      filetype: ['tex'],
+      path: 'texlab',
+      args: [],
+    },
+  ]
+  autocmd User LspSetup call LspAddServer(lspServers)
+Plug 'girishji/vimcomplete'
+Plug 'girishji/ngram-complete.vim'
+  g:vimcomplete_cr_enable = 0
+  var vcOptions = {
+    completor: {
+      triggerWordLen: 2,
+      noNewlineInCompletionEver: true,
+    },
+    ngram: {
+      enable: true,
+      priority: 10,
+      bigram: false,
+      filetypes: ['text', 'tex', 'typst'],
+      filetypesComments: ['*'],
+    },
+    dictionary: {
+      enable: true,
+      priority: 10,
+      filetypes: ['text', 'tex', 'typst'],
+    },
+  }
+  autocmd VimEnter * call VimCompleteOptionsSet(vcOptions)
 
 Plug 'dense-analysis/ale'
   g:ale_disable_lsp = 1
@@ -146,14 +163,7 @@ Plug 'preservim/nerdcommenter'
   map <leader>cc <plug>NERDCommenterToggle
   map <leader>c<space> <plug>NERDCommenterComment
   map <c-_> <plug>NERDCommenterToggle
-    # for ctrl + /
-
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-
-Plug 'Shougo/defx.nvim'
-Plug 'kristijanhusak/defx-icons'
-Plug 'kristijanhusak/defx-git'
+  # for ctrl + /
 
 Plug 'vim-autoformat/vim-autoformat'
 
@@ -164,6 +174,13 @@ Plug 'skywind3000/asyncrun.vim'
   g:asyncrun_open = 6
 
 Plug 'airblade/vim-gitgutter'
+  g:gitgutter_set_sign_backgrounds = 1
+  g:gitgutter_sign_added = '++'
+  g:gitgutter_sign_modified = '~~'
+  g:gitgutter_sign_removed = '__'
+  g:gitgutter_sign_removed_first_line = '^^'
+  g:gitgutter_sign_removed_above_and_below = '<>'
+  g:gitgutter_sign_modified_removed = '~_'
 Plug 'tpope/vim-fugitive'
 
 Plug 'JuliaEditorSupport/julia-vim'
@@ -178,12 +195,13 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
   # let g:Lf_CommandMap = {'<c-k>': ['<c-p>'], '<c-j>': ['<c-n>']}
 Plug 'junegunn/fzf.vim'
 
+Plug 'preservim/nerdtree'
+Plug 'lambdalisue/vim-fern'
+
 Plug 'puremourning/vimspector'
   g:vimspector_enable_mappings = 'HUMAN'
-  g:vimspector_install_gadgets = [ 'vscode-cpptools', 'CodeLLDB' ]
+  g:vimspector_install_gadgets = [ 'CodeLLDB' ]
   g:vimspector_base_dir = expand('$HOME/.vim/vimspector')
-
-Plug 'https://codeberg.org/cwfoo/vim-text-omnicomplete', { 'do': 'make' }
 
 Plug 'sheerun/vim-polyglot'
 
@@ -209,7 +227,7 @@ Plug 'vim-airline/vim-airline-themes'
 plug#end()
 
 ### Coc Settings
-def SetCoc()
+def CocSetup()
   # Make <CR> to accept selected completion item or notify coc.nvim to format
   # <C-g>u breaks current undo, please make your own choice.
   inoremap <silent><expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>"
@@ -321,62 +339,9 @@ def SetCoc()
   # Resume latest coc list.
   # nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 enddef
-SetCoc()
 
+# CocSetup()
 ### End Coc
-
-### Defx Settings
-defx#custom#option('_', {
-  'columns': 'indent:git:icons:filename',
-  'winwidth': 30,
-  'split': 'vertical',
-  'direction': 'topleft',
-  'show_ignored_files': 0,
-  'buffer_name': '',
-  'toggle': 1,
-  'resume': 1
-})
-
-nmap <silent> <Leader>e :Defx -search=`expand('%:p')` <cr>
-autocmd FileType defx {
-  setlocal nonumber
-  setlocal norelativenumber
-  DefxSettings()
-}
-
-def DefxSettings()
-  nnoremap <silent><buffer><expr> <CR>    defx#do_action('open')
-  nnoremap <silent><buffer><expr> c       defx#do_action('copy')
-  nnoremap <silent><buffer><expr> m       defx#do_action('move')
-  nnoremap <silent><buffer><expr> p       defx#do_action('paste')
-  nnoremap <silent><buffer><expr> l       defx#do_action('open')
-  nnoremap <silent><buffer><expr> E       defx#do_action('open', 'vsplit')
-  nnoremap <silent><buffer><expr> P       defx#do_action('preview')
-  nnoremap <silent><buffer><expr> o       defx#do_action('open_tree', 'toggle')
-  nnoremap <silent><buffer><expr> K       defx#do_action('new_directory')
-  nnoremap <silent><buffer><expr> N       defx#do_action('new_file')
-  nnoremap <silent><buffer><expr> M       defx#do_action('new_multiple_files')
-  nnoremap <silent><buffer><expr> S       defx#do_action('toggle_sort', 'time')
-  nnoremap <silent><buffer><expr> d       defx#do_action('remove')
-  nnoremap <silent><buffer><expr> r       defx#do_action('rename')
-  nnoremap <silent><buffer><expr> !       defx#do_action('execute_command')
-  nnoremap <silent><buffer><expr> x       defx#do_action('execute_system')
-  nnoremap <silent><buffer><expr> yy      defx#do_action('yank_path')
-  nnoremap <silent><buffer><expr> .       defx#do_action('toggle_ignored_files')
-  nnoremap <silent><buffer><expr> ;       defx#do_action('repeat')
-  nnoremap <silent><buffer><expr> h       defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> ~       defx#do_action('cd')
-  nnoremap <silent><buffer><expr> q       defx#do_action('quit')
-  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') .. 'j'
-  nnoremap <silent><buffer><expr> *       defx#do_action('toggle_select_all')
-  nnoremap <silent><buffer><expr> j       line('.') == line('$') ? 'gg' : 'j'
-  nnoremap <silent><buffer><expr> k       line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer><expr> <C-l>   defx#do_action('redraw')
-  nnoremap <silent><buffer><expr> <C-g>   defx#do_action('print')
-  nnoremap <silent><buffer><expr> cd      defx#do_action('change_vim_cwd')
-enddef
-
-### End Defx
 
 set hidden
 set number
@@ -399,7 +364,6 @@ set smartcase
 set backspace=indent,eol,start
 set magic
 set mouse=a
-# set autochdir
 set autoread
 set wildmenu
 set bsdir=buffer
@@ -440,6 +404,7 @@ nnoremap L $
 nnoremap <c-j> J"_x
 nnoremap <c-s> :w<CR>
 nnoremap , "_
+nnoremap <RightMouse> "+p
 
 # Insert mode mapping
 inoremap jj <Esc>
@@ -449,6 +414,8 @@ inoremap <c-h> <c-k>
        # see `:h digraph`
 inoremap <silent> <c-k> <Esc>:call autopairs#AutoPairsJump()<CR>a
 inoremap <c-j> <Esc>%a
+inoremap <RightMouse> "+p
+inoremap <silent><expr> <CR> pumvisible() ? "<Plug>(vimcomplete-skip)<c-y>" : "<CR>"
 
 # Visual mode mapping
 vnoremap > >gv
@@ -456,6 +423,7 @@ vnoremap < <gv
 vnoremap H ^
 vnoremap L $
 vnoremap , "_
+vnoremap <RightMouse> "+y
 
 # Autocmd
 def SetTextFile()
@@ -467,14 +435,15 @@ def SetTextFile()
   setlocal omnifunc=text_omnicomplete#Complete
   silent! call airline#extensions#whitespace#disable()
 enddef
-autocmd FileType markdown { setlocal spell }
 autocmd FileType tex {
   SetTextFile()
   b:AutoPairs = {'(': ')', '[': ']', '{': '}', "`": "'", "``": "''"}
 }
 autocmd FileType typst {
   SetTextFile()
-  nnoremap <leader>ll :TypstWatch<CR>
+  # nnoremap <leader>ll :TypstWatch<CR>
+  nnoremap <leader>ll :call job_start(['tinymist', 'preview', expand('%:p'), '--partial-rendering'])<CR>
+  nnoremap <leader>lv :call job_start(['zathura', expand('%:p:r') . '.pdf'])<CR>
   b:AutoPairs = {'`': '`', '```': '```', '"': '"', '(': ')', '[': ']', '{': '}', "$": "$"}
 }
 autocmd FileType vim {
@@ -483,7 +452,9 @@ autocmd FileType vim {
   setlocal softtabstop=2
 }
 
+# Colorscheme
 set termguicolors
 set bg=dark
 syntax on
 colorscheme gruvbox8
+hi SignColumn guibg=#282828

@@ -32,6 +32,7 @@
 #let tens = math.times.circle
 #let dsum = math.plus.circle
 #let wed = math.and
+#let ov = math.overline
 #let iff = $<=>$
 #let tant = scale(math.perp, y: -100%)
 #let breb = scale(math.perp, y: -100%)

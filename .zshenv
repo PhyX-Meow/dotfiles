@@ -46,5 +46,6 @@ export XCURSOR_SIZE=24
 
 # Set editor
 export EDITOR='gvim -v'
+export BROWSER='wslview'
 
 source "$HOME/.env_override"
