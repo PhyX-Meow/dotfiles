@@ -53,7 +53,12 @@ Plug 'girishji/ngram-complete.vim'
   var vcOptions = {
     completor: {
       triggerWordLen: 2,
+      setCompleteOpt: false,
       noNewlineInCompletionEver: true,
+    },
+    lsp: {
+      enable: true,
+      priority: 20,
     },
     ngram: {
       enable: true,
@@ -69,6 +74,7 @@ Plug 'girishji/ngram-complete.vim'
     },
   }
   autocmd VimEnter * call VimCompleteOptionsSet(vcOptions)
+  set completeopt=menuone,noinsert
 
 Plug 'dense-analysis/ale'
   g:ale_disable_lsp = 1
@@ -212,6 +218,9 @@ Plug 'lifepillar/vim-gruvbox8'
   g:gruvbox_plugin_hi_groups = 1
   g:gruvbox_filetype_hi_groups = 1
 Plug 'sainnhe/gruvbox-material'
+
+Plug 'altercation/vim-colors-solarized'
+Plug 'lifepillar/vim-solarized8'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -441,6 +450,7 @@ autocmd FileType tex {
 }
 autocmd FileType typst {
   SetTextFile()
+  setlocal iskeyword-=-,_
   # nnoremap <leader>ll :TypstWatch<CR>
   nnoremap <leader>ll :call job_start(['tinymist', 'preview', expand('%:p'), '--partial-rendering'])<CR>
   nnoremap <leader>lv :call job_start(['zathura', expand('%:p:r') . '.pdf'])<CR>
