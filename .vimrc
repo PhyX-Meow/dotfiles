@@ -47,6 +47,7 @@ Plug 'yegappan/lsp'
     },
   ]
   autocmd User LspSetup call LspAddServer(lspServers)
+  nnoremap <silent> K :LspHover<CR>
 Plug 'girishji/vimcomplete'
 Plug 'girishji/ngram-complete.vim'
   g:vimcomplete_cr_enable = 0

@@ -76,6 +76,11 @@
 // #import "@preview/autofletcher:0.1.0": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
 #import "@preview/touying:0.5.5"
 
+#let MiamaHeading(body) = {
+  show heading: it => text(font:"Miama Nueva", it) + v(12pt)
+  body
+}
+
 #let preamble(body, font: "", font-size: 12pt, numbering: "1.1.") = {
   set page(
     paper: "a4",
@@ -135,22 +140,22 @@
       weight: 400,
     )
     body
-  } else if font == "miama" {
+  } else if font == "oldstd" {
     set text(
-      font: "Miama Nueva",
+      font: "Old Standard",
       size: font-size,
       weight: 400,
     )
     show math.equation: set text(
-      font: "STIX Two Math",
+      font: "OldStandard-Math",
       size: font-size,
       weight: 400,
-      stylistic-set: 1,
+      stylistic-set: 1, // For mathscr
     )
     body
   } else if font == "stix2" {
     set text(
-      font: "STIX Two",
+      font: "STIX Two Text",
       size: font-size,
       weight: 400,
     )
@@ -158,7 +163,7 @@
       font: "STIX Two Math",
       size: font-size,
       weight: 400,
-      // stylistic-set: 1, // For mathscr
+      stylistic-set: 1, // For mathscr
     )
     body
   } else if font == "ncm" {
@@ -182,8 +187,9 @@
       size: font-size,
       weight: 400,
     )
+    // Libertinus Math is bad, don't use
     show math.equation: set text(
-      font: "Libertinus Math",
+      font: "TeX Gyre Termes Math",
       size: font-size,
       weight: 400,
     )
