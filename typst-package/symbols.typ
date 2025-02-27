@@ -10,23 +10,23 @@
 #let card = math.op("\u{0023}")
 
 // Symbol Alias
+#let bar = math.macron
+#let vbar = math.bar
 #let eps = math.epsilon
 #let vphi = math.phi
 #let phi = math.phi.alt
 #let vthe = math.theta.alt
 #let oo = math.infinity
-// #let _OO_state_ = state("emptyset symbol", math.emptyset)
-// #let OO = context _OO_state_.get()
 #let OO = math.emptyset
 #let Id = math.bb("1")
 #let II = [I#h(-.15em)I]
 #let acts = math.arrow.cw.half
 #let into = math.arrow.hook.r
 #let pt = math.diff
+#let bt = math.macron(math.diff)
 #let int = math.integral
 #let lap = math.laplace
 #let nd = math.nabla
-#let bar = math.macron
 #let iso = math.tilde.equiv
 #let cc = math.subset
 #let tens = math.times.circle
@@ -36,6 +36,9 @@
 #let iff = $<=>$
 #let tant = scale(math.perp, y: -100%)
 #let breb = scale(math.perp, y: -100%)
+#let sect = math.inter
+#let cap = math.inter
+#let cup = math.union
 
 // Math Shorthands
 #let shorthands = (
@@ -50,7 +53,7 @@
 #let st = emph("s.t.")
 
 // Functions
-#let pari(a,b) = [#sym.angle.l #a,#b #sym.angle.r]
+#let pari(a,b) = [#math.angle.l #a,#b #math.angle.r]
 #let dd(x) = [#h(.1em) #differential(x)]
 #let ignore(body) = []
 #let Int(a,b) = math.attach(math.integral, br:a, tr:b)

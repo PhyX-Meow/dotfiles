@@ -72,16 +72,50 @@
 #import "@preview/quick-maths:0.2.0"
 #import "@preview/algo:0.3.4": algo, i, d, comment
 #import "@preview/cetz:0.3.2"
-#import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
-// #import "@preview/autofletcher:0.1.0": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
-#import "@preview/touying:0.5.5"
+#import "@preview/fletcher:0.5.5" as fletcher: diagram, node, edge
+// #import "@preview/autofletcher:0.1.1": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
+#import "@preview/touying:0.6.1"
 
-#let MiamaHeading(body) = {
-  show heading: it => text(font:"Miama Nueva", it) + v(12pt)
-  body
+#let font-setup = (
+  "ncm"      : (text:"New Computer Modern", math:"New Computer Modern Math", weight:450, styles:(),   features:("cv01",)),
+  "ncm-scr"  : (text:"New Computer Modern", math:"New Computer Modern Math", weight:450, styles:(1,), features:("cv01",)),
+  "concrete" : (text:"CMU Concrete",        math:"Concrete Math",            weight:500, styles:(),   features:()       ),
+  "xcharter" : (text:"XCharter",            math:"XCharter Math",            weight:400, styles:(),   features:()       ),
+  "stix2"    : (text:"STIX Two Text",       math:"STIX Two Math",            weight:400, styles:(1,), features:()       ),
+  "cambria"  : (text:"Cambria",             math:"Cambria Math",             weight:400, styles:(),   features:()       ),
+  "oldstd"   : (text:"Old Standard",        math:"OldStandard-Math",         weight:400, styles:(1,), features:()       ),
+  "default"  : (text:"Libertinus Serif",    math:"STIX Two Math",            weight:400, styles:(),   features:()       ),
+)
+
+#let title-setup = (
+  "miama"    : (text:"Miama Nueva",     size:20pt),
+  "times"    : (text:"Times New Roman", size:24pt),
+  "default"  : (text:none,              size:20pt),
+)
+
+#let heading-setup = (
+  miama    : it => text(font:"Miama Nueva", it) + v(9pt),
+  default  : it => it,
+)
+
+#let title(body, author: none, date: none, font: "", size: none) = {
+  let fc = title-setup.at(font, default:title-setup.default)
+  let final-size = if size == none { fc.size } else { size }
+  set align(center)
+  context {
+    let font-name = text.font
+    if fc.text != none {
+      font-name = fc.text
+    }
+    set text(font:font-name, size: final-size)
+    block(body)
+    set text(size: final-size - 8pt)
+    if author != none { author }
+    if date != none { "\n" + date }
+  }
 }
 
-#let preamble(body, font: "", font-size: 12pt, numbering: "1.1.") = {
+#let preamble(body, font: "", font-size: 12pt, heading-font: "", numbering: "1.1.") = {
   set page(
     paper: "a4",
     numbering: "1",
@@ -94,6 +128,7 @@
   set heading(
     numbering: numbering
   )
+  show heading: heading-setup.at(heading-font, default:heading-setup.default)
 
   show: theorem-rules
   show: quick-maths.shorthands.with(..shorthands)
@@ -104,95 +139,18 @@
     weight: 400,
   )
 
-  if font == "concrete" {
-    set text(
-      font: "CMU Concrete",
-      size: font-size,
-      weight: 500,
-    )
-    show math.equation: set text(
-      font: "Concrete Math",
-      size: font-size,
-      weight: 500,
-    )
-    body
-  } else if font == "xcharter" {
-    set text(
-      font: "XCharter",
-      size: font-size,
-      weight: 400,
-    )
-    show math.equation: set text(
-      font: "XCharter Math",
-      size: font-size,
-      weight: 400,
-    )
-    body
-  } else if font == "cambria" {
-    set text(
-      font: "Cambria",
-      size: font-size,
-      weight: 400,
-    )
-    show math.equation: set text(
-      font: "Cambria Math",
-      size: font-size,
-      weight: 400,
-    )
-    body
-  } else if font == "oldstd" {
-    set text(
-      font: "Old Standard",
-      size: font-size,
-      weight: 400,
-    )
-    show math.equation: set text(
-      font: "OldStandard-Math",
-      size: font-size,
-      weight: 400,
-      stylistic-set: 1, // For mathscr
-    )
-    body
-  } else if font == "stix2" {
-    set text(
-      font: "STIX Two Text",
-      size: font-size,
-      weight: 400,
-    )
-    show math.equation: set text(
-      font: "STIX Two Math",
-      size: font-size,
-      weight: 400,
-      stylistic-set: 1, // For mathscr
-    )
-    body
-  } else if font == "ncm" {
-    set text(
-      font: "New Computer Modern",
-      size: font-size,
-      weight: 450,
-    )
-    show math.equation: set text(
-      font: "New Computer Modern Math",
-      size: font-size,
-      weight: 450,
-      features: ("cv01",),
-      // stylistic-set: 1, // For mathscr
-    )
-    // _OO_state_.update("\u{2300}")
-    body
-  } else {
-    set text(
-      font: "Libertinus Serif",
-      size: font-size,
-      weight: 400,
-    )
-    // Libertinus Math is bad, don't use
-    show math.equation: set text(
-      font: "TeX Gyre Termes Math",
-      size: font-size,
-      weight: 400,
-    )
-    body
-  }
+  let fc = font-setup.at(font, default:font-setup.default)
+  set text(
+    font: fc.text,
+    size: font-size,
+    weight: fc.weight,
+  )
+  show math.equation: set text(
+    font: fc.math,
+    size: font-size,
+    weight: fc.weight,
+    stylistic-set: fc.styles,
+    features: fc.features
+  )
+  body
 }

@@ -18,12 +18,13 @@ snippet template "My template" b
 #import "@phyxmeow/preamble:1.0.0": *
 #show: preamble.with(
   font: "$1",
+  heading-font: "",
   numbering: "1.1.",
 )
 
-#align(center)[#text(20pt)[
+#title(font: "")[
   *$2*
-]#v(0.5cm)]
+]
 
 $0
 endsnippet

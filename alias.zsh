@@ -56,7 +56,7 @@ alias idris="rlwrap idris2"
 alias sudoedit="DISPLAY=$win_host:0 sudoedit"
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 alias HW='cd ~/CodesWSL/TeX/Homework'
-alias texpre='vim ~/texmf/tex/latex/local/phyxmeow-common.sty'
+alias texpre='vim ~/texmf/tex/latex/phyxmeow/phyxmeow-common.sty'
 alias texsnip='vim ~/.vim/UltiSnips/tex.snippets'
 alias typpre='vim ~/.local/share/typst/packages/phyxmeow/preamble/1.0.0'
 alias typsnip='vim ~/.vim/UltiSnips/typst.snippets'
