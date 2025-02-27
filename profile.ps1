@@ -48,10 +48,12 @@ Function which {
 	Get-Command -All $args
 }
 Function prc {
-	code "%USERPROFILE%\Documents\Powershell\profile.ps1"
+	# code "%USERPROFILE%\Documents\Powershell\profile.ps1"
+	code "%USERPROFILE%\gitRepo\dotfiles\profile.ps1"
 }
 Function ytdl {
-	yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
+	# yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
+	yt-dlp --downloader aria2c
 }
 function eza_ls {
 	eza --icons --group-directories-first --time-style=long-iso

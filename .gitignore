@@ -2,4 +2,5 @@ quiver.sty
 _cache
 saved-props.json
 
+*.exe
 *.pdf
