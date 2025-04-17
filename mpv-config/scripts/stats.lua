@@ -1,40 +1,40 @@
 --[[
 SOURCE_ https://github.com/mpv-player/mpv/blob/master/player/lua/stats.lua
-COMMIT_ 38c46e4d8981da1b1000605b5d945e0b7196877d
-文档_ stats_plus.conf
+COMMIT_ f676a9ff201d18c3741e223e626874dc986f9819
+文档_ stats.conf
 
-mpv.conf的（可选）前置条件 --load-stats-overlay=no
+mpv.conf的前置条件 --load-stats-overlay=no
 可用的快捷键示例（在 input.conf 中写入）：
 
- <KEY>   script-binding stats_plus/display-stats           # 临时显示统计信息
- <KEY>   script-binding stats_plus/display-stats-toggle    # 常驻显示统计信息
- <KEY>   script-binding stats_plus/display-page-1          # 临时显示第一页的信息
- <KEY>   script-binding stats_plus/display-page-2          # ...
- <KEY>   script-binding stats_plus/display-page-3          # ...
- <KEY>   script-binding stats_plus/display-page-4          # ...
- <KEY>   script-binding stats_plus/display-page-5          # ...
- <KEY>   script-binding stats_plus/display-page-0          # ...
- <KEY>   script-binding stats_plus/display-page-1-toggle   # 常驻显示第一页的信息
- <KEY>   script-binding stats_plus/display-page-2-toggle   # ...
- <KEY>   script-binding stats_plus/display-page-3-toggle   # ...
- <KEY>   script-binding stats_plus/display-page-4-toggle   # ...
- <KEY>   script-binding stats_plus/display-page-5-toggle   # ...
- <KEY>   script-binding stats_plus/display-page-0-toggle   # ...
+ <KEY>   script-binding display-stats           # 临时显示统计信息
+ <KEY>   script-binding display-stats-toggle    # 常驻显示统计信息
+ <KEY>   script-binding display-page-1          # 临时显示第一页的信息
+ <KEY>   script-binding display-page-2          # ...
+ <KEY>   script-binding display-page-3          # ...
+ <KEY>   script-binding display-page-4          # ...
+ <KEY>   script-binding display-page-5          # ...
+ <KEY>   script-binding display-page-0          # ...
+ <KEY>   script-binding display-page-1-toggle   # 常驻显示第一页的信息
+ <KEY>   script-binding display-page-2-toggle   # ...
+ <KEY>   script-binding display-page-3-toggle   # ...
+ <KEY>   script-binding display-page-4-toggle   # ...
+ <KEY>   script-binding display-page-5-toggle   # ...
+ <KEY>   script-binding display-page-0-toggle   # ...
 
- <KEY>   script-message-to stats_plus display-stats           # 同上
- <KEY>   script-message-to stats_plus display-stats-toggle    # ...
- <KEY>   script-message-to stats_plus display-page-1          # ...
- <KEY>   script-message-to stats_plus display-page-2          # ...
- <KEY>   script-message-to stats_plus display-page-3          # ...
- <KEY>   script-message-to stats_plus display-page-4          # ...
- <KEY>   script-message-to stats_plus display-page-5          # ...
- <KEY>   script-message-to stats_plus display-page-0          # ...
- <KEY>   script-message-to stats_plus display-page-1-toggle   # ...
- <KEY>   script-message-to stats_plus display-page-2-toggle   # ...
- <KEY>   script-message-to stats_plus display-page-3-toggle   # ...
- <KEY>   script-message-to stats_plus display-page-4-toggle   # ...
- <KEY>   script-message-to stats_plus display-page-5-toggle   # ...
- <KEY>   script-message-to stats_plus display-page-0-toggle   # ...
+ <KEY>   script-message display-stats           # 同上
+ <KEY>   script-message display-stats-toggle    # ...
+ <KEY>   script-message display-page-1          # ...
+ <KEY>   script-message display-page-2          # ...
+ <KEY>   script-message display-page-3          # ...
+ <KEY>   script-message display-page-4          # ...
+ <KEY>   script-message display-page-5          # ...
+ <KEY>   script-message display-page-0          # ...
+ <KEY>   script-message display-page-1-toggle   # ...
+ <KEY>   script-message display-page-2-toggle   # ...
+ <KEY>   script-message display-page-3-toggle   # ...
+ <KEY>   script-message display-page-4-toggle   # ...
+ <KEY>   script-message display-page-5-toggle   # ...
+ <KEY>   script-message display-page-0-toggle   # ...
 
 ]]
 
@@ -45,7 +45,7 @@ local input = require 'mp.input'
 mp.observe_property("load-stats-overlay", "bool", function(_, value)
     if value == true then
         mp.set_property("load-stats-overlay", "no")
-        mp.msg.info("已自动禁用内置 stats.lua 脚本")
+        mp.msg.info("请以 --load-stats-overlay=no 启动mpv以避免部分脚本联动的功能无效")
     end
 end)
 
@@ -96,8 +96,8 @@ local o = {
     font_color = "",
     border_size = 1.65,
     border_color = "",
-    shadow_x_offset = 0.0,
-    shadow_y_offset = 0.0,
+    shadow_x_offset = math.huge,
+    shadow_y_offset = math.huge,
     shadow_color = "",
     alpha = "11",
     vidscale = "auto",
@@ -170,6 +170,15 @@ local cache_ahead_buf, cache_speed_buf
 local perf_buffers = {}
 local process_key_binding
 
+local property_cache = {}
+
+local function get_property_cached(name, def)
+    if property_cache[name] ~= nil then
+        return property_cache[name]
+    end
+    return def
+end
+
 local function graph_add_value(graph, value)
     graph.pos = (graph.pos % graph.len) + 1
     graph[graph.pos] = value
@@ -223,8 +232,15 @@ local function text_style()
             style = style .. "\\4c&H" .. o.shadow_color .. "&\\4a&H" .. o.alpha .. "&"
         end
 
-        return style .. "\\xshad" .. shadow_x_offset ..
-               "\\yshad" .. shadow_y_offset .. "}"
+        if o.shadow_x_offset < math.huge then
+            style = style .. "\\xshad" .. shadow_x_offset
+        end
+
+        if o.shadow_y_offset < math.huge then
+            style = style .. "\\yshad" .. shadow_y_offset
+        end
+
+        return style .. "}"
     end
 end
 
@@ -941,8 +957,9 @@ local function add_video_out(s)
 
     append(s, "", {prefix="显示设备：", nl=o.nl .. o.nl, indent=""})
     append(s, vo, {prefix_sep="", nl="", indent=""})
-    append_property(s, "display-names", {prefix_sep="", prefix="(", suffix=")",
-                                         no_prefix_markup=true, nl="", indent=" "})
+
+    append(s, get_property_cached("display-names"), {prefix_sep="", prefix="(", suffix=")",
+           no_prefix_markup=true, nl="", indent=" "})
     append(s, mp.get_property_native("current-gpu-context"),
            {prefix="GPU context：", nl="", indent=o.prefix_sep .. o.prefix_sep})
     append_property(s, "avsync", {prefix="A/V同步偏移："})
@@ -960,7 +977,7 @@ local function add_video_out(s)
 
     local scale = nil
     if not mp.get_property_native("fullscreen") then
-        scale = mp.get_property_native("current-window-scale")
+        scale = get_property_cached("current-window-scale")
     end
 
     local od = mp.get_property_native("osd-dimensions")
@@ -1007,9 +1024,9 @@ local function add_video(s)
             append(s, track["decoder"], {prefix="[", nl="", indent=" ", prefix_sep="",
                    no_prefix_markup=true, suffix="]"})
         end
-        append_property(s, "hwdec-current", {prefix="硬解API：", nl="",
-                        indent=o.prefix_sep .. o.prefix_sep,
-                        no_prefix_markup=false, suffix=""}, {no=true, [""]=true})
+        append(s, get_property_cached("hwdec-current"), {prefix="硬解API：", nl="",
+               indent=o.prefix_sep .. o.prefix_sep,
+               no_prefix_markup=false, suffix=""}, {no=true, [""]=true})
     end
     local has_prefix = false
     if o.show_frame_info then
@@ -1463,12 +1480,12 @@ cache_recorder_timer:kill()
 -- Current page and <page key>:<page function> mapping
 curr_page = o.key_page_1
 pages = {
-    [o.key_page_1] = { f = default_stats, desc = "默认" },
-    [o.key_page_2] = { f = vo_stats, desc = "帧计时信息扩展", scroll = true },
-    [o.key_page_3] = { f = cache_stats, desc = "缓存统计信息" },
-    [o.key_page_4] = { f = keybinding_info, desc = "激活中的按键绑定信息", scroll = true },
-    [o.key_page_5] = { f = track_info, desc = "所选的轨道信息", scroll = true },
-    [o.key_page_0] = { f = perf_stats, desc = "内部性能信息", scroll = true },
+    [o.key_page_1] = { idx = 1, f = default_stats, desc = "默认" },
+    [o.key_page_2] = { idx = 2, f = vo_stats, desc = "帧计时信息扩展", scroll = true },
+    [o.key_page_3] = { idx = 3, f = cache_stats, desc = "缓存统计信息" },
+    [o.key_page_4] = { idx = 4, f = keybinding_info, desc = "激活中的按键绑定信息", scroll = true },
+    [o.key_page_5] = { idx = 5, f = track_info, desc = "所选的轨道信息", scroll = true },
+    [o.key_page_0] = { idx = 1, f = perf_stats, desc = "内部性能信息", scroll = true },
 }
 
 
@@ -1594,7 +1611,6 @@ local function filter_bindings()
                 display_timer:resume()
             end
         end,
-        submit = input.terminate,
         closed = function ()
             searched_text = nil
             if display_timer:is_enabled() then
@@ -1753,26 +1769,26 @@ mp.add_key_binding(nil, "display-stats", function() process_key_binding(true) en
 mp.add_key_binding(nil, "display-stats-toggle", function() process_key_binding(false) end,
     {repeatable=false})
 
-for k, _ in pairs(pages) do
+for k, page in pairs(pages) do
     -- Single invocation key bindings for specific pages, e.g.:
     -- "e script-binding stats/display-page-2"
-    mp.add_key_binding(nil, "display-page-" .. k, function()
+    mp.add_key_binding(nil, "display-page-" .. page.idx, function()
         curr_page = k
         process_key_binding(true)
     end, {repeatable=true})
 
     -- Key bindings to toggle a specific page, e.g.:
     -- "h script-binding stats/display-page-4-toggle".
-    mp.add_key_binding(nil, "display-page-" .. k .. "-toggle", function()
+    mp.add_key_binding(nil, "display-page-" .. page.idx .. "-toggle", function()
         curr_page = k
         process_key_binding(false)
-    end, {repeatable=true})
+    end, {repeatable=false})
 end
 
 -- Reprint stats immediately when VO was reconfigured, only when toggled
 mp.register_event("video-reconfig",
     function()
-        if display_timer:is_enabled() then
+        if display_timer:is_enabled() and not display_timer.oneshot then
             print_page(curr_page)
         end
     end)
@@ -1803,3 +1819,11 @@ end
 
 mp.observe_property("osd-height", "native", update_scale)
 mp.observe_property("osd-scale-by-window", "native", update_scale)
+
+local function update_property_cache(name, value)
+    property_cache[name] = value
+end
+
+mp.observe_property('current-window-scale', 'native', update_property_cache)
+mp.observe_property('display-names', 'string', update_property_cache)
+mp.observe_property('hwdec-current', 'string', update_property_cache)

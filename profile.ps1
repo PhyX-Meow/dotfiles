@@ -7,13 +7,6 @@ Import-Module "$($(Get-Item $(Get-Command scoop).Path).Directory.Parent.FullName
 Invoke-Expression (&scoop-search --hook)
 #endregion
 
-#region mamba initialize
-# !! Contents within this block are managed by 'mamba shell init' !!
-$Env:MAMBA_ROOT_PREFIX = "$env:USERPROFILE\scoop\persist\micromamba\mamba"
-$Env:MAMBA_EXE = "$env:USERPROFILE\scoop\apps\micromamba\current\micromamba.exe"
-(& $Env:MAMBA_EXE 'shell' 'hook' -s 'powershell' -r $Env:MAMBA_ROOT_PREFIX) | Out-String | Invoke-Expression
-#endregion
-
 # PSReadline
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
@@ -35,7 +28,7 @@ Invoke-Expression (oh-my-posh init pwsh --config ~/gitRepo/dotfiles/pwsh_theme.o
 Invoke-Expression ($(lua "$env:USERPROFILE\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
 
 # Env
-$env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
+# $env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
 
 # Alias
 # Set-Alias 'sudo' 'gsudo'
@@ -53,7 +46,7 @@ Function prc {
 }
 Function ytdl {
 	# yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
-	yt-dlp --downloader aria2c
+	yt-dlp --downloader aria2c $args
 }
 function eza_ls {
 	eza --icons --group-directories-first --time-style=long-iso
