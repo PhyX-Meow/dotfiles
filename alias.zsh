@@ -49,7 +49,7 @@ alias plz='sudo'
 alias privoxy="privoxy --no-daemon $HOME/.config/privoxy/privoxy.conf"
 alias note='vim ~/note.txt'
 alias prob='vim ~/CodesWSL/TeX/Problems.tex'
-alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
+# alias aria2c="aria2c --all-proxy=http://$win_host:8128/"
 alias aria2rpc="aria2c --conf-path=$HOME/.aria2/aria2rpc.conf"
 alias ghcup="ghcup --downloader wget"
 alias idris="rlwrap idris2"

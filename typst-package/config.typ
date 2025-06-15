@@ -1,41 +1,59 @@
 #import "symbols.typ": *
 
-// #import "@preview/ctheorems:1.1.3": *
-// #show: thmrules
-#import "@preview/lemmify:0.1.7": default-theorems
+// #import "@preview/theorion:0.3.3": *
+#import "@preview/lemmify:0.1.8": default-theorems, thm-numbering-heading, thm-numbering-linear
 #let thm-style-phyxmeow(
   thm-type,
   name,
   number,
-  body
-) = align(left, block(width: 100%, breakable: true)[#{
-  strong(thm-type)
-  if number != none {
-    strong(" " + number)
-  }
-  if name != none {
-    " " + [(#name)]
-  }
-  strong(".") + body
-}] + v(0em, weak: true) + h(0em))
+  body,
+) = align(
+  left,
+  block(width: 100%, breakable: true)[#{
+      strong(thm-type)
+      if number != none {
+        strong(" " + number)
+      }
+      if name != none {
+        " " + [(#name)]
+      }
+      strong(".") + body
+    }]
+    + v(0em, weak: true)
+    + h(0em),
+)
 #let proof-style-phyxmeow(
   thm-type,
   name,
   number,
-  body
-) = align(left,block(width: 100%, breakable: true)[#{
-  emph(thm-type)
-  if name != none {
-    emph(" " + name)
-  }
-  emph(".") + body + h(1fr) + $square$
-}] + v(0em, weak: true) + h(0em))
+  body,
+) = align(
+  left,
+  block(width: 100%, breakable: true)[#{
+      emph(thm-type)
+      if number != none { number } // No output but resets the counter.
+      if name != none {
+        emph(" " + name)
+      }
+      emph(".") + body + h(1fr) + $square$
+    }]
+    + v(0em, weak: true)
+    + h(0em),
+)
 #let (
-  theorem, lemma, corollary, proposition, example,
-  proof, definition, remark, rules: theorem-rules
+  theorem,
+  lemma,
+  corollary,
+  remark,
+  proposition,
+  example,
+  definition,
+  proof,
+  rules: theorem-rules,
 ) = default-theorems(
   "phyxmeow-thms",
   lang: "en",
+  // thm-numbering: thm-numbering-linear,
   thm-styling: thm-style-phyxmeow,
   proof-styling: proof-style-phyxmeow,
 )
@@ -63,43 +81,50 @@
   align(block-algin, block(body))
 }
 
-#import "@preview/physica:0.9.4": *
-  #let div = math.op("div")
-  #let curl
-  #let grad
+#import "@preview/physica:0.9.5": *
+#let div = math.op("div")
+#let curl
+#let grad
 
 #import "@preview/xarrow:0.3.1": xarrow
-#import "@preview/quick-maths:0.2.0"
-#import "@preview/algo:0.3.4": algo, i, d, comment
-#import "@preview/cetz:0.3.2"
-#import "@preview/fletcher:0.5.5" as fletcher: diagram, node, edge
+#import "@preview/quick-maths:0.2.1"
+#import "@preview/algo:0.3.6": algo, i, d, comment
+#import "@preview/cetz:0.3.4"
+#import "@preview/fletcher:0.5.7" as fletcher: diagram, node, edge
 // #import "@preview/autofletcher:0.1.1": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
+// #import "@preview/commute:0.3.0"
 #import "@preview/touying:0.6.1"
 
 #let font-setup = (
-  "ncm"      : (text:"New Computer Modern", math:"New Computer Modern Math", weight:450, styles:(),   features:("cv01",)),
-  "ncm-scr"  : (text:"New Computer Modern", math:"New Computer Modern Math", weight:450, styles:(1,), features:("cv01",)),
-  "concrete" : (text:"CMU Concrete",        math:"Concrete Math",            weight:500, styles:(),   features:()       ),
-  "xcharter" : (text:"XCharter",            math:"XCharter Math",            weight:400, styles:(),   features:()       ),
-  "stix2"    : (text:"STIX Two Text",       math:"STIX Two Math",            weight:400, styles:(1,), features:()       ),
-  "cambria"  : (text:"Cambria",             math:"Cambria Math",             weight:400, styles:(),   features:()       ),
-  "oldstd"   : (text:"Old Standard",        math:"OldStandard-Math",         weight:400, styles:(1,), features:()       ),
-  "default"  : (text:"Libertinus Serif",    math:"STIX Two Math",            weight:400, styles:(),   features:()       ),
+  "ncm": (text: "New Computer Modern", math: "New Computer Modern Math", weight: 450, styles: (), features: ("cv01",)),
+  "ncm-scr": (
+    text: "New Computer Modern",
+    math: "New Computer Modern Math",
+    weight: 450,
+    styles: (1,),
+    features: ("cv01",),
+  ),
+  "concrete": (text: "CMU Concrete", math: "Concrete Math", weight: 500, styles: (), features: ()),
+  "xcharter": (text: "XCharter", math: "XCharter Math", weight: 400, styles: (), features: ()),
+  "stix2": (text: "STIX Two Text", math: "STIX Two Math", weight: 400, styles: (1,), features: ()),
+  "cambria": (text: "Cambria", math: "Cambria Math", weight: 400, styles: (), features: ()),
+  "oldstd": (text: "Old Standard", math: "OldStandard-Math", weight: 400, styles: (1,), features: ()),
+  "default": (text: "Libertinus Serif", math: "STIX Two Math", weight: 400, styles: (), features: ()),
 )
 
 #let title-setup = (
-  "miama"    : (text:"Miama Nueva",     size:20pt),
-  "times"    : (text:"Times New Roman", size:24pt),
-  "default"  : (text:none,              size:20pt),
+  "miama": (text: "Miama Nueva", size: 20pt),
+  "times": (text: "Times New Roman", size: 24pt),
+  "default": (text: none, size: 20pt),
 )
 
 #let heading-setup = (
-  miama    : it => text(font:"Miama Nueva", it) + v(9pt),
-  default  : it => it,
+  miama: it => text(font: "Miama Nueva", it) + v(9pt),
+  default: it => it,
 )
 
 #let title(body, author: none, date: none, font: "", size: none) = {
-  let fc = title-setup.at(font, default:title-setup.default)
+  let fc = title-setup.at(font, default: title-setup.default)
   let final-size = if size == none { fc.size } else { size }
   set align(center)
   context {
@@ -107,7 +132,7 @@
     if fc.text != none {
       font-name = fc.text
     }
-    set text(font:font-name, size: final-size)
+    set text(font: font-name, size: final-size)
     block(body)
     set text(size: final-size - 8pt)
     if author != none { author }
@@ -125,10 +150,8 @@
     justify: true,
     first-line-indent: 2em,
   )
-  set heading(
-    numbering: numbering
-  )
-  show heading: heading-setup.at(heading-font, default:heading-setup.default)
+  set heading(numbering: numbering)
+  show heading: heading-setup.at(heading-font, default: heading-setup.default)
 
   show: theorem-rules
   show: quick-maths.shorthands.with(..shorthands)
@@ -139,7 +162,7 @@
     weight: 400,
   )
 
-  let fc = font-setup.at(font, default:font-setup.default)
+  let fc = font-setup.at(font, default: font-setup.default)
   set text(
     font: fc.text,
     size: font-size,
@@ -147,10 +170,11 @@
   )
   show math.equation: set text(
     font: fc.math,
-    size: font-size,
+    // size: font-size,
     weight: fc.weight,
     stylistic-set: fc.styles,
-    features: fc.features
+    features: fc.features,
   )
+  show math.equation: set block(breakable: true)
   body
 }
