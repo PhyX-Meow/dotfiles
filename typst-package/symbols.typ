@@ -44,8 +44,8 @@
 #let shorthands = (
   ($==$, math.equiv),
   ($~=$, math.tilde.eq),
-  ($|-->$, math.arrow.r.long.bar ),
-  ($<|$, math.triangle.l ),
+  ($|-->$, math.arrow.r.long.bar),
+  ($<|$, math.triangle.l),
 )
 
 // Text Alias
@@ -53,7 +53,7 @@
 #let st = emph("s.t.")
 
 // Functions
-#let pari(a,b) = [#math.angle.l #a,#b #math.angle.r]
+#let pari(a, b) = [#math.angle.l #a,#b #math.angle.r]
 #let dd(x) = [#h(.1em) #differential(x)]
 #let ignore(body) = []
-#let Int(a,b) = math.attach(math.integral, br:a, tr:b)
+#let Int(a, b) = math.attach(math.integral, br: a, tr: b)

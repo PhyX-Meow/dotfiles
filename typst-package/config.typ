@@ -1,6 +1,6 @@
 #import "symbols.typ": *
 
-// #import "@preview/theorion:0.3.3": *
+// #import "@preview/theorion:0.4.0": *
 #import "@preview/lemmify:0.1.8": default-theorems, thm-numbering-heading, thm-numbering-linear
 #let thm-style-phyxmeow(
   thm-type,
@@ -10,15 +10,15 @@
 ) = align(
   left,
   block(width: 100%, breakable: true)[#{
-      strong(thm-type)
-      if number != none {
-        strong(" " + number)
-      }
-      if name != none {
-        " " + [(#name)]
-      }
-      strong(".") + body
-    }]
+    strong(thm-type)
+    if number != none {
+      strong(" " + number)
+    }
+    if name != none {
+      " " + [(#name)]
+    }
+    strong(".") + body
+  }]
     + v(0em, weak: true)
     + h(0em),
 )
@@ -30,13 +30,13 @@
 ) = align(
   left,
   block(width: 100%, breakable: true)[#{
-      emph(thm-type)
-      if number != none { number } // No output but resets the counter.
-      if name != none {
-        emph(" " + name)
-      }
-      emph(".") + body + h(1fr) + $square$
-    }]
+    emph(thm-type)
+    if number != none { number } // No output but resets the counter.
+    if name != none {
+      emph(" " + name)
+    }
+    emph(".") + body + h(1fr) + $square$
+  }]
     + v(0em, weak: true)
     + h(0em),
 )
@@ -88,9 +88,9 @@
 
 #import "@preview/xarrow:0.3.1": xarrow
 #import "@preview/quick-maths:0.2.1"
-#import "@preview/algo:0.3.6": algo, i, d, comment
-#import "@preview/cetz:0.3.4"
-#import "@preview/fletcher:0.5.7" as fletcher: diagram, node, edge
+#import "@preview/algo:0.3.6": algo, comment, d, i
+#import "@preview/cetz:0.4.1"
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 // #import "@preview/autofletcher:0.1.1": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
 // #import "@preview/commute:0.3.0"
 #import "@preview/touying:0.6.1"
