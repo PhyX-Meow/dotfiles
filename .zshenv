@@ -7,7 +7,7 @@ export COLORTERM='truecolor'
 
 # Set environment variables
 export LD_LIBRARY_PATH=.:../lib:./lib
-export PATH="$HOME/.local/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$PATH"
+export PATH="$HOME/.julia/bin:$HOME/.local/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$PATH"
 export MKL_DEBUG_CPU_TYPE=5
 export MKL_DYNAMIC=FALSE
 export MKL_NUM_THREADS=8

@@ -55,7 +55,8 @@
 #let st = emph("s.t.")
 
 // Functions
-#let pari(a, b) = [#math.angle.l #a,#b #math.angle.r]
+#let pari(a, b) = [$chevron.l #a,#b chevron.r$]
 #let dd(x) = [#h(.1em) #differential(x)]
 #let ignore(body) = []
 #let Int(a, b) = math.attach(math.integral, br: a, tr: b)
+#let scr(it) = text(features: ("ss01",), $cal(it)$)

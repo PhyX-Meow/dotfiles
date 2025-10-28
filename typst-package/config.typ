@@ -81,7 +81,7 @@
   align(block-algin, block(body))
 }
 
-#import "@preview/physica:0.9.5": *
+#import "@preview/physica:0.9.6": *
 #let div = math.op("div")
 #let curl
 #let grad
@@ -89,27 +89,22 @@
 #import "@preview/xarrow:0.3.1": xarrow
 #import "@preview/quick-maths:0.2.1"
 #import "@preview/algo:0.3.6": algo, comment, d, i
-#import "@preview/cetz:0.4.1"
+#import "@preview/cetz:0.4.2"
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 // #import "@preview/autofletcher:0.1.1": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
 // #import "@preview/commute:0.3.0"
 #import "@preview/touying:0.6.1"
 
 #let font-setup = (
-  "ncm": (text: "New Computer Modern", math: "New Computer Modern Math", weight: 450, styles: (), features: ("cv01",)),
-  "ncm-scr": (
-    text: "New Computer Modern",
-    math: "New Computer Modern Math",
-    weight: 450,
-    styles: (1,),
-    features: ("cv01",),
-  ),
-  "concrete": (text: "CMU Concrete", math: "Concrete Math", weight: 500, styles: (), features: ()),
-  "xcharter": (text: "XCharter", math: "XCharter Math", weight: 400, styles: (), features: ()),
-  "stix2": (text: "STIX Two Text", math: "STIX Two Math", weight: 400, styles: (1,), features: ()),
-  "cambria": (text: "Cambria", math: "Cambria Math", weight: 400, styles: (), features: ()),
-  "oldstd": (text: "Old Standard", math: "OldStandard-Math", weight: 400, styles: (1,), features: ()),
-  "default": (text: "Libertinus Serif", math: "STIX Two Math", weight: 400, styles: (), features: ()),
+  "ncm": (text: "New Computer Modern", math: "New Computer Modern Math", weight: 450, features: ("cv01",)),
+  "concrete": (text: "CMU Concrete", math: "Concrete Math", weight: 500, features: ()),
+  "xcharter": (text: "XCharter", math: "XCharter Math", weight: 400, features: ()),
+  "stix2": (text: "STIX Two Text", math: "STIX Two Math", weight: 400, features: ()),
+  "cambria": (text: "Cambria", math: "Cambria Math", weight: 400, features: ()),
+  "palatino": (text: "Palatino Linotype", math: "TeX Gyre Pagella Math", weight: 400, features: ()),
+  // "palatinox": (text: "TeXGyrePagellaX", math: "TeX Gyre Pagella Math", weight: 400, features: ()),
+  "oldstd": (text: "Old Standard", math: "OldStandard-Math", weight: 400, features: ()),
+  "default": (text: "Libertinus Serif", math: "STIX Two Math", weight: 400, features: ()),
 )
 
 #let title-setup = (
@@ -172,7 +167,7 @@
     font: fc.math,
     // size: font-size,
     weight: fc.weight,
-    stylistic-set: fc.styles,
+    // stylistic-set: fc.styles,
     features: fc.features,
   )
   show math.equation: set block(breakable: true)
