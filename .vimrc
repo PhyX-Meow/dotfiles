@@ -451,7 +451,8 @@ autocmd FileType tex {
 }
 autocmd FileType typst {
   SetTextFile()
-  setlocal iskeyword-=-,_
+  setlocal iskeyword-=-
+  setlocal iskeyword-=_
   # nnoremap <leader>ll :TypstWatch<CR>
   nnoremap <leader>ll :call job_start(['tinymist', 'preview', expand('%:p'), '--partial-rendering=true'])<CR>
   nnoremap <leader>lv :call job_start(['zathura', expand('%:p:r') . '.pdf'])<CR>
