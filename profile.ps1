@@ -16,13 +16,7 @@ Set-PSReadLineKeyHandler -Key 'Ctrl+d' -Function DeleteCharOrExit
 Set-PSReadLineOption -PredictionSource History
 
 # Colorlize
-# Import-Module Get-ChildItemColor
-Import-Module posh-git
 Invoke-Expression (oh-my-posh init pwsh --config ~/gitRepo/dotfiles/pwsh_theme.omp.json)
-# colortool -q GruvboxDark.itermcolors
-
-# gsudo
-# Import-Module (Get-Command 'gsudoModule.psd1').Source
 
 # Autojump
 Invoke-Expression ($(lua "$env:USERPROFILE\scoop\apps\z.lua\current\z.lua" --init powershell enhanced once echo) -join "`n")
@@ -31,8 +25,7 @@ Invoke-Expression ($(lua "$env:USERPROFILE\scoop\apps\z.lua\current\z.lua" --ini
 # $env:JULIA_PKG_SERVER = 'https://mirrors.tuna.tsinghua.edu.cn/julia'
 
 # Alias
-# Set-Alias 'sudo' 'gsudo'
-Set-Alias 'mamba' 'micromamba'
+# Set-Alias 'mamba' 'micromamba'
 Set-Alias 'ls' 'eza_ls'
 Set-Alias 'l' 'eza_l'
 Set-Alias 'll' 'eza_ll'
@@ -45,8 +38,8 @@ Function prc {
 	code "%USERPROFILE%\gitRepo\dotfiles\profile.ps1"
 }
 Function ytdl {
-	# yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ $args
-	yt-dlp --downloader aria2c $args
+	# yt-dlp --downloader aria2c --proxy http://127.0.0.1:8128/ --js-runtimes node $args
+	yt-dlp --downloader aria2c --js-runtimes node $args
 }
 function eza_ls {
 	eza --icons --group-directories-first --time-style=long-iso

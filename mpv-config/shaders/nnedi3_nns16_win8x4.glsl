@@ -1,3 +1,5 @@
+// 文档 https://github.com/hooke007/mpv_PlayKit/wiki/4_GLSL
+
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -12,13 +14,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//!DESC [nnedi3_nns16_win8x4] (double_y, nns16, win8x4)
+
 //!HOOK LUMA
 //!BIND HOOKED
-//!HEIGHT 2 HOOKED.h *
-//!OFFSET 0.000000 -0.500000
-//!WHEN HOOKED.h OUTPUT.h / 0.833333 <
+//!SAVE DY
+//!DESC [nnedi3_nns16_win8x4] (double_y, nns16, win8x4)
+//!HEIGHT HOOKED.h 2 *
+//!WHEN OUTPUT.w HOOKED.w 1.200 * > OUTPUT.h HOOKED.h 1.200 * > *
 //!COMPUTE 32 16 32 8
+
 #pragma optionNV(inline none)
 float nnedi3(vec4 samples[8]) {
 float sum = 0.0, sumsq = 0.0;
@@ -101,13 +105,16 @@ ret0[0] = inp[local_pos + 34];
 imageStore(out_image, ivec2(gl_GlobalInvocationID) * ivec2(1, 2), ret0);
 imageStore(out_image, ivec2(gl_GlobalInvocationID) * ivec2(1, 2) + ivec2(0, 1), ret);
 }  // hook
-//!DESC [nnedi3_nns16_win8x4] (double_x, nns16, win8x4)
+
 //!HOOK LUMA
-//!BIND HOOKED
-//!WIDTH 2 HOOKED.w *
-//!OFFSET -0.500000 0.000000
-//!WHEN HOOKED.w OUTPUT.w / 0.833333 <
+//!BIND DY
+//!DESC [nnedi3_nns16_win8x4] (double_x, nns16, win8x4)
+//!OFFSET -0.500 -0.500
+//!WIDTH DY.w 2 *
+//!HEIGHT DY.h
+//!WHEN OUTPUT.w HOOKED.w 1.200 * > OUTPUT.h HOOKED.h 1.200 * > *
 //!COMPUTE 64 8 32 8
+
 #pragma optionNV(inline none)
 float nnedi3(vec4 samples[8]) {
 float sum = 0.0, sumsq = 0.0;
@@ -147,7 +154,7 @@ ivec2 group_base = ivec2(gl_WorkGroupID) * ivec2(gl_WorkGroupSize);
 int local_pos = int(gl_LocalInvocationID.x) * 15 + int(gl_LocalInvocationID.y);
 for (int id = int(gl_LocalInvocationIndex); id < 525; id += int(gl_WorkGroupSize.x * gl_WorkGroupSize.y)) {
 int x = id / 15, y = id % 15;
-inp[id] = HOOKED_tex(HOOKED_pt * vec2(float(group_base.x+x-(1))+0.5,float(group_base.y+y-(3))+0.5)).x;
+inp[id] = DY_tex(DY_pt * vec2(float(group_base.x+x-(1))+0.5,float(group_base.y+y-(3))+0.5)).x;
 }
 barrier();
 vec4 ret = vec4(0.0);
@@ -190,3 +197,4 @@ ret0[0] = inp[local_pos + 18];
 imageStore(out_image, ivec2(gl_GlobalInvocationID) * ivec2(2, 1), ret0);
 imageStore(out_image, ivec2(gl_GlobalInvocationID) * ivec2(2, 1) + ivec2(1, 0), ret);
 }  // hook
+

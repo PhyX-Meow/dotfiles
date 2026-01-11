@@ -1,35 +1,40 @@
-// SSimSuperRes by Shiandow
-//
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 3.0 of the License, or (at your option) any later version.
-// 
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Lesser General Public License for more details.
-// 
-// You should have received a copy of the GNU Lesser General Public
-// License along with this library.
+// 文档 https://github.com/hooke007/mpv_PlayKit/wiki/4_GLSL
 
-//!PARAM SHARP
+/*
+
+LICENSE:
+  --- PAPER ver.
+  https://ece.uwaterloo.ca/~z70wang/research/ssim/
+  --- RAW ver.
+  https://github.com/zachsaw/MPDN_Extensions/blob/master/LICENSE
+  --- igv ver. (upstream)
+  https://gist.github.com/igv/2364ffa6e81540f29cb7ab4c9bc05b6b
+
+*/
+
+
+//!PARAM THR
 //!TYPE float
 //!MINIMUM 0.0
 //!MAXIMUM 1.0
-0.5
+0.1
+
+//!PARAM DEBUG
+//!TYPE DEFINE
+//!MINIMUM 0
+//!MAXIMUM 1
+0
+
 
 //!HOOK POSTKERNEL
 //!BIND HOOKED
 //!SAVE LOWRES
-//!HEIGHT NATIVE_CROPPED.h
-//!WHEN NATIVE_CROPPED.h OUTPUT.h <
-//!COMPONENTS 4
 //!DESC [SSimSuperRes_RT] Downscaling I
+//!HEIGHT PREKERNEL.h
+//!WHEN POSTKERNEL.w PREKERNEL.w > POSTKERNEL.h PREKERNEL.h > *
+//!COMPONENTS 4
 
 #define axis        1
-
-#define offset      vec2(0,0)
 
 #define MN(B,C,x)   (x < 1.0 ? ((2.-1.5*B-(C))*x + (-3.+2.*B+C))*x*x + (1.-(B)/3.) : (((-(B)/6.-(C))*x + (B+5.*C))*x + (-2.*B-8.*C))*x+((4./3.)*B+4.*C))
 #define Kernel(x)   MN(0.334, 0.333, abs(x))
@@ -38,17 +43,18 @@
 #define Luma(rgb)   dot(rgb*rgb, vec3(0.2126, 0.7152, 0.0722))
 
 vec4 hook() {
-    float low  = ceil((HOOKED_pos - taps/input_size) * HOOKED_size - offset - 0.5)[axis];
-    float high = floor((HOOKED_pos + taps/input_size) * HOOKED_size - offset - 0.5)[axis];
+    vec2 base = HOOKED_pos;
+    float low  = ceil((base[axis] * HOOKED_size[axis]) - taps - 0.5);
+    float high = floor((base[axis] * HOOKED_size[axis]) + taps - 0.5);
 
     float W = 0.0;
     vec4 avg = vec4(0);
-    vec2 pos = HOOKED_pos;
+    vec2 pos = base;
     vec4 tex;
 
     for (float k = low; k <= high; k++) {
-        pos[axis] = HOOKED_pt[axis] * (k - offset[axis] + 0.5);
-        float rel = (pos[axis] - HOOKED_pos[axis])*input_size[axis];
+        pos[axis] = HOOKED_pt[axis] * (k + 0.5);
+        float rel = (pos[axis] - base[axis]) * HOOKED_size[axis];
         float w = Kernel(rel);
 
         tex.rgb = textureLod(HOOKED_raw, pos, 0.0).rgb * HOOKED_mul;
@@ -64,15 +70,13 @@ vec4 hook() {
 //!HOOK POSTKERNEL
 //!BIND LOWRES
 //!SAVE LOWRES
-//!WIDTH NATIVE_CROPPED.w
-//!HEIGHT NATIVE_CROPPED.h
-//!WHEN NATIVE_CROPPED.w OUTPUT.w <
-//!COMPONENTS 4
 //!DESC [SSimSuperRes_RT] Downscaling II
+//!WIDTH PREKERNEL.w
+//!HEIGHT PREKERNEL.h
+//!WHEN POSTKERNEL.w PREKERNEL.w > POSTKERNEL.h PREKERNEL.h > *
+//!COMPONENTS 4
 
 #define axis        0
-
-#define offset      vec2(0,0)
 
 #define MN(B,C,x)   (x < 1.0 ? ((2.-1.5*B-(C))*x + (-3.+2.*B+C))*x*x + (1.-(B)/3.) : (((-(B)/6.-(C))*x + (B+5.*C))*x + (-2.*B-8.*C))*x+((4./3.)*B+4.*C))
 #define Kernel(x)   MN(0.334, 0.333, abs(x))
@@ -81,17 +85,18 @@ vec4 hook() {
 #define Luma(rgb)   dot(rgb*rgb, vec3(0.2126, 0.7152, 0.0722))
 
 vec4 hook() {
-    float low  = ceil((LOWRES_pos - taps/input_size) * LOWRES_size - offset - 0.5)[axis];
-    float high = floor((LOWRES_pos + taps/input_size) * LOWRES_size - offset - 0.5)[axis];
+    vec2 base = LOWRES_pos;
+    float low  = ceil((base[axis] * LOWRES_size[axis]) - taps - 0.5);
+    float high = floor((base[axis] * LOWRES_size[axis]) + taps - 0.5);
 
     float W = 0.0;
     vec4 avg = vec4(0);
-    vec2 pos = LOWRES_pos;
+    vec2 pos = base;
     vec4 tex;
 
     for (float k = low; k <= high; k++) {
-        pos[axis] = LOWRES_pt[axis] * (k - offset[axis] + 0.5);
-        float rel = (pos[axis] - LOWRES_pos[axis])*input_size[axis];
+        pos[axis] = LOWRES_pt[axis] * (k + 0.5);
+        float rel = (pos[axis] - base[axis]) * LOWRES_size[axis];
         float w = Kernel(rel);
 
         tex.rgb = textureLod(LOWRES_raw, pos, 0.0).rgb * LOWRES_mul;
@@ -108,11 +113,11 @@ vec4 hook() {
 //!BIND PREKERNEL
 //!BIND LOWRES
 //!SAVE var
-//!WIDTH NATIVE_CROPPED.w
-//!HEIGHT NATIVE_CROPPED.h
-//!WHEN NATIVE_CROPPED.h OUTPUT.h <
-//!COMPONENTS 2
 //!DESC [SSimSuperRes_RT] var
+//!WIDTH PREKERNEL.w
+//!HEIGHT PREKERNEL.h
+//!WHEN POSTKERNEL.w PREKERNEL.w > POSTKERNEL.h PREKERNEL.h > *
+//!COMPONENTS 2
 
 #define spread      1.0 / 4.0
 
@@ -151,10 +156,10 @@ vec4 hook() {
 //!BIND PREKERNEL
 //!BIND LOWRES
 //!BIND var
-//!WHEN NATIVE_CROPPED.h OUTPUT.h <
 //!DESC [SSimSuperRes_RT] final pass
+//!WHEN POSTKERNEL.w PREKERNEL.w > POSTKERNEL.h PREKERNEL.h > *
 
-#define oversharp   SHARP
+#define oversharp   THR
 
 // -- Window Size --
 #define taps        3.0
@@ -172,9 +177,27 @@ vec4 hook() {
 #define Luma(rgb)   dot(rgb*rgb, vec3(0.2126, 0.7152, 0.0722))
 
 vec4 hook() {
+
+#if (DEBUG == 1)
+    vec2 pos = (HOOKED_pos - HOOKED_pt/2.0) * LOWRES_size;
+    vec2 mVar = vec2(0.0);
+    for (int X=-1; X<=1; X++)
+    for (int Y=-1; Y<=1; Y++) {
+        vec2 w = clamp(1.5 - abs(vec2(X,Y)), 0.0, 1.0);
+        mVar += w.r * w.g * vec2(GetH(X,Y).a, 1.0);
+    }
+    mVar.r /= mVar.g;
+    float R = (-1.0 - oversharp) * sqrt(var(0,0).r / (var(0,0).g + mVar.r));
+    if (R < -1.0) {
+        return vec4(1.0, 0.0, 0.0, 1.0); // RED - SHARPEN
+    } else {
+        return vec4(0.0, 0.0, 1.0, 1.0); // BLUE - BLUR/NEUTRAL
+    }
+#elif (DEBUG == 0)
+
     vec4 c0 = HOOKED_texOff(0);
 
-    vec2 pos = HOOKED_pos * LOWRES_size - vec2(0.5);
+    vec2 pos = (HOOKED_pos - HOOKED_pt/2.0) * LOWRES_size;
     vec2 offset = pos - (even ? floor(pos) : round(pos));
     pos -= offset;
 
@@ -204,7 +227,9 @@ vec4 hook() {
     diff /= weightSum;
 
     c0.rgb = ((c0.rgb) + diff);
-
     return c0;
+
+#endif
+
 }
 

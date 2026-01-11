@@ -39,10 +39,10 @@ SwitchActivate(name) {
 
 #j:: Run "wt.exe new-tab -p `"Julia in WSL`""
 
-![:: Send "「" ;alt+[，输入「
-!]:: Send "」" ;alt+]，输入」
-!+[:: Send "『" ;alt+shift+[，输入『
-!+]:: Send "』" ;alt+shift+[，输入』
+![:: Send "「"   ;alt+[       => 「
+!]:: Send "」"   ;alt+]       => 」
+!+[:: Send "『"  ;alt+shift+[ => 『
+!+]:: Send "』"  ;alt+shift+[ => 』
 
 #HotIf WinActive("ahk_exe WindowsTerminal.exe")
 !Enter:: Send "!^j"
