@@ -1,6 +1,6 @@
 #import "symbols.typ": *
 
-// #import "@preview/theorion:0.4.0": *
+// #import "@preview/theorion:0.4.1": *
 #import "@preview/lemmify:0.1.8": default-theorems, thm-numbering-heading, thm-numbering-linear
 #let thm-style-phyxmeow(
   thm-type,
@@ -81,14 +81,16 @@
   align(block-algin, block(body))
 }
 
-#import "@preview/physica:0.9.6": *
+#import "@preview/physica:0.9.8": *
 #let div = math.op("div")
 #let curl
 #let grad
 
-#import "@preview/xarrow:0.3.1": xarrow
+#import "@preview/xarrow:0.4.0": xarrow
 #import "@preview/quick-maths:0.2.1"
 #import "@preview/algo:0.3.6": algo, comment, d, i
+// #import "@preview/codly:1.3.0": *
+// #import "@preview/codly-languages:0.1.1": *
 #import "@preview/cetz:0.4.2"
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 // #import "@preview/autofletcher:0.1.1": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
