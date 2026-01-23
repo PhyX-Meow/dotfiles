@@ -44,6 +44,13 @@ Plug 'yegappan/lsp'
       filetype: ['tex'],
       path: 'texlab',
       args: [],
+      workspaceConfig: {
+        texlab: {
+          hover: {
+            symbols: "none"
+          },
+        },
+      }
     },
   ]
   autocmd User LspSetup call LspAddServer(lspServers)
@@ -213,6 +220,7 @@ Plug 'puremourning/vimspector'
 Plug 'sheerun/vim-polyglot'
 
 Plug 'morhetz/gruvbox'
+# Plug 'gruvbox-community/gruvbox'
 Plug 'lifepillar/vim-gruvbox8'
   g:gruvbox_italics = 0
   g:gruvbox_italicize_strings = 0
