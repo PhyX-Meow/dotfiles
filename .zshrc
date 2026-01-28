@@ -34,6 +34,8 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
+autoload -U compinit && compinit
+
 # Completions
 zinit light esc/conda-zsh-completion
 zinit light zsh-users/zsh-completions
@@ -73,18 +75,7 @@ COMPLETION_WAITING_DOTS="true"
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'micromamba shell init' !!
-export MAMBA_EXE='/usr/bin/micromamba';
-export MAMBA_ROOT_PREFIX='/home/wuli/micromamba';
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
-fi
-unset __mamba_setup
-# <<< mamba initialize <<<
+eval "$(register-python-argcomplete pipx)"
 
 # BEGIN opam configuration
 # This is useful if you're using opam as it adds:
