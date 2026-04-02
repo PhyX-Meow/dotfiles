@@ -12,8 +12,6 @@ set statusbar-home-tilde true
 
 map [normal]     <F11> toggle_fullscreen
 map [fullscreen] <F11> toggle_fullscreen
-map [normal]     <C-l> reload
-map [fullscreen] <C-l> reload
 map [normal]     <PageUp>   navigate previous
 map [fullscreen] <PageUp>   navigate previous
 map [normal]     <PageDown> navigate next

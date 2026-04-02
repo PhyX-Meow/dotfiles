@@ -39,19 +39,19 @@ Plug 'yegappan/lsp'
         exportPdf: "onSave"
       }
     },
-    # {
-    #   name: 'texlab',
-    #   filetype: ['tex'],
-    #   path: 'texlab',
-    #   args: [],
-    #   workspaceConfig: {
-    #     texlab: {
-    #       hover: {
-    #         symbols: "none"
-    #       },
-    #     },
-    #   }
-    # },
+    {
+      name: 'texlab',
+      filetype: ['tex'],
+      path: 'texlab',
+      args: [],
+      workspaceConfig: {
+        texlab: {
+          hover: {
+            symbols: "none"
+          },
+        },
+      }
+    },
   ]
   autocmd User LspSetup call LspAddServer(lspServers)
   nnoremap <silent> K :LspHover<CR>

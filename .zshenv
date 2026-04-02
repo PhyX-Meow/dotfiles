@@ -35,6 +35,10 @@ export NO_PROXY=localhost,127.0.0.0/8,::1
 export no_proxy=localhost,127.0.0.0/8,::1
 
 # Set display
+export MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA
+export GALLIUM_DRIVER=d3d12
+export LIBGL_ALWAYS_SOFTWARE=false
+
 # export QT_SCALE_FACTOR=2
 # export GDK_SCALE=2
 export XCURSOR_SIZE=24
