@@ -17,7 +17,7 @@ plug#begin('~/.vim/plugged')
 
 Plug 'yegappan/lsp'
   var lspOpts = {
-    autoComplete: false,
+    autoComplete: true,
     showSignature: false,
     aleSupport: true,
     ultisnipsSupport: true,
@@ -55,34 +55,33 @@ Plug 'yegappan/lsp'
   ]
   autocmd User LspSetup call LspAddServer(lspServers)
   nnoremap <silent> K :LspHover<CR>
-Plug 'girishji/vimcomplete'
-Plug 'girishji/ngram-complete.vim'
-  g:vimcomplete_cr_enable = 0
-  var vcOptions = {
-    completor: {
-      triggerWordLen: 2,
-      setCompleteOpt: false,
-      noNewlineInCompletionEver: true,
-    },
-    lsp: {
-      enable: true,
-      priority: 20,
-    },
-    ngram: {
-      enable: true,
-      priority: 10,
-      bigram: false,
-      filetypes: ['text', 'tex', 'typst'],
-      filetypesComments: ['*'],
-    },
-    dictionary: {
-      enable: true,
-      priority: 10,
-      filetypes: ['text', 'tex', 'typst'],
-    },
-  }
-  autocmd VimEnter * call VimCompleteOptionsSet(vcOptions)
-  set completeopt=menuone,noinsert
+# Plug 'girishji/vimcomplete'
+# Plug 'girishji/ngram-complete.vim'
+#   g:vimcomplete_cr_enable = 0
+#   var vcOptions = {
+#     completor: {
+#       triggerWordLen: 2,
+#       setCompleteOpt: false,
+#       noNewlineInCompletionEver: true,
+#     },
+#     lsp: {
+#       enable: true,
+#       priority: 20,
+#     },
+#     ngram: {
+#       enable: true,
+#       priority: 10,
+#       bigram: false,
+#       filetypes: ['text', 'tex', 'typst'],
+#       filetypesComments: ['*'],
+#     },
+#     dictionary: {
+#       enable: true,
+#       priority: 10,
+#       filetypes: ['text', 'tex', 'typst'],
+#     },
+#   }
+  # autocmd VimEnter * call VimCompleteOptionsSet(vcOptions)
 
 Plug 'dense-analysis/ale'
   g:ale_disable_lsp = 1
@@ -398,8 +397,10 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,gbk,big5
 
 # Spell
 set nospell
-set dictionary=spell,~/.vim/spell/en.utf-8.add,/usr/share/dict/words
-set complete+=k
+set dictionary=spell,~/.vim/spell/en.utf-8.add
+set autocomplete
+set complete=.,w,b,u,k,o
+set completeopt=menuone,noinsert
 set spelllang=en_us
 
 # UI Settings
@@ -450,7 +451,6 @@ def SetTextFile()
   setlocal tabstop=2
   setlocal shiftwidth=2
   setlocal softtabstop=2
-  setlocal omnifunc=text_omnicomplete#Complete
   silent! call airline#extensions#whitespace#disable()
 enddef
 autocmd FileType tex {
