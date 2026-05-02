@@ -90,12 +90,11 @@
 #import "@preview/quick-maths:0.2.1"
 #import "@preview/algo:0.3.6": algo, comment, d, i
 // #import "@preview/codly:1.3.0": *
-// #import "@preview/codly-languages:0.1.1": *
-#import "@preview/cetz:0.4.2"
+// #import "@preview/codly-languages:0.1.10": *
+#import "@preview/cetz:0.5.0"
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
-// #import "@preview/autofletcher:0.1.1": placer, place-nodes, edges, tree-placer, circle-placer, arc-placer
 // #import "@preview/commute:0.3.0"
-#import "@preview/touying:0.6.1"
+#import "@preview/touying:0.7.3"
 
 #let font-setup = (
   "ncm": (text: "New Computer Modern", math: "New Computer Modern Math", weight: 450, features: ("cv01",)),

@@ -21,6 +21,9 @@ Plug 'yegappan/lsp'
     showSignature: false,
     aleSupport: true,
     ultisnipsSupport: true,
+    noNewlineInCompletion: true,
+    popupBorder: true,
+    popupBorderChars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
   }
   autocmd User LspSetup call LspOptionsSet(lspOpts)
   var lspServers = [
@@ -397,11 +400,12 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,gbk,big5
 
 # Spell
 set nospell
-set dictionary=spell,~/.vim/spell/en.utf-8.add
-set autocomplete
-set complete=.,w,b,u,k,o
-set completeopt=menuone,noinsert
 set spelllang=en_us
+set dictionary=spell
+set autocomplete
+set complete=.,w,k,o
+set completeopt=menuone,noinsert,popup
+set completepopup=border:custom:─;│;─;│;┌;┐;┘;└
 
 # UI Settings
 set cursorline
