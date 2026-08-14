@@ -91,10 +91,10 @@
 #import "@preview/algo:0.3.6": algo, comment, d, i
 // #import "@preview/codly:1.3.0": *
 // #import "@preview/codly-languages:0.1.10": *
-#import "@preview/cetz:0.5.0"
+#import "@preview/cetz:0.5.2"
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 // #import "@preview/commute:0.3.0"
-#import "@preview/touying:0.7.3"
+#import "@preview/touying:0.7.4"
 
 #let font-setup = (
   "ncm": (text: "New Computer Modern", math: "New Computer Modern Math", weight: 450, features: ("cv01",)),
