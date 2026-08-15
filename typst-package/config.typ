@@ -1,6 +1,6 @@
 #import "symbols.typ": *
 
-// #import "@preview/theorion:0.4.1": *
+// #import "@preview/theorion:0.6.0": *
 #import "@preview/lemmify:0.1.8": default-theorems, thm-numbering-heading, thm-numbering-linear
 #let thm-style-phyxmeow(
   thm-type,
@@ -40,6 +40,11 @@
     + v(0em, weak: true)
     + h(0em),
 )
+#let thm-numbering-phyxmeow(fig) = {
+  if heading.numbering != none {
+    thm-numbering-heading(fig)
+  } else { none }
+}
 #let (
   theorem,
   lemma,
@@ -53,7 +58,7 @@
 ) = default-theorems(
   "phyxmeow-thms",
   lang: "en",
-  // thm-numbering: thm-numbering-linear,
+  thm-numbering: thm-numbering-phyxmeow,
   thm-styling: thm-style-phyxmeow,
   proof-styling: proof-style-phyxmeow,
 )
