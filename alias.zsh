@@ -38,7 +38,7 @@ alias pyup='pip install --user --upgrade pip'
 alias pycc='rm -rf ~/.cache/pip/http/* ~/.cache/pip/wheels/*'
 alias jlup="run_with_proxy julia --startup-file=no -e 'using Pkg;Pkg.update()'"
 alias jlcc="run_with_proxy julia --startup-file=no -e 'using Pkg,Dates;Pkg.gc()'"
-alias pluto="julia -e 'import Pluto;cd(\'/home/wuli/CodesWSL/Julia/\');Pluto.run(port=8889)'"
+alias pluto="julia -e 'import Pluto;cd(\"/home/wuli/CodesWSL/Julia/\");Pluto.run(port=8889)'"
 alias tldr='run_with_proxy tldr'
 alias wd='run_with_proxy wd'
 alias p10kcfg='p10k configure'
