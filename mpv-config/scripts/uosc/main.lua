@@ -1,12 +1,12 @@
 --[[
 SOURCE_ https://github.com/tomasklaen/uosc/tree/main/src/uosc
-COMMIT_ 3375a5e0171e9633470cbfff7e6ebe56382843f5
-文档_ https://github.com/hooke007/MPV_lazy/discussions/186
+COMMIT_ 41040532f840b8089ae1bedba906071959347771
+文档_ https://github.com/hooke007/mpv_PlayKit/discussions/186
 
-极简主义设计驱动的多功能界面脚本群组，兼容 thumbfast 新缩略图引擎
+极简主义设计驱动的多功能界面脚本群组，可支持 thumb_engine 或 thumbfast 缩略图引擎
 ]]
 
-local uosc_version = '5.8.0'
+local uosc_version = '5.12.1'
 
 mp.commandv('script-message', 'uosc-version', uosc_version)
 
@@ -33,10 +33,11 @@ defaults = {
 	timeline_border = 1,
 	timeline_step = '1',
 	timeline_cache = true,
+	timeline_heatmap = 'overlay',
 	timeline_persistency = 'idle,audio',
 
 	controls =
-	'menu,ST-stats_tog,gap,play_pause,gap,subtitles,audio,<has_chapter>chapters,<has_many_edition>editions,<has_many_video>video,<stream>stream-quality,gap,space,speed,space,shuffle,loop-playlist,loop-file,gap,prev,items,next,gap,fullscreen',
+	'menu,ST-stats_tog,ST-thumb_tog,gap,play_pause,gap,subtitles,audio,<has_chapter>chapters,<has_many_edition>editions,<has_many_video>video,<stream>stream-quality,gap,space,speed,space,shuffle,loop-playlist,loop-file,gap,prev,items,next,gap,fullscreen',
 	controls_size = 32,
 	controls_margin = 8,
 	controls_spacing = 2,
@@ -81,8 +82,6 @@ defaults = {
 	opacity = '',
 	animation_duration = 100,
 	refine = 'text_width,sorting',
-	click_threshold = 0,
-	click_command = 'cycle pause; script-binding uosc/flash-pause-indicator',
 	flash_duration = 1000,
 	proximity_in = 40,
 	proximity_out = 120,
@@ -107,7 +106,7 @@ defaults = {
 	adjust_osd_margins = false,
 	chapter_ranges = 'openings:30abf964,endings:30abf964,ads:c54e4e80',
 	chapter_range_patterns = 'openings:オープニング;endings:エンディング',
-	languages = 'slang,en',                   -- https://opensubtitles.stoplight.io/docs/opensubtitles-api/1de776d20e873-languages
+	languages = 'slang,en',   -- https://opensubtitles.stoplight.io/docs/opensubtitles-api/1de776d20e873-languages
 	disable_elements = '',
 	subtitles_directory = '~~/_cache/usubs',
 	idlescreen = true,
@@ -115,6 +114,9 @@ defaults = {
 	idle_call_menu = 0,
 	custom_font = 'default',
 	ziggy_pth = 'default',
+
+	thumbnail_provider = 'thumb_engine',
+	thumbnail_mode = "natural",
 }
 options = table_copy(defaults)
 function handle_options(changed_options)
@@ -153,6 +155,7 @@ mp.set_property_native('user-data/osc', { idlescreen = options.idlescreen })
 
 --[[ Language ]]
 require('lib/char_conv')
+fzy = require('lib/fzy')
 
 --[[ CONFIG ]]
 local config_defaults = {
@@ -161,9 +164,12 @@ local config_defaults = {
 		foreground_text = serialize_rgba('000000').color,
 		background = serialize_rgba('000000').color,
 		background_text = serialize_rgba('ffffff').color,
+		window_border = serialize_rgba('000000').color,
 		curtain = serialize_rgba('000000').color,
 		success = serialize_rgba('a5e075').color,
 		error = serialize_rgba('ff616e').color,
+		match = serialize_rgba('69c5ff').color,
+		heatmap = serialize_rgba('00adee').color,
 	},
 	opacity = {
 		timeline = 0.5,
@@ -184,6 +190,7 @@ local config_defaults = {
 		audio_indicator = 0.5,
 		buffering_indicator = 0.3,
 		playlist_position = 0.8,
+		heatmap = 0.4,
 	},
 }
 config = {
@@ -339,7 +346,7 @@ function create_default_menu_items()
 			{title = ulang._cm_sid_list, value = 'script-binding uosc/subtitles'},
 			{title = ulang._cm_playlist_shuffle, value = 'playlist-shuffle'},
 		},},
-		{title = ulang._cm_ushot, value = 'script-binding uosc/shot'},
+		{title = ulang._cm_ushot, value = 'screenshot scaled+subtitles'},
 		{title = ulang._cm_video, items = {
 			{title = ulang._cm_decoding_api, value = 'cycle-values hwdec no auto auto-copy'},
 			{title = ulang._cm_deband_toggle, value = 'cycle deband'},
@@ -365,7 +372,7 @@ end
 
 --[[ STATE ]]
 
-display = {width = 1280, height = 720, initialized = false}
+display = {ax = 0, ay = 0, bx = 1280, by = 720, width = 1280, height = 720, initialized = false}
 cursor = require('lib/cursor')
 state = {
 	platform = (function()
@@ -382,19 +389,16 @@ state = {
 	cwd = mp.get_property('working-directory'),
 	path = nil, -- current file path or URL
 	history = {}, -- history of last played files stored as full paths
-	title = nil,
-	alt_title = nil,
 	time = nil, -- current media playback time
 	speed = 1,
 	---@type number|nil
 	duration = nil, -- current media duration
+	max_seconds = nil, -- max seconds the time in timeline is expected to reach, accounted for speed
 	time_human = nil, -- current playback time in human format
 	destination_time_human = nil, -- depends on options.destination_time
 	pause = mp.get_property_native('pause'),
-	ime_active = mp.get_property_native("input-ime"),
+	ime_active = mp.get_property_native('input-ime'),
 	chapters = {},
-	---@type {index: number; title: string}|nil
-	current_chapter = nil,
 	chapter_ranges = {},
 	border = mp.get_property_native('border'),
 	title_bar = mp.get_property_native('title-bar'),
@@ -403,8 +407,8 @@ state = {
 	fullormaxed = mp.get_property_native('fullscreen') or mp.get_property_native('window-maximized'),
 	render_timer = nil,
 	render_last_time = 0,
-	volume = nil,
-	volume_max = nil,
+	volume = mp.get_property_native('volume'),
+	volume_max = mp.get_property_native('volume-max'),
 	mute = nil,
 	type = nil, -- video,image,audio
 	is_idle = false,
@@ -479,7 +483,7 @@ function update_display_dimensions()
 	end
 
 	state.radius = round(options.border_radius * state.scale)
-	display.width, display.height = real_width, real_height
+	display.bx, display.width, display.by, display.height = real_width, real_width, real_height, real_height
 	display.initialized = true
 
 	-- Tell elements about this
@@ -507,20 +511,18 @@ end
 function update_human_times()
 	state.speed = state.speed or 1
 	if state.time then
-		local max_seconds = state.duration
 		if state.duration then
 			if options.destination_time == 'playtime-remaining' then
-				max_seconds = state.speed >= 1 and state.duration or state.duration / state.speed
-				state.destination_time_human = format_time((state.time - state.duration) / state.speed, max_seconds)
+				state.destination_time_human = format_time((state.time - state.duration) / state.speed, state.duration)
 			elseif options.destination_time == 'total' then
-				state.destination_time_human = format_time(state.duration, max_seconds)
+				state.destination_time_human = format_time(state.duration, state.duration)
 			else
-				state.destination_time_human = format_time(state.time - state.duration, max_seconds)
+				state.destination_time_human = format_time(state.time - state.duration, state.duration)
 			end
 		else
 			state.destination_time_human = nil
 		end
-		state.time_human = format_time(state.time, max_seconds)
+		state.time_human = format_time(state.time, state.duration or state.time)
 	else
 		state.time_human, state.destination_time_human = nil, nil
 	end
@@ -645,47 +647,7 @@ function observe_display_fps(name, fps)
 	end
 end
 
-function select_current_chapter()
-	local current_chapter_index = state.current_chapter and state.current_chapter.index
-	local current_chapter
-	if state.time and state.chapters then
-		_, current_chapter = itable_find(state.chapters, function(c) return state.time >= c.time end, #state.chapters, 1)
-	end
-	local new_chapter_index = current_chapter and current_chapter.index
-	if current_chapter_index ~= new_chapter_index then
-		set_state('current_chapter', current_chapter)
-		if itable_has(config.top_bar_flash_on, 'chapter') then
-			Elements:flash({'top_bar'})
-		end
-	end
-end
-
 --[[ STATE HOOKS ]]
-
--- Click detection
-if options.click_threshold > 0 then
-	-- Executes custom command for clicks shorter than `options.click_threshold`
-	-- while filtering out double clicks.
-	local click_time = options.click_threshold / 1000
-	local doubleclick_time = mp.get_property_native('input-doubleclick-time') / 1000
-	local last_down, last_up = 0, 0
-	local click_timer = mp.add_timeout(math.max(click_time, doubleclick_time), function()
-		local delta = last_up - last_down
-		if delta > 0 and delta < click_time and delta > 0.02 then mp.command(options.click_command) end
-	end)
-	click_timer:kill()
-	local function handle_up() last_up = mp.get_time() end
-	local function handle_down()
-		last_down = mp.get_time()
-		if click_timer:is_enabled() then click_timer:kill() else click_timer:resume() end
-	end
-	-- If this function exists, it'll be called at the beginning of render().
-	function setup_click_detection()
-		local hitbox = {ax = 0, ay = 0, bx = display.width, by = display.height, window_drag = true}
-		cursor:zone('primary_down', hitbox, handle_down)
-		cursor:zone('primary_up', hitbox, handle_up)
-	end
-end
 
 mp.observe_property('osc', 'bool', function(name, value) if value == true then mp.set_property('osc', 'no') end end)
 mp.register_event('file-loaded', function()
@@ -709,51 +671,6 @@ mp.register_event('end-file', function(event)
 		handle_file_end()
 	end
 end)
--- Top bar titles
-do
-	local function update_state_with_template(prop, template)
-		-- escape ASS, and strip newlines and trailing slashes and trim whitespace
-		local tmp = mp.command_native({'expand-text', template}):gsub('\\n', ' '):gsub('[\\%s]+$', ''):gsub('^%s+', '')
-		set_state(prop, ass_escape(tmp))
-	end
-
-	local function add_template_listener(template, callback)
-		local props = get_expansion_props(template)
-		for prop, _ in pairs(props) do
-			mp.observe_property(prop, 'native', callback)
-		end
-		if not next(props) then callback() end
-	end
-
-	local function remove_template_listener(callback) mp.unobserve_property(callback) end
-
-	-- Main title
-	if #options.top_bar_title > 0 and options.top_bar_title ~= 'no' then
-		if options.top_bar_title == 'yes' then
-			local template = nil
-			local function update_title() update_state_with_template('title', template) end
-			mp.observe_property('title', 'string', function(_, title)
-				remove_template_listener(update_title)
-				template = title
-				if template then
-					if template:sub(-6) == ' - mpv' then template = template:sub(1, -7) end
-					add_template_listener(template, update_title)
-				end
-			end)
-		elseif type(options.top_bar_title) == 'string' then
-			add_template_listener(options.top_bar_title, function()
-				update_state_with_template('title', options.top_bar_title)
-			end)
-		end
-	end
-
-	-- Alt title
-	if #options.top_bar_alt_title > 0 and options.top_bar_alt_title ~= 'no' then
-		add_template_listener(options.top_bar_alt_title, function()
-			update_state_with_template('alt_title', options.top_bar_alt_title)
-		end)
-	end
-end
 mp.observe_property('playback-time', 'number', create_state_setter('time', function()
 	-- Create a file-end event that triggers right before file ends
 	file_end_timer:kill()
@@ -771,7 +688,6 @@ mp.observe_property('playback-time', 'number', create_state_setter('time', funct
 	end
 
 	update_human_times()
-	select_current_chapter()
 end))
 mp.observe_property('rebase-start-time', 'bool', create_state_setter('rebase_start_time', update_duration))
 mp.observe_property('demuxer-start-time', 'number', create_state_setter('start_time', update_duration))
@@ -814,7 +730,6 @@ mp.observe_property('chapter-list', 'native', function(_, chapters)
 	set_state('chapters', chapters)
 	set_state('chapter_ranges', chapter_ranges)
 	set_state('has_chapter', #chapters > 0)
-	select_current_chapter()
 	Elements:trigger('dispositions')
 end)
 mp.observe_property('border', 'bool', create_state_setter('border'))
@@ -833,6 +748,7 @@ mp.observe_property('window-maximized', 'bool', create_state_setter('maximized',
 mp.observe_property('idle-active', 'bool', function(_, idle)
 	set_state('is_idle', idle)
 	Elements:trigger('dispositions')
+	mp.commandv('script-message-to', options.thumbnail_provider, 'clear')
 end)
 mp.observe_property('pause', 'bool', create_state_setter('pause', function() file_end_timer:kill() end))
 mp.observe_property('volume', 'number', create_state_setter('volume'))
@@ -856,6 +772,7 @@ mp.observe_property('demuxer-cache-state', 'native', function(prop, cache_state)
 		set_state('cache_duration', not cache_state.eof and cache_state['cache-duration'] or nil)
 	else
 		cached_ranges = {}
+		set_state('cache_underrun', false)
 	end
 
 	if not (state.duration and (#cached_ranges > 0 or state.cache == 'yes' or
@@ -901,6 +818,16 @@ mp.observe_property('display-fps', 'native', observe_display_fps)
 mp.observe_property('estimated-display-fps', 'native', update_render_delay)
 mp.observe_property('eof-reached', 'native', create_state_setter('eof_reached'))
 mp.observe_property('core-idle', 'native', create_state_setter('core_idle'))
+
+-- 互斥1：mpv osd菜单打开时关闭 uosc 菜单
+-- 上游的解决方案 https://github.com/tomasklaen/uosc/commit/1577492f136b41b3a5c47e54dea7275ab7a6fce4
+mp.observe_property('user-data/mpv/context-menu/open', 'bool', function(_, value)
+	if value == true and Menu:is_open() then Menu:close() end
+end)
+-- 互斥2：console/select 菜单打开时关闭 uosc 菜单
+mp.observe_property('user-data/mpv/console/open', 'bool', function(_, value)
+	if value == true and Menu:is_open() then Menu:close() end
+end)
 
 --[[ KEY BINDS ]]
 
@@ -1074,7 +1001,10 @@ bind_command('show-in-directory', function()
 end)
 bind_command('stream-quality', open_stream_quality_menu)
 bind_command('open-file', open_open_file_menu)
-bind_command('shuffle', function() set_state('shuffle', not state.shuffle) end)
+bind_command('shuffle', function()
+	set_state('shuffle', not state.shuffle)
+--	mp.osd_message(state.shuffle and t('Shuffle ON') or t('Shuffle OFF')) -- 没必要提示
+end)
 bind_command('items', function()
 	if state.has_playlist then
 		mp.command('script-binding uosc/playlist')
@@ -1109,6 +1039,14 @@ bind_command('delete-file-quit', function()
 	if state.path and not is_protocol(state.path) then delete_file(state.path) end
 	mp.command('quit')
 end)
+bind_command('menu-prev', function() Elements:maybe('menu', 'navigate_by_items', -1) end)
+bind_command('menu-next', function() Elements:maybe('menu', 'navigate_by_items', 1) end)
+bind_command('menu-prev-page', function() Elements:maybe('menu', 'navigate_by_page', -1) end)
+bind_command('menu-next-page', function() Elements:maybe('menu', 'navigate_by_page', 1) end)
+bind_command('menu-start', function() Elements:maybe('menu', 'navigate_by_items', -math.huge) end)
+bind_command('menu-end', function() Elements:maybe('menu', 'navigate_by_items', math.huge) end)
+bind_command('menu-activate', function() Elements:maybe('menu', 'activate_selected_item') end)
+bind_command('menu-back', function() Elements:maybe('menu', 'back') end)
 bind_command('audio-device', create_self_updating_menu_opener({
 	title = ulang._audio_device_submenu_title,
 	type = 'audio-device-list',
@@ -1189,28 +1127,6 @@ bind_command('update', function()
 	if not Elements:has('updater') then require('elements/Updater'):new() end
 end)
 
--- 菜单专用截屏
-mp.add_key_binding(nil, 'shot', function()
-	if Menu:is_open() then
-		local paused = mp.get_property_bool('pause')
-		local timeout = options.animation_duration/1000 + 0.2
-		if paused then
-			mp.add_timeout(timeout, function() -- 延迟过低可能产生闪烁
-				mp.command('screenshot window')
-			end)
-		else
-			options.pause_indicator = 'manual'
-			mp.set_property_bool('pause', true)
-			mp.add_timeout(timeout, function()
-				mp.command('screenshot window')
-				mp.set_property_bool('pause', false)
-			end)
-		end
-	else
-		mp.command('screenshot window')
-	end
-end)
-
 -- 空闲自动弹出上下文菜单
 if type(options.idle_call_menu) == 'number' then
 	if options.idle_call_menu <= 2 and options.idle_call_menu > config.render_delay then
@@ -1267,11 +1183,11 @@ mp.register_script_message('menu-action', function(name, ...)
 		if method then menu[method](menu, ...) end
 	end
 end)
-mp.register_script_message('thumbfast-info', function(json)
+mp.register_script_message(options.thumbnail_provider .. '-info', function(json)
 	local data = utils.parse_json(json)
 	if type(data) ~= 'table' or not data.width or not data.height then
 		thumbnail.disabled = true
-		msg.error('thumbfast-info: received json didn\'t produce a table with thumbnail information')
+		msg.error(options.thumbnail_provider .. '-info: received json didn\'t produce a table with thumbnail information')
 	else
 		thumbnail = data
 		request_render()

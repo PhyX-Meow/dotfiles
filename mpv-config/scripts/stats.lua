@@ -1,6 +1,6 @@
 --[[
 SOURCE_ https://github.com/mpv-player/mpv/blob/master/player/lua/stats.lua
-COMMIT_ f676a9ff201d18c3741e223e626874dc986f9819
+COMMIT_ de0f2f943d485ad6623629831e079a1de8be021b
 文档_ stats.conf
 
 mpv.conf的前置条件 --load-stats-overlay=no
@@ -42,15 +42,10 @@ local mp = require 'mp'
 local utils = require 'mp.utils'
 local input = require 'mp.input'
 
-mp.observe_property("load-stats-overlay", "bool", function(_, value)
-    if value == true then
-        mp.set_property("load-stats-overlay", "no")
-        mp.msg.info("请以 --load-stats-overlay=no 启动mpv以避免部分脚本联动的功能无效")
-    end
-end)
-
 -- Options
 local o = {
+    load = true,
+
     -- Default key bindings
     key_page_1 = "1",
     key_page_2 = "2",
@@ -68,18 +63,20 @@ local o = {
     duration = 4,
     redraw_delay = 1,
     ass_formatting = true,
-    persistent_overlay = true,       -- 阻止其它OSD信息覆盖自身（原版默认为否）
+    persistent_overlay = true,        -- 阻止其它OSD信息覆盖自身（原版默认 false）
     filter_params_max_length = 100,
     file_tag_max_length = 128,
     file_tag_max_count = 16,
     show_frame_info = false,
     term_clip = true,
+    track_info_selected_only = false, -- 仅显示选中轨道的信息（原版默认 true）
     debug = false,
 
     -- Graph options and style
-    plot_perfdata = true,
-    plot_vsync_ratio = true,
-    plot_vsync_jitter = true,
+    plot_perfdata = false,
+    plot_vsync_ratio = false,
+    plot_vsync_jitter = false,
+    plot_cache = true,
     plot_tonemapping_lut = false,
     skip_frames = 5,
     global_max = true,
@@ -131,6 +128,51 @@ local o = {
 local update_scale
 require "mp.options".read_options(o, nil, function ()
     update_scale()
+end)
+
+if o.load == false then
+    mp.msg.info("脚本已被初始化禁用")
+    return
+end
+-- 原因：与上游同步
+local min_major = 0
+local min_minor = 41
+local min_patch = 0
+local mpv_ver_curr = mp.get_property_native("mpv-version", "unknown")
+local function incompat_check(full_str, tar_major, tar_minor, tar_patch)
+    if full_str == "unknown" then
+        return true
+    end
+
+    local clean_ver_str = full_str:gsub("^[^%d]*", "")
+    local major, minor, patch = clean_ver_str:match("^(%d+)%.(%d+)%.(%d+)")
+    major = tonumber(major)
+    minor = tonumber(minor)
+    patch = tonumber(patch or 0)
+    if major < tar_major then
+        return true
+    elseif major == tar_major then
+        if minor < tar_minor then
+            return true
+        elseif minor == tar_minor then
+            if patch < tar_patch then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+if incompat_check(mpv_ver_curr, min_major, min_minor, min_patch) then
+    mp.msg.warn("当前mpv版本 (" .. (mpv_ver_curr or "未知") .. ") 低于 " .. min_major .. "." .. min_minor .. "." .. min_patch .. "，已终止脚本。")
+    return
+end
+
+mp.observe_property("load-stats-overlay", "bool", function(_, value)
+    if value == true then
+        mp.set_property("load-stats-overlay", "no")
+        mp.msg.warn("请以 --load-stats-overlay=no 启动mpv，以避免部分脚本联动的功能无效。")
+    end
 end)
 
 local format = string.format
@@ -336,9 +378,15 @@ end
 -- exclude: Optional table containing keys which are considered invalid values
 --          for this property. Specifying this will replace empty string as
 --          default invalid value (nil is always invalid).
-local function append_property(s, prop, attr, excluded)
+-- cached : If true, use get_property_cached instead of get_property_osd
+local function append_property(s, prop, attr, excluded, cached)
     excluded = excluded or {[""] = true}
-    local ret = mp.get_property_osd(prop)
+    local ret
+    if cached then
+        ret = get_property_cached(prop)
+    else
+        ret = mp.get_property_osd(prop)
+    end
     if not ret or excluded[ret] then
         if o.debug then
             print("No value for property: " .. prop)
@@ -712,6 +760,7 @@ local function add_file(s, print_cache, print_tags)
     end
 
     if print_tags then
+        append_property(s, "duration", {prefix="持续时间："})
         local tags = mp.get_property_native("display-tags")
         local tags_displayed = 0
         for _, tag in ipairs(tags) do
@@ -842,30 +891,33 @@ local function append_hdr(s, hdr, video_out)
         return
     end
 
-    local function should_show(val)
-        return val and val ~= 203 and val > 0
+    local function has(val, target)
+        return val and math.abs(val - target) > 1e-4
     end
 
     -- If we are printing video out parameters it is just display, not mastering
     local display_prefix = video_out and "显示：" or "母版显示："
 
     local indent = ""
+    local has_dml = has(hdr["min-luma"], 0.203) or has(hdr["max-luma"], 203)
+    local has_cll = hdr["max-cll"] and hdr["max-cll"] > 0
+    local has_fall = hdr["max-fall"] and hdr["max-fall"] > 0
 
-    if should_show(hdr["max-cll"]) or should_show(hdr["max-luma"]) then
-        append(s, "", {prefix="HDR10:"})
-        if hdr["min-luma"] and should_show(hdr["max-luma"]) then
+    if has_dml or has_cll or has_fall then
+        append(s, "", {prefix=video_out and "" or "HDR10:", prefix_sep=video_out and "" or nil})
+        if has_dml then
             -- libplacebo uses close to zero values as "defined zero"
             hdr["min-luma"] = hdr["min-luma"] <= 1e-6 and 0 or hdr["min-luma"]
             append(s, format("%.2g / %.0f", hdr["min-luma"], hdr["max-luma"]),
                 {prefix=display_prefix, suffix=" cd/m²", nl="", indent=indent})
             indent = o.prefix_sep .. o.prefix_sep
         end
-        if should_show(hdr["max-cll"]) then
-            append(s, hdr["max-cll"], {prefix="MaxCLL:", suffix=" cd/m²", nl="",
-                                       indent=indent})
+        if has_cll then
+            append(s, string.format("%.0f", hdr["max-cll"]), {prefix="MaxCLL:",
+                                    suffix=" cd/m²", nl="", indent=indent})
             indent = o.prefix_sep .. o.prefix_sep
         end
-        if hdr["max-fall"] and hdr["max-fall"] > 0 then
+        if has_fall then
             append(s, hdr["max-fall"], {prefix="MaxFALL:", suffix=" cd/m²", nl="",
                                         indent=indent})
         end
@@ -920,7 +972,21 @@ local function append_img_params(s, r, ro)
 
     -- Group these together to save vertical space
     append(s, r["colormatrix"], {prefix="矩阵系数："})
-    append(s, r["primaries"], {prefix="色彩原色：", nl="", indent=indent})
+    if r["prim-red-x"] or r["prim-red-y"] or
+       r["prim-green-x"] or r["prim-green-y"] or
+       r["prim-blue-x"] or r["prim-blue-y"] or
+       r["prim-white-x"] or r["prim-white-y"] then
+        append(s, string.format("[%.3f %.3f, %.3f %.3f, %.3f %.3f, %.3f %.3f]",
+                                r["prim-red-x"] or 0, r["prim-red-y"] or 0,
+                                r["prim-green-x"] or 0, r["prim-green-y"] or 0,
+                                r["prim-blue-x"] or 0, r["prim-blue-y"] or 0,
+                                r["prim-white-x"] or 0, r["prim-white-y"] or 0),
+            {prefix="色彩原色：", nl="", indent=indent})
+        append(s, r["primaries"], {prefix="in", nl="", indent=" ", prefix_sep=" ",
+                                   no_prefix_markup=true})
+    else
+        append(s, r["primaries"], {prefix="色彩原色：", nl="", indent=indent})
+    end
     append(s, r["gamma"], {prefix="传输特性：", nl="", indent=indent})
 end
 
@@ -958,8 +1024,8 @@ local function add_video_out(s)
     append(s, "", {prefix="显示设备：", nl=o.nl .. o.nl, indent=""})
     append(s, vo, {prefix_sep="", nl="", indent=""})
 
-    append(s, get_property_cached("display-names"), {prefix_sep="", prefix="(", suffix=")",
-           no_prefix_markup=true, nl="", indent=" "})
+    append_property(s, "display-names", {prefix_sep="", prefix="(", suffix=")",
+                    no_prefix_markup=true, nl="", indent=" "}, nil, true)
     append(s, mp.get_property_native("current-gpu-context"),
            {prefix="GPU context：", nl="", indent=o.prefix_sep .. o.prefix_sep})
     append_property(s, "avsync", {prefix="A/V同步偏移："})
@@ -1015,18 +1081,18 @@ local function add_video(s)
     end
 
     local track = mp.get_property_native("current-tracks/video")
-    if track then
-        append(s, "", {prefix=track.image and "图片：" or "视频轨：", nl=o.nl .. o.nl, indent=""})
-        append(s, track["codec-desc"], {prefix_sep="", nl="", indent=""})
+    local track_type = (track and track.image) and "图片：" or "视频轨："
+    append(s, "", {prefix=track_type, nl=o.nl .. o.nl, indent=""})
+    if track and append(s, track["codec-desc"], {prefix_sep="", nl="", indent=""}) then
         append(s, track["codec-profile"], {prefix="[", nl="", indent=" ", prefix_sep="",
                no_prefix_markup=true, suffix="]"})
         if track["codec"] ~= track["decoder"] then
             append(s, track["decoder"], {prefix="[", nl="", indent=" ", prefix_sep="",
                    no_prefix_markup=true, suffix="]"})
         end
-        append(s, get_property_cached("hwdec-current"), {prefix="硬解API：", nl="",
-               indent=o.prefix_sep .. o.prefix_sep,
-               no_prefix_markup=false, suffix=""}, {no=true, [""]=true})
+        append_property(s, "hwdec-current", {prefix="硬解API：", nl="",
+                        indent=o.prefix_sep .. o.prefix_sep,
+                        no_prefix_markup=false, suffix=""}, {no=true, [""]=true}, true)
     end
     local has_prefix = false
     if o.show_frame_info then
@@ -1263,7 +1329,8 @@ local function add_track(c, t, i)
     append(c, t["external-filename"], {prefix="外部文件："})
     append(c, "", {prefix="标记："})
     local flags = {"default", "forced", "dependent", "visual-impaired",
-                   "hearing-impaired", "image", "albumart", "external"}
+                   "hearing-impaired", "original", "commentary", "image",
+                   "albumart", "external"}
     local any = false
     for _, flag in ipairs(flags) do
         if t[flag] then
@@ -1297,6 +1364,7 @@ local function add_track(c, t, i)
     if not t["image"] and t["demux-fps"] then
         append_fps(c, "track-list/" .. i .. "/demux-fps", "")
     end
+    append(c, t["format-name"], {prefix="像素/采样格式："})
     append(c, t["demux-rotation"], {prefix="旋转："})
     if t["demux-par"] then
         local num, den = float2rational(t["demux-par"])
@@ -1340,7 +1408,7 @@ local function track_info()
     table.insert(c, o.nl .. o.nl)
     add_file(c, false, true)
     for i, track in ipairs(mp.get_property_native("track-list")) do
-        if track['selected'] then
+        if track['selected'] or not o.track_info_selected_only then
             add_track(c, track, i - 1)
         end
     end
@@ -1390,7 +1458,7 @@ local function cache_stats()
     end
 
     local r_graph = nil
-    if not display_timer.oneshot and o.use_ass then
+    if not display_timer.oneshot and o.use_ass and o.plot_cache then
         r_graph = generate_graph(cache_ahead_buf, cache_ahead_buf.pos,
                                  cache_ahead_buf.len, cache_ahead_buf.max,
                                  nil, 0.8, 1)
@@ -1415,7 +1483,7 @@ local function cache_stats()
 
     local speed = info["raw-input-rate"] or 0
     local speed_graph = nil
-    if not display_timer.oneshot and o.use_ass then
+    if not display_timer.oneshot and o.use_ass and o.plot_cache then
         speed_graph = generate_graph(cache_speed_buf, cache_speed_buf.pos,
                                      cache_speed_buf.len, cache_speed_buf.max,
                                      nil, 0.8, 1)
@@ -1484,8 +1552,8 @@ pages = {
     [o.key_page_2] = { idx = 2, f = vo_stats, desc = "帧计时信息扩展", scroll = true },
     [o.key_page_3] = { idx = 3, f = cache_stats, desc = "缓存统计信息" },
     [o.key_page_4] = { idx = 4, f = keybinding_info, desc = "激活中的按键绑定信息", scroll = true },
-    [o.key_page_5] = { idx = 5, f = track_info, desc = "所选的轨道信息", scroll = true },
-    [o.key_page_0] = { idx = 1, f = perf_stats, desc = "内部性能信息", scroll = true },
+    [o.key_page_5] = { idx = 5, f = track_info, desc = "轨道信息", scroll = true },
+    [o.key_page_0] = { idx = 0, f = perf_stats, desc = "内部性能信息", scroll = true },
 }
 
 
@@ -1594,6 +1662,9 @@ local function unbind_scroll()
     end
 end
 
+local add_page_bindings
+local remove_page_bindings
+
 local function filter_bindings()
     input.get({
         prompt = "Filter bindings:",
@@ -1601,6 +1672,10 @@ local function filter_bindings()
             -- This is necessary to close the console if the oneshot
             -- display_timer expires without typing anything.
             searched_text = ""
+
+            -- Must be re-bound to override the console.lua bindings.
+            remove_page_bindings()
+            bind_scroll()
         end,
         edited = function (text)
             reset_scroll_offsets()
@@ -1614,6 +1689,7 @@ local function filter_bindings()
         closed = function ()
             searched_text = nil
             if display_timer:is_enabled() then
+                add_page_bindings()
                 print_page(curr_page)
                 if display_timer.oneshot then
                     display_timer:kill()
@@ -1621,7 +1697,6 @@ local function filter_bindings()
                 end
             end
         end,
-        dont_bind_up_down = true,
     })
 end
 
@@ -1663,7 +1738,7 @@ local function update_scroll_bindings(k)
 end
 
 -- Add keybindings for every page
-local function add_page_bindings()
+add_page_bindings = function()
     local function a(k)
         return function()
             reset_scroll_offsets()
@@ -1682,7 +1757,7 @@ end
 
 
 -- Remove keybindings for every page
-local function remove_page_bindings()
+remove_page_bindings = function()
     for k, _ in pairs(pages) do
         mp.remove_key_binding("__forced_"..k)
     end

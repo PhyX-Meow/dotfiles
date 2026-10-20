@@ -1,103 +1,65 @@
 --[[
-文档_ 无
+文档_ https://github.com/hooke007/mpv_PlayKit/discussions/615
 
 快捷指令增强
-
-可用的快捷键示例（在 input.conf 中写入）：
-
- <KEY>   script-binding input_plus/adevice_back        # 上一个音频输出设备
- <KEY>   script-binding input_plus/adevice_next        # 下...
- <KEY>   script-binding input_plus/adevice_all_back    # 上...（包括不属于当前 --ao 的设备）
- <KEY>   script-binding input_plus/adevice_all_next    # 下...
-
- <KEY>   script-binding input_plus/chap_skip_toggle    # 启用/禁用强制自动跳过章节（片头片尾）
-
- <KEY>   script-binding input_plus/import_files        # 打开文件（唤起一个打开文件的窗口，下面三项同理 仅Windows可用）
- <KEY>   script-binding input_plus/import_url          # 打开地址（不可取消）
- <KEY>   script-binding input_plus/append_aid          # 追加其它音轨（不切换）
- <KEY>   script-binding input_plus/append_sid          # 追加其它字幕（切换）
-
- <KEY>   script-binding input_plus/info_toggle         # 启用/禁用仿Pot的OSD常驻显示简要信息
-
- <KEY>   script-binding input_plus/load_cbd            # 加载剪贴板地址
- <KEY>   script-binding input_plus/load_cbd_add        # ...（追加到列表）
- <KEY>   script-binding input_plus/load_cbd_alt        # 加载主缓冲区地址（仅Linux可用）
- <KEY>   script-binding input_plus/load_cbd_alt_add    # ...（追加到列表）
-
- <KEY>   script-binding input_plus/mark_aid_A          # 标记当前音轨为A
- <KEY>   script-binding input_plus/mark_aid_B          # 标记当前音轨为B
- <KEY>   script-binding input_plus/mark_aid_merge      # 合并AB音轨
- <KEY>   script-binding input_plus/mark_aid_reset      # 取消AB并轨和标记
- <KEY>   script-binding input_plus/mark_aid_fin        # （单键实现上述四项命令）
-
- <KEY>   script-binding input_plus/ostime_display      # 临时显示系统时间
- <KEY>   script-binding input_plus/ostime_toggle       # 启用/禁用显示系统时间
-
- <KEY>   script-binding input_plus/pip_dummy           # 画中画（伪）/小窗化
- <KEY>   script-binding input_plus/pip_dummy_p05       # ...（5%的尺寸占比）
- <KEY>   script-binding input_plus/pip_dummy_p20       # ...（20%...）
-
- <KEY>   script-binding input_plus/playlist_order_0    # 播放列表的洗牌与撤销
- <KEY>   script-binding input_plus/playlist_order_0r   # ...（重定向至首个文件）
- <KEY>   script-binding input_plus/playlist_order_1    # 播放列表连续洗牌（可用上两项命令恢复）
- <KEY>   script-binding input_plus/playlist_order_1r   # ...
- <KEY>   script-binding input_plus/playlist_random     # 随机跳转到播放列表中的任一条目
- <KEY>   script-binding input_plus/playlist_tmp_save   # 保存当前播放列表为临时列表（位于主设置目录 playlist_temp.mpl ）
- <KEY>   script-binding input_plus/playlist_tmp_load   # 打开临时播放列表
-
- <KEY>   script-binding input_plus/quit_real           # 对执行退出命令前的确认（防止误触）
- <KEY>   script-binding input_plus/quit_wait           # 延后退出命令的执行（执行前再次触发可取消）
-
- <KEY>   script-binding input_plus/seek_acc            # [按住/松开] 非线性向前跳转（模拟流媒体平台的跳转方式）
- <KEY>   script-binding input_plus/seek_acc_back       # [按住/松开] ......向后...
- <KEY>   script-binding input_plus/seek_acc_alt        # [按住/松开] ...（防止关键帧异常的备用）
- <KEY>   script-binding input_plus/seek_acc_back_alt   # [按住/松开] ...
-
- <KEY>   script-binding input_plus/sids_sec_swap       # 双字幕的主次交换
-
- <KEY>   script-binding input_plus/speed_auto          # [按住/松开] 两倍速/一倍速
- <KEY>   script-binding input_plus/speed_auto_bullet   # [按住/松开] 子弹时间/一倍速
- <KEY>   script-binding input_plus/speed_recover       # 仿Pot的速度重置与恢复
- <KEY>   script-binding input_plus/speed_sync_toggle   # 启用/禁用自适应速度偏移（补偿显示刷新率）
-
- <KEY>   script-binding input_plus/stats_1_2           # 单键浏览统计数据第1至2页
- <KEY>   script-binding input_plus/stats_0_4           # 单键浏览统计数据第0至4页
-
- <KEY>   script-binding input_plus/trackA_back         # 上一个音频轨道（自动跳过无轨道）
- <KEY>   script-binding input_plus/trackA_next         # 下...
- <KEY>   script-binding input_plus/trackS_back         # 上一个字幕轨道...
- <KEY>   script-binding input_plus/trackS_next         # 下...
- <KEY>   script-binding input_plus/trackV_back         # 上一个视频轨道...
- <KEY>   script-binding input_plus/trackV_next         # 下...
-
- <KEY>   script-binding input_plus/trackA_refresh      # 刷新当前轨道（音频）
- <KEY>   script-binding input_plus/trackS_refresh      # ............（字幕）
- <KEY>   script-binding input_plus/trackV_refresh      # ............（视频）
-
- <KEY>   script-binding input_plus/volume_db_dec       # 减少音量（以分贝为单位）
- <KEY>   script-binding input_plus/volume_db_inc       # 增加...
-
-
- <KEY>   script-message-to input_plus cycle-cmds "cmd1" "cmd2"   # 循环触发命令
-
 ]]
 
+local mp = require "mp"
+mp.options = require "mp.options"
+mp.utils = require "mp.utils"
 
-local utils = require("mp.utils")
+local user_opt = {
+	load = true,
+}
+mp.options.read_options(user_opt)
 
-function check_plat()
-	if mp.get_property_native("platform") == "windows" then
-		return "windows"
-	elseif string.sub((os.getenv("HOME")), 1, 6) == "/Users" then
-		return "macos"
-	elseif os.getenv("WAYLAND_DISPLAY") then
-		return "wayland"
+if user_opt.load == false then
+	mp.msg.info("脚本已被初始化禁用")
+	return
+end
+-- 原因：stats 新增了第五页
+local min_major = 0
+local min_minor = 39
+local min_patch = 0
+local mpv_ver_curr = mp.get_property_native("mpv-version", "unknown")
+local function incompat_check(full_str, tar_major, tar_minor, tar_patch)
+	if full_str == "unknown" then
+		return true
 	end
-	return "x11"
+
+	local clean_ver_str = full_str:gsub("^[^%d]*", "")
+	local major, minor, patch = clean_ver_str:match("^(%d+)%.(%d+)%.(%d+)")
+	major = tonumber(major)
+	minor = tonumber(minor)
+	patch = tonumber(patch or 0)
+	if major < tar_major then
+		return true
+	elseif major == tar_major then
+		if minor < tar_minor then
+			return true
+		elseif minor == tar_minor then
+			if patch < tar_patch then
+				return true
+			end
+		end
+	end
+
+	return false
+end
+if incompat_check(mpv_ver_curr, min_major, min_minor, min_patch) then
+	mp.msg.warn("当前mpv版本 (" .. (mpv_ver_curr or "未知") .. ") 低于 " .. min_major .. "." .. min_minor .. "." .. min_patch .. "，已终止脚本。")
+	return
 end
 
-function round(n)
+local function round(n)
 	return n + (2^52 + 2^51) - (2^52 + 2^51)
+end
+
+local function ass_escape(s)
+	s = s:gsub("\\", "\\\\")
+	s = s:gsub("{", "\\{")
+	s = s:gsub("}", "\\}")
+	return s
 end
 
 
@@ -106,7 +68,7 @@ end
 -- 变量预设
 --
 
-local plat = check_plat()
+local plat = mp.get_property_native("platform")
 
 local adevicelist = {}
 local target_ao = nil
@@ -118,12 +80,27 @@ local chap_keywords = {
 }
 
 local cmds_sqnum = {}
+local prop_tmp = ""
 
 local osm = mp.create_osd_overlay("ass-events")
 local osm_showing = false
+local osm_timer = nil
 local style_generic = "{\\rDefault\\fnConsolas\\fs20\\blur1\\bord2\\1c&HFFFFFF\\3c&H000000}"
 
-local text_pasted = nil
+local oskn_active = false
+local oskn_overlay = mp.create_osd_overlay("ass-events")
+oskn_overlay.res_x = 1280
+oskn_overlay.res_y = 720
+local oskn_hide_timer = nil
+local oskn_section = "show-keyname"
+local oskn_ignore_keys = { CLOSE_WIN = true, MOUSE_ENTER = true, MOUSE_LEAVE = true, MOUSE_MOVE = true }
+local oskn_nav_keys = { UP = true, DOWN = true, LEFT = true, RIGHT = true,
+	HOME = true, END = true, PGUP = true, PGDWN = true}
+local oskn_special_keys = { ESC = true, TAB = true, ENTER = true, BS = true,
+	DEL = true, INS = true, SPACE = true, PRINT = true, IDEOGRAPHIC_SPACE = true }
+local oskn_combo_color = "&H9E4A00&" -- 修饰符前缀：深蓝
+local oskn_hint = ""
+local oskn_replay_cmds = { down = "keydown", up = "keyup", press = "keypress", ["repeat"] = "keypress" }
 
 local marked_aid_A = nil
 local marked_aid_B = nil
@@ -132,7 +109,13 @@ local merged_aid = false
 
 local ostime_msg = mp.create_osd_overlay("ass-events")
 local ostime_showing = false
+local ostime_timer = nil
 local ostime_style = "{\\rDefault\\fnmpv-osd-symbols\\fs30\\bord2\\an9\\alpha&H80\\1c&H01DBF1\\3c&H000000}"
+
+local osd_hack = mp.create_osd_overlay("ass-events")
+local osd_hack_freq = 1/60
+osd_hack.data = "{\\rDefault\\an9\\alpha&HFF\\1c&HFFFFFF\\3c&HFFFFFF}" .. "FF"
+local osd_hack_timer = nil
 
 local scale_target = 0
 
@@ -146,6 +129,7 @@ local seek_dur_init = 0
 local seek_dur_step = 1
 local seek_dur = seek_dur_init
 
+local spd_target = 3
 local bak_speed = nil
 local spd_adapt = false
 local spd_iters_max = 10
@@ -160,7 +144,7 @@ local show_page = 0
 -- 函数设定
 --
 
-function adevicelist_pre(start)
+local function adevicelist_pre(start)
 	mp.set_property("audio-device", adevicelist[start].name)
 	adevicelist[start].description = "■ " .. adevicelist[start].description
 	local adevice_content = tostring("音频输出设备：\n")
@@ -174,7 +158,7 @@ function adevicelist_pre(start)
 	end
 	mp.osd_message(adevice_content, 2)
 end
-function adevicelist_pass(start, fin, step)
+local function adevicelist_pass(start, fin, step)
 	while start ~= fin + step do
 		if string.find(mp.get_property_native("audio-device"), adevicelist[start].name, 1, true) then
 			while true do
@@ -193,7 +177,7 @@ function adevicelist_pass(start, fin, step)
 		start = start + step
 	end
 end
-function adevicelist_fin(start, fin, step, dynamic)
+local function adevicelist_fin(start, fin, step, dynamic)
 	if dynamic then
 		target_ao = ""
 	else
@@ -203,7 +187,7 @@ function adevicelist_fin(start, fin, step, dynamic)
 end
 
 
-function chap_skip_check(_, value)
+local function chap_skip_check(_, value)
 	if not value then
 		return
 	end
@@ -214,20 +198,64 @@ function chap_skip_check(_, value)
 		end
 	end
 end
-function chap_skip_toggle()
+local function chap_skip_toggle()
 	if chap_skip then
 		mp.unobserve_property(chap_skip_check)
 		chap_skip = false
-		mp.osd_message("已禁用跳过片头片尾", 1)
+		mp.osd_message("[input_plus] " .. "已禁用跳过片头片尾", 1)
 		return
 	end
 	mp.observe_property("chapter-metadata/TITLE", "string", chap_skip_check)
 	chap_skip = true
-	mp.osd_message("已启用跳过片头片尾", 1)
+	mp.osd_message("[input_plus] " .. "已启用跳过片头片尾", 1)
+end
+
+local function chapter_seek_force(step, nat, uosc)
+	if tonumber(step) >= 0 then
+		step = 1
+	else
+		step = -1
+	end
+	local path = mp.get_property_native("path", "")
+	if path == "" then
+		return
+	end
+	local chapter_all = mp.get_property_number("chapters", 0)
+	local chapter_act = mp.get_property_number("chapter", 0) + step
+	if chapter_act < 0 then
+		if uosc then
+			mp.commandv("script-binding", "uosc/prev")
+		else
+			mp.commandv("playlist-prev", "weak")
+		end
+		if nat then
+			mp.add_timeout(0.1, function()
+				local path2 = mp.get_property_native("path", "")
+				if path2 == path then
+					return
+				else
+					local chapter_act2 = mp.get_property_number("chapters", 0) - 1
+					if chapter_act2 <= 0 then
+						return
+					else
+						mp.commandv("set", "chapter", chapter_act2)
+					end
+				end
+			end)
+		end
+	elseif chapter_act >= chapter_all then
+		if uosc then
+			mp.commandv("script-binding", "uosc/next")
+		else
+			mp.commandv("playlist-next", "weak")
+		end
+	else
+		mp.commandv("add", "chapter", step)
+	end
 end
 
 
-function cycle_cmds(...)
+local function cycle_cmds(...)
 	local cmds_list = {...}
 	local cur_cmd = table.concat(cmds_list, "|")
 	cmds_sqnum[cur_cmd] = (cmds_sqnum[cur_cmd] or 0) % #cmds_list + 1
@@ -235,125 +263,140 @@ function cycle_cmds(...)
 end
 
 
-function import_files()
+local function import_via_dialog(config)
+	if plat ~= "windows" then
+		return
+	end
+
 	local was_ontop = mp.get_property_native("ontop")
 	if was_ontop then mp.set_property_native("ontop", false) end
-	local res = utils.subprocess({
-		args = {'powershell', '-NoProfile', '-Command', [[& {
-			Trap {
-				Write-Error -ErrorRecord $_
-				Exit 1
-			}
-			Add-Type -AssemblyName PresentationFramework
-			$u8 = [System.Text.Encoding]::UTF8
-			$out = [Console]::OpenStandardOutput()
-			$ofd = New-Object -TypeName Microsoft.Win32.OpenFileDialog
-			$ofd.Multiselect = $true
-			If ($ofd.ShowDialog() -eq $true) {
-				ForEach ($filename in $ofd.FileNames) {
-					$u8filename = $u8.GetBytes("$filename`n")
-					$out.Write($u8filename, 0, $u8filename.Length)
-				}
-			}
-		}]]},
+
+	local res = mp.utils.subprocess({
+		args = {'powershell', '-NoProfile', '-Command', config.ps_script},
 		cancellable = false,
 	})
+
 	if was_ontop then mp.set_property_native("ontop", true) end
-	if (res.status ~= 0) then return end
-	local first_file = true
-	for filename in string.gmatch(res.stdout, '[^\n]+') do
-		mp.commandv("loadfile", filename, first_file and "replace" or "append")
-		first_file = false
+
+	if res.status == 0 and res.stdout then
+		config.handler(res.stdout)
 	end
 end
-function import_url()
-	local was_ontop = mp.get_property_native("ontop")
-	if was_ontop then mp.set_property_native("ontop", false) end
-	local res = utils.subprocess({
-		args = {'powershell', '-NoProfile', '-Command', [[& {
-			Trap {
-				Write-Error -ErrorRecord $_
-				Exit 1
+local function get_file_dialog_ps(multiselect)
+	return string.format([[& {
+		Trap { Write-Error -ErrorRecord $_; Exit 1 }
+		Add-Type -AssemblyName PresentationFramework
+		$u8 = [System.Text.Encoding]::UTF8
+		$out = [Console]::OpenStandardOutput()
+		$ofd = New-Object -TypeName Microsoft.Win32.OpenFileDialog
+		$ofd.Multiselect = %s
+		If ($ofd.ShowDialog() -eq $true) {
+			ForEach ($filename in $ofd.FileNames) {
+				$u8filename = $u8.GetBytes("$filename`n")
+				$out.Write($u8filename, 0, $u8filename.Length)
 			}
+		}
+	}]], multiselect)
+end
+local import_configs = {
+	files = {
+		ps_script = get_file_dialog_ps("$true"),
+		handler = function(stdout)
+			local first_file = true
+			for filename in string.gmatch(stdout, '[^\r\n]+') do
+				local mode = first_file and "replace" or "append"
+				mp.commandv("loadfile", filename, mode)
+				first_file = false
+			end
+		end
+	},
+
+	dvd_iso = {
+		ps_script = get_file_dialog_ps("$false"),
+		handler = function(stdout)
+			for filename in string.gmatch(stdout, '[^\r\n]+') do
+				mp.commandv("set", "dvd-device", filename)
+				mp.commandv("loadfile", "dvd://", "replace")
+				break
+			end
+		end
+	},
+
+	bd_iso = {
+		ps_script = get_file_dialog_ps("$false"),
+		handler = function(stdout)
+			for filename in string.gmatch(stdout, '[^\r\n]+') do
+				mp.commandv("set", "bluray-device", filename)
+				mp.commandv("loadfile", "bd://", "replace")
+				break
+			end
+		end
+	},
+
+	audio = {
+		ps_script = get_file_dialog_ps("$false"),
+		handler = function(stdout)
+			for filename in string.gmatch(stdout, '[^\r\n]+') do
+				mp.commandv("audio-add", filename, "auto")
+			end
+		end
+	},
+
+	subtitle = {
+		ps_script = get_file_dialog_ps("$false"),
+		handler = function(stdout)
+			for filename in string.gmatch(stdout, '[^\r\n]+') do
+				mp.commandv("sub-add", filename, "cached")
+			end
+		end
+	},
+
+	url = {
+		ps_script = [[& {
+			Trap { Write-Error -ErrorRecord $_; Exit 1 }
 			Add-Type -AssemblyName Microsoft.VisualBasic
 			$u8 = [System.Text.Encoding]::UTF8
 			$out = [Console]::OpenStandardOutput()
 			$urlname = [Microsoft.VisualBasic.Interaction]::InputBox("输入地址", "打开", "https://")
 			$u8urlname = $u8.GetBytes("$urlname")
 			$out.Write($u8urlname, 0, $u8urlname.Length)
-		}]]},
-		cancellable = false,
-	})
-	if was_ontop then mp.set_property_native("ontop", true) end
-	if (res.status ~= 0) then return end
-	mp.commandv("loadfile", res.stdout)
-end
-function import_append_aid()
-	local was_ontop = mp.get_property_native("ontop")
-	if was_ontop then mp.set_property_native("ontop", false) end
-	local res = utils.subprocess({
-		args = {'powershell', '-NoProfile', '-Command', [[& {
-			Trap {
-				Write-Error -ErrorRecord $_
-				Exit 1
-			}
-			Add-Type -AssemblyName PresentationFramework
-			$u8 = [System.Text.Encoding]::UTF8
-			$out = [Console]::OpenStandardOutput()
-			$ofd = New-Object -TypeName Microsoft.Win32.OpenFileDialog
-			$ofd.Multiselect = $false
-			If ($ofd.ShowDialog() -eq $true) {
-				ForEach ($filename in $ofd.FileNames) {
-					$u8filename = $u8.GetBytes("$filename")
-					$out.Write($u8filename, 0, $u8filename.Length)
-				}
-			}
-		}]]},
-		cancellable = false,
-	})
-	if was_ontop then mp.set_property_native("ontop", true) end
-	if (res.status ~= 0) then return end
-	for filename in string.gmatch(res.stdout, '[^\n]+') do
-		mp.commandv("audio-add", filename, "auto")
+		}]],
+		handler = function(stdout)
+			mp.commandv("loadfile", stdout)
+		end
+	}
+}
+local function import_files(iso)
+	if plat ~= "windows" then
+		return
+	end
+	local config_map = {
+		[0] = import_configs.files,
+		[1] = import_configs.dvd_iso,
+		[2] = import_configs.bd_iso
+	}
+	local config = config_map[iso]
+	if config then
+		import_via_dialog(config)
 	end
 end
-function import_append_sid()
-	local was_ontop = mp.get_property_native("ontop")
-	if was_ontop then mp.set_property_native("ontop", false) end
-	local res = utils.subprocess({
-		args = {'powershell', '-NoProfile', '-Command', [[& {
-			Trap {
-				Write-Error -ErrorRecord $_
-				Exit 1
-			}
-			Add-Type -AssemblyName PresentationFramework
-			$u8 = [System.Text.Encoding]::UTF8
-			$out = [Console]::OpenStandardOutput()
-			$ofd = New-Object -TypeName Microsoft.Win32.OpenFileDialog
-			$ofd.Multiselect = $false
-			If ($ofd.ShowDialog() -eq $true) {
-				ForEach ($filename in $ofd.FileNames) {
-					$u8filename = $u8.GetBytes("$filename")
-					$out.Write($u8filename, 0, $u8filename.Length)
-				}
-			}
-		}]]},
-		cancellable = false,
-	})
-	if was_ontop then mp.set_property_native("ontop", true) end
-	if (res.status ~= 0) then return end
-	for filename in string.gmatch(res.stdout, '[^\n]+') do
-		mp.commandv("sub-add", filename, "cached")
-	end
+local function import_url()
+	import_via_dialog(import_configs.url)
+end
+local function import_append_aid()
+	import_via_dialog(import_configs.audio)
+end
+local function import_append_sid()
+	import_via_dialog(import_configs.subtitle)
 end
 
 
-function info_get()
+local function info_get()
 	local conf_dir = mp.get_property_bool("config") and mp.command_native({"expand-path", "~~/"}) or "no"
 	local osd_dims = mp.get_property_native("osd-dimensions")
 	local w_s, h_s = osd_dims["w"] - osd_dims["ml"] - osd_dims["mr"], osd_dims["h"] - osd_dims["mt"] - osd_dims["mb"]
 	local cur_name = mp.get_property_osd("media-title") or mp.get_property_osd("filename")
-	local vid_params = mp.get_property_native("video-params") or "..."
+	local vid_params = mp.get_property_native("video-params") or {}
 	local w_raw, h_raw, pix_fmt, color_lv = vid_params["w"] or 0, vid_params["h"] or 0, vid_params["hw-pixelformat"] or vid_params["pixelformat"] or "...", vid_params["colorlevels"] or "..."
 	local fps_o, fps_t = string.format("%0.3f", mp.get_property_number("container-fps", 0)), string.format("%0.3f", mp.get_property_number("estimated-vf-fps", 0))
 	local bitrateV, bitrateA = mp.get_property_number("video-bitrate", 0) / 1000, mp.get_property_number("audio-bitrate", 0) / 1000
@@ -382,7 +425,7 @@ function info_get()
 	)
 	return tostring(txt)
 end
-function info_toggle()
+local function info_toggle()
 	if osm_showing then
 		osm:remove()
 		osm_timer:kill()
@@ -403,86 +446,209 @@ function info_toggle()
 end
 
 
-function copy_clipboard(clip)
-	if plat == "windows" then
-		local res = utils.subprocess({
-			args = { 'powershell', '-NoProfile', '-Command', [[& {
-				Trap {
-					Write-Error -ErrorRecord $_
-					Exit 1
-				}
-				$clip = ""
-				if (Get-Command "Get-Clipboard" -errorAction SilentlyContinue) {
-					$clip = Get-Clipboard -Raw -Format Text -TextFormatType UnicodeText
-				} else {
-					Add-Type -AssemblyName PresentationCore
-					$clip = [Windows.Clipboard]::GetText()
-				}
-				$clip = $clip -Replace "`r",""
-				$u8clip = [System.Text.Encoding]::UTF8.GetBytes($clip)
-				[Console]::OpenStandardOutput().Write($u8clip, 0, $u8clip.Length)
-			}]] },
-			playback_only = false,
-		})
-		if not res.error then
-			return res.stdout
-		end
-	elseif plat == "macos" then
-		local res = utils.subprocess({args = { 'pbpaste' }, playback_only = false,})
-		if not res.error then
-			return res.stdout
-		end
-	elseif plat == "x11" then
-		local res = utils.subprocess({args = { 'xclip', '-selection', clip and 'clipboard' or 'primary', '-out' }, playback_only = false,})
-		if not res.error then
-			return res.stdout
-		end
-	elseif plat == "wayland" then
-		local res = utils.subprocess({args = { 'wl-paste', clip and '-n' or  '-np' }, playback_only = false,})
-		if not res.error then
-			return res.stdout
-		end
+local function oskn_get_color(name)
+	if name:match("^F%d+$") then return "&H7A2E80&" end      -- 功能键：紫色
+	if name:match("^KP") then return "&H7A2E80&" end         -- 小键盘：紫色
+	if oskn_nav_keys[name] then return "&H2E8B00&" end       -- 导航键：深绿
+	if name:match("^MBTN") or name:match("^MOUSE_BTN")
+		or name:match("^WHEEL_") or name:match("^AXIS_") then
+		return "&H998800&"                                   -- 鼠标：深青
 	end
-	return ""
+	if name:match("^GAMEPAD_") then return "&H2E6B8B&" end   -- 手柄：深黄
+	if name:match("^TABLET_") then return "&H2E6B8B&" end    -- 数位板：深黄
+	if name:match("^XF86_") then return "&H6B238E&" end      -- 多媒体（废弃）：深紫
+	if oskn_special_keys[name] then return "&H0048B8&" end   -- 特殊键：深橙
+	-- 多媒体/遥控器键（全大写且无下划线前缀已被上方匹配）
+	if name:match("^%u[%u_]+$") and #name > 2 and name ~= "SHARP" then
+		return "&H6B238E&"                                   -- 多媒体键：深紫
+	end
+	return "&H333333&"                                       -- 常规字符：深灰
 end
-function load_clipboard(action, clip)
-	if not clip and (plat == "windows" or plat == "macos") then
+local function oskn_rounded_rect(w, h, r)
+	local c = 0.5519 * r
+	return table.concat({
+		string.format("m %d 0", r),
+		string.format("l %d 0", w - r),
+		string.format("b %d 0 %d %d %d %d", w - r + c, w, r - c, w, r),
+		string.format("l %d %d", w, h - r),
+		string.format("b %d %d %d %d %d %d", w, h - r + c, w - r + c, h, w - r, h),
+		string.format("l %d %d", r, h),
+		string.format("b %d %d 0 %d 0 %d", r - c, h, h - r + c, h - r),
+		string.format("l 0 %d", r),
+		string.format("b 0 %d %d 0 %d 0", r - c, r - c, r),
+	}, " ")
+end
+-- 拆分组合键的修饰符前缀和基础键
+local function oskn_split_combo(name)
+	local mods, base = name:match("^(.*%+)([^+]+)$")
+	if mods and (mods:find("Ctrl%+") or mods:find("Alt%+")
+		or mods:find("Shift%+") or mods:find("Meta%+")) then
+		return mods, base
+	end
+	return nil, name
+end
+local function oskn_find_toggle_keys()
+	local keys = {}
+	local seen = {}
+	local bindings = mp.get_property_native("input-bindings", {})
+	for _, b in ipairs(bindings) do
+		if b.cmd and b.cmd:find("input_test_toggle") and not seen[b.key] then
+			seen[b.key] = true
+			keys[#keys + 1] = b.key
+		end
+	end
+	return keys
+end
+local function oskn_show(name)
+	if oskn_hide_timer then
+		oskn_hide_timer:kill()
+	end
+
+	local mods, base = oskn_split_combo(name)
+	local base_color = oskn_get_color(base)
+
+	local escaped_text
+	if mods then
+		escaped_text = "{\\1c" .. oskn_combo_color .. "}" .. ass_escape(mods) .. "{\\1c" .. base_color .. "}" .. ass_escape(base)
+	else
+		escaped_text = "{\\1c" .. base_color .. "}" .. ass_escape(name)
+	end
+
+	local fs = 64
+	local char_count = #name
+	local text_w = math.max(char_count * fs * 0.55, fs)
+	local pad_x, pad_y = 36, 18
+	local w = text_w + pad_x * 2
+	local h = fs + pad_y * 2
+	local r = 16
+
+	local cx, cy = oskn_overlay.res_x / 2, oskn_overlay.res_y / 2
+
+	local bg = string.format(
+		"{\\rDefault\\an5\\pos(%d,%d)\\p1\\1c&HE8E8E8&\\1a&H18&\\bord0\\shad0}%s",
+		cx, cy, oskn_rounded_rect(w, h, r)
+	)
+	local txt = string.format(
+		"{\\rDefault\\an5\\pos(%d,%d)\\fs%d\\b1\\bord0\\shad0}%s",
+		cx, cy, fs, escaped_text
+	)
+
+	oskn_overlay.data = oskn_hint .. "\n" .. bg .. "\n" .. txt
+	oskn_overlay:update()
+
+	oskn_hide_timer = mp.add_timeout(2, function()
+		oskn_overlay.data = oskn_hint
+		oskn_overlay:update()
+		oskn_hide_timer = nil
+	end)
+end
+local function oskn_deactivate()
+	mp.input_disable_section(oskn_section)
+	mp.input_define_section(oskn_section, "")
+	mp.remove_key_binding("oskn-handler")
+
+	if oskn_hide_timer then
+		oskn_hide_timer:kill()
+		oskn_hide_timer = nil
+	end
+	oskn_overlay:remove()
+end
+local function oskn_on_key(info)
+	local name = info.key_name or info.key_text or "?"
+
+	-- ESC 作为回退备用按键
+	if name == "ESC" and (info.event == "down" or info.event == "press") then
+		oskn_active = false
+		oskn_deactivate()
 		return
 	end
-	local text = copy_clipboard(clip):gsub("^%s*", ""):gsub("%s*$", "")
-	if text == text_pasted and action == "replace" then
-		mp.osd_message("剪贴板内容无变动", 1)
+
+	-- 黑名单按键：不显示且到达原有绑定
+	if oskn_ignore_keys[name] then
+		local cmd = oskn_replay_cmds[info.event]
+		if cmd and name then
+			mp.input_disable_section(oskn_section)
+			mp.commandv(cmd, name)
+			mp.add_timeout(0, function()
+				if oskn_active then
+					mp.input_enable_section(oskn_section, "exclusive")
+				end
+			end)
+		end
 		return
 	end
-	mp.commandv("loadfile", text, action)
-	text_pasted = text
+
+	if (info.event == "down" or info.event == "press") then
+		oskn_show(name)
+	end
+end
+local function oskn_build_section()
+	local sn = mp.get_script_name()
+	local toggle_keys = oskn_find_toggle_keys()
+	local lines = {
+		"any_unicode script-binding " .. sn .. "/oskn-handler",
+		"unmapped script-binding " .. sn .. "/oskn-handler",
+	}
+	for _, key in ipairs(toggle_keys) do
+		table.insert(lines, key .. " script-binding " .. sn .. "/input_test_toggle") -- 关联激活的快捷指令
+	end
+	return table.concat(lines, "\n")
+end
+local function oskn_activate()
+	mp.add_key_binding(nil, "oskn-handler", oskn_on_key,
+		{complex = true, repeatable = true})
+
+	mp.input_define_section(oskn_section, oskn_build_section(), "force")
+	mp.input_enable_section(oskn_section, "exclusive")
+
+	local toggle_keys = oskn_find_toggle_keys()
+	local exit_text = "ESC"
+	if #toggle_keys > 0 then
+		exit_text = table.concat(toggle_keys, " / ") .. " / ESC"
+	end
+	oskn_hint = "{\\rDefault\\an1\\fs58\\blur1\\bord2\\shad0\\1c&HFFFFFF&\\3c&H000000&}按键测试模式 (" .. exit_text .. " 退出)"
+	oskn_overlay.data = oskn_hint
+	oskn_overlay:update()
+end
+local function oskn_toggle()
+	oskn_active = not oskn_active
+	if oskn_active then
+		oskn_activate()
+	else
+		oskn_deactivate()
+	end
 end
 
 
-function mark_aid_reset()
+local function mark_aid_check()
+	if not mark_aid_reg then return end
+	if marked_aid_A ~= nil or marked_aid_B ~= nil then
+		mp.command("no-osd set lavfi-complex \"\"")
+		merged_aid = false
+		marked_aid_A, marked_aid_B = nil, nil
+		mp.osd_message("[input_plus] " .. "已取消并轨和标记", 1)
+		mark_aid_reg = false
+	end
+	mp.msg.info("mark_aid_check 重置并轨和标记")
+end
+local function mark_aid_reset()
 	mp.command("no-osd set lavfi-complex \"\"")
 	merged_aid = false
 	marked_aid_A, marked_aid_B = nil, nil
-	mp.osd_message("已取消并轨和标记", 1)
+	mp.osd_message("[input_plus] " .. "已取消并轨和标记", 1)
 	if mark_aid_reg then
 		mp.unregister_event(mark_aid_check)
 		mark_aid_reg = false
 	end
 end
-function mark_aid_check()
-	if marked_aid_A ~= nil or marked_aid_B ~= nil then
-		mark_aid_reset()
-	end
-	mp.msg.info("mark_aid_check 重置并轨和标记", 1)
-end
-function mark_aid_A()
+local function mark_aid_A()
 	marked_aid_A = mp.get_property_number("aid", 0)
 	if marked_aid_A == 0
 	then
-		mp.osd_message("当前音轨无效", 1)
+		mp.osd_message("[input_plus] " .. "当前音轨无效", 1)
 		marked_aid_A = nil
 	else
-		mp.osd_message("预标记当前音轨序列 " .. marked_aid_A .. " 为并行轨A", 1)
+		mp.osd_message("[input_plus] " .. "预标记当前音轨序列 " .. marked_aid_A .. " 为并行轨A", 1)
 	end
 	if mark_aid_reg then
 		return
@@ -491,14 +657,14 @@ function mark_aid_A()
 		mark_aid_reg = true
 	end
 end
-function mark_aid_B()
+local function mark_aid_B()
 	marked_aid_B = mp.get_property_number("aid", 0)
 	if marked_aid_B == 0
 	then
-		mp.osd_message("当前音轨无效", 1)
+		mp.osd_message("[input_plus] " .. "当前音轨无效", 1)
 		marked_aid_B = nil
 	else
-		mp.osd_message("预标记当前音轨序列 " .. marked_aid_B .. " 为并行轨B", 1)
+		mp.osd_message("[input_plus] " .. "预标记当前音轨序列 " .. marked_aid_B .. " 为并行轨B", 1)
 	end
 	if mark_aid_reg then
 		return
@@ -507,18 +673,18 @@ function mark_aid_B()
 		mark_aid_reg = true
 	end
 end
-function mark_aid_merge()
+local function mark_aid_merge()
 	if marked_aid_A == marked_aid_B or marked_aid_A == nil or marked_aid_B == nil
 	then
-		mp.osd_message("无效的AB音轨", 1)
+		mp.osd_message("[input_plus] " .. "无效的AB音轨", 1)
 		marked_aid_A, marked_aid_B = nil, nil
 	else
 		mp.command("set lavfi-complex \"[aid" .. marked_aid_A .. "] [aid" .. marked_aid_B .. "] amix [ao]\"")
-		mp.osd_message("已合并AB音轨", 1)
+		mp.osd_message("[input_plus] " .. "已合并AB音轨", 1)
 		merged_aid = true
 	end
 end
-function mark_aid_fin()
+local function mark_aid_fin()
 	if merged_aid then
 		mark_aid_reset()
 		mp.commandv("set", "aid", "auto")
@@ -536,12 +702,12 @@ function mark_aid_fin()
 end
 
 
-function draw_ostime()
+local function draw_ostime()
 	local ostime = os.date("*t")
 	ostime_msg.data = ostime_style .. "\238\128\134 " .. string.format("%02d:%02d:%02d", ostime.hour, ostime.min, ostime.sec)
 	ostime_msg:update()
 end
-function ostime_toggle()
+local function ostime_toggle()
 	if ostime_showing then
 		ostime_timer:kill()
 		ostime_msg:remove()
@@ -551,7 +717,7 @@ function ostime_toggle()
 		ostime_showing = true
 	end
 end
-function ostime_display()
+local function ostime_display()
 	if ostime_showing then
 		return
 	end
@@ -566,7 +732,53 @@ function ostime_display()
 end
 
 
-function scale_recal(pct)
+local function update_osd()
+	osd_hack:update()
+end
+local function osd_hack_set(num, freq)
+	num = tonumber(num) or -1
+	if num ~= 0  and num ~= 1 then
+		return
+	end
+	freq = tonumber(freq) or osd_hack_freq
+	if freq <= 0 or freq > 1 then
+		freq = osd_hack_freq
+	end
+
+	if osd_hack_timer == nil then
+		if num == 0 then
+			return
+		elseif num == 1 then
+			osd_hack_freq = freq
+			osd_hack_timer = mp.add_periodic_timer(osd_hack_freq, update_osd)
+			mp.msg.info("update_osd 已启动")
+		end
+	else
+		if freq == osd_hack_freq then
+			if num == 0 then
+				osd_hack_timer:stop()
+				mp.msg.info("update_osd 已暂停")
+			elseif num == 1 then
+				osd_hack_timer:resume()
+				mp.msg.info("update_osd 已恢复")
+			end
+		else
+			osd_hack_freq = freq
+			osd_hack_timer:kill()
+			osd_hack_timer = nil
+			if num == 0 then
+				mp.msg.info("update_osd 已终止")
+				return
+			elseif num == 1 then
+				osd_hack_timer = mp.add_periodic_timer(osd_hack_freq, update_osd)
+				mp.msg.info("update_osd 已重启")
+			end
+		end
+	end
+end
+
+
+local function scale_recal(pct)
 	local w_dp, h_dp = mp.get_property_number("display-width", 0), mp.get_property_number("display-height", 0)
 	local w_vf, h_vf = mp.get_property_number("dwidth", 0), mp.get_property_number("dheight", 0)
 	local scale_win = mp.get_property_number("current-window-scale", 0)
@@ -578,7 +790,7 @@ function scale_recal(pct)
 	end
 	scale_target = tonumber(string.format("%.3f", math.sqrt((w_dp * h_dp * pct * 0.01) / (w_vf * h_vf)) / scale_shift))
 end
-function window_mini(alt1, alt2)
+local function window_mini(alt1, alt2)
 	mp.set_property_bool("fullscreen", false)
 	if alt1 then
 		mp.set_property_bool("border", false)
@@ -590,7 +802,7 @@ function window_mini(alt1, alt2)
 		mp.set_property_bool("ontop", true)
 	end
 end
-function pip_dummy(pct)
+local function pip_dummy(pct)
 	if mp.get_property_native("idle-active") or not mp.get_property_native("vid") then
 		mp.msg.warn("pip_dummy 无法在当前状态使用")
 		return
@@ -599,25 +811,25 @@ function pip_dummy(pct)
 	if scale_target == 0 then
 		return
 	end
-	window_mini(1, 2)
+	window_mini(true, true)
 	mp.msg.info("pip_dummy 已尝试应用")
 end
 
 
-function show_playlist_shuffle()
+local function show_playlist_shuffle()
 	mp.add_timeout(0.1, function()
 		local shuffle_msg = mp.command_native({"expand-text", "${playlist}"})
 		shuffling = false
 		mp.osd_message(shuffle_msg, 2)
 	end)
 end
-function playlist_order(mode, re)
+local function playlist_order(mode, re)
 	if shuffling then
 		mp.msg.info("playlist_order 已阻止高频洗牌")
 		return
 	end
 	if mp.get_property_number("playlist-count") <= 2 then
-		mp.osd_message("播放列表中的条目数量不足", 1)
+		mp.osd_message("[input_plus] " .. "播放列表中的条目数量不足", 1)
 		return
 	end
 	shuffling = true
@@ -655,27 +867,30 @@ function playlist_order(mode, re)
 		end
 	end
 end
-function playlist_random()
+local function playlist_random()
 	local range = mp.get_property_number("playlist-count", 0)
-	local pos = mp.get_property_number("playlist-pos-1", 0)
-	local pos_nxt = math.random(1, range)
-	if range <=2 then
+	if range <= 2 then
 		mp.msg.info("playlist_random 播放列表的条目数量未超过2")
 		return
-	else
-		while pos_nxt == pos do
-			pos_nxt = math.random(1, range)
-		end
-		mp.commandv("set", "playlist-pos-1", pos_nxt)
 	end
+	local pos = mp.get_property_number("playlist-pos-1", 0)
+	local pos_nxt = math.random(1, range)
+	while pos_nxt == pos do
+		pos_nxt = math.random(1, range)
+	end
+	mp.commandv("set", "playlist-pos-1", pos_nxt)
 end
-function playlist_tmp_save()
+local function playlist_tmp_save()
 	local item_num = mp.get_property_number("playlist-count", 0)
 	if item_num == 0 then
-		mp.osd_message("播放列表中无文件", 1)
+		mp.osd_message("[input_plus] " .. "播放列表中无文件", 1)
 		return
 	end
 	local file, err = io.open(save_path, "w")
+	if not file then
+		mp.osd_message("[input_plus] " .. "播放列表保存失败: " .. (err or ""), 1)
+		return
+	end
 	file:write("#EXTM3U\n\n")
 	local Nn = 0
 	while Nn < item_num do
@@ -683,22 +898,21 @@ function playlist_tmp_save()
 		file:write(save_item, "\n")
 		Nn = Nn+1
 	end
-	local save_info = tostring("已保存至临时播放列表")
-	mp.osd_message(save_info, 1)
+	mp.osd_message("[input_plus] " .. "已保存至临时播放列表", 1)
 	mp.msg.info("playlist_tmp_save 主设置文件夹/playlist_temp.mpl")
 	file:close()
 end
-function playlist_tmp_load()
+local function playlist_tmp_load()
 	mp.commandv("loadlist", save_path, "replace")
 	if mp.get_property_number("playlist-count", 0) == 0 then
-		mp.osd_message("临时播放列表加载失败", 1)
+		mp.osd_message("[input_plus] " .. "临时播放列表加载失败", 1)
 	else
 		mp.osd_message(mp.command_native({"expand-text", "${playlist}"}), 2)
 	end
 end
 
 
-function quit_real()
+local function quit_real()
 	if pre_quit then
 		mp.command("quit")
 	else
@@ -710,7 +924,7 @@ function quit_real()
 		end)
 	end
 end
-function quit_wait()
+local function quit_wait()
 	if pre_quit then
 		pre_quit = false
 		return
@@ -730,7 +944,7 @@ end
 
 
 -- 另一种版本 https://github.com/mpv-player/mpv/issues/11589#issuecomment-1513535980
-function acc_seeking(back, flag)
+local function acc_seeking(back, flag)
 	seek_dur = seek_dur + seek_dur_step
 	if not back then
 		mp.command("seek " .. seek_dur .. " " .. flag)
@@ -738,37 +952,24 @@ function acc_seeking(back, flag)
 		mp.command("seek -" .. seek_dur .. " " .. flag)
 	end
 end
-function seek_acc(evt)
-	if evt.event == "repeat" then
-		acc_seeking(false, "keyframes")
-	elseif evt.event == "up" then
-		seek_dur = seek_dur_init
+local function seek_acc(back, alt)
+	local function seek_acc_sub(flag_complex)
+		local evt = flag_complex.event
+		if evt == "up" then
+			seek_dur = seek_dur_init
+			return
+		end
+		if evt ~= "repeat" then
+			return
+		end
+		local mode = alt and "exact" or "keyframes"
+		acc_seeking(back, mode)
 	end
-end
-function seek_acc_alt(evt)
-	if evt.event == "repeat" then
-		acc_seeking(false, "exact")
-	elseif evt.event == "up" then
-		seek_dur = seek_dur_init
-	end
-end
-function seek_acc_back(evt)
-	if evt.event == "repeat" then
-		acc_seeking(true, "keyframes")
-	elseif evt.event == "up" then
-		seek_dur = seek_dur_init
-	end
-end
-function seek_acc_back_alt(evt)
-	if evt.event == "repeat" then
-		acc_seeking(true, "exact")
-	elseif evt.event == "up" then
-		seek_dur = seek_dur_init
-	end
+	return seek_acc_sub
 end
 
 
-function sids_sec_swap()
+local function sids_sec_swap()
 	local sid_main = mp.get_property_number("sid", 0)
 	local sid_sec = mp.get_property_number("secondary-sid", 0)
 	if sid_main == 0 and sid_sec == 0 then
@@ -781,25 +982,24 @@ function sids_sec_swap()
 end
 
 
-function speed_auto(tab)
-	if tab.event == "down" then
-		mp.set_property_number("speed", 2)
-		mp.msg.verbose("speed_auto 加速播放中")
-	elseif tab.event == "up" then
-		mp.set_property_number("speed", 1)
-		mp.msg.verbose("speed_auto 已恢复常速")
+local function speed_auto(num, any)
+	if any then
+		num = spd_target
 	end
-end
-function speed_auto_bullet(tab)
-	if tab.event == "down" then
-		mp.set_property_number("speed", 0.5)
-		mp.msg.verbose("speed_auto_bullet 子弹时间中")
-	elseif tab.event == "up" then
-		mp.set_property_number("speed", 1)
-		mp.msg.verbose("speed_auto_bullet 已恢复常速")
+	local function speed_auto_sub(flag_complex)
+		local evt = flag_complex.event
+		if evt == "down" then
+			mp.set_property_number("speed", num)
+			mp.msg.verbose("speed_auto 变速播放中")
+		elseif evt == "up" then
+			mp.set_property_number("speed", 1)
+			mp.msg.verbose("speed_auto 已恢复常速")
+		end
 	end
+	return speed_auto_sub
 end
-function speed_recover()
+
+local function speed_recover()
 	if mp.get_property_number("speed") ~= 1 then
 		bak_speed = mp.get_property_number("speed")
 		mp.command("set speed 1")
@@ -810,7 +1010,7 @@ function speed_recover()
 		mp.command("set speed " .. bak_speed)
 	end
 end
-function speed_scale(rat, fact)
+local function speed_scale(rat, fact)
 	local spd_scale, spd_delta = nil, nil
 	for _, i in ipairs({fact, fact-1, fact+1}) do
 		spd_scale = rat * i / math.floor(i * rat + 0.5)
@@ -824,7 +1024,7 @@ function speed_scale(rat, fact)
 		end
 	end
 end
-function speed_adaptive()
+local function speed_adaptive()
 	local fps_raw = mp.get_property_number("container-fps", 0)
 	local fps_vf = mp.get_property_number("estimated-vf-fps", 0)
 	local fps_dp = mp.get_property_number("display-fps", 0)
@@ -834,57 +1034,63 @@ function speed_adaptive()
 		return
 	end
 	for i = 1, spd_iters_max do
-		local spd_target = speed_scale(fps_dp / fps_raw, i)
-		if spd_target then
-			if math.abs(spd_target - spd_cur) < 0.0001 then
+		local spd_result = speed_scale(fps_dp / fps_raw, i)
+		if spd_result then
+			if math.abs(spd_result - spd_cur) < 0.0001 then
 				break
 			else
-				mp.set_property("speed", spd_target)
-				mp.msg.info("speed_sync_toggle 设定当前速度为" .. spd_target)
+				mp.set_property("speed", spd_result)
+				mp.msg.info("speed_sync_toggle 设定当前速度为" .. spd_result)
 				break
 			end
 		end
 	end
 end
-function speed_sync_toggle()
+local function speed_sync_toggle()
 	spd_adapt = not spd_adapt
 	if spd_adapt then
 		speed_adaptive()
-		mp.osd_message("已启用速度自适应", 1)
+		mp.osd_message("[input_plus] " .. "已启用速度自适应", 1)
 		mp.register_event("playback-restart", speed_adaptive)
 	else
 		mp.unregister_event(speed_adaptive)
 		mp.set_property_number("speed", 1)
-		mp.osd_message("已禁用速度自适应", 1)
+		mp.osd_message("[input_plus] " .. "已禁用速度自适应", 1)
 		return
 	end
 end
 
 
-function stats_cycle(num_init, num_end)
-	if show_page < num_init then
-		show_page = num_init - 1
+local function stats_cycle(num_init, num_end)
+	if num_init < 0 or num_init > 5 then
+		num_init = 1
 	end
-	if show_page >= num_end then
+	if num_end < num_init then
+		num_end = num_init
+	end
+	if num_end > 5 then
+		num_end = 5
+	end
+	if show_page + 1 > num_end then
 		show_page = num_init - 1
 	end
 	show_page = show_page + 1
-	mp.command("script-binding display-page-" .. show_page)
+	mp.commandv("script-binding", "display-page-" .. show_page)
 end
 
 
-function track_seek(id, num)
+local function track_seek(id, num)
 	mp.command("add " .. id .. " " .. num)
 	if mp.get_property_number(id, 0) == 0 then
 		mp.command("add " .. id .. " " .. num)
 		if mp.get_property_number(id, 0) == 0 then
-			mp.osd_message("无可用" .. id, 1)
+			mp.osd_message("[input_plus] " .. "无可用" .. id, 1)
 		end
 	end
 end
 
 
-function track_refresh(id)
+local function track_refresh(id)
 	local current_id = mp.get_property_number(id, 0)
 	if current_id == 0 then
 		mp.msg.warn("track_refresh 当前" .. id .. "无效")
@@ -896,14 +1102,14 @@ end
 
 
 -- 另一种实现 https://github.com/mpv-player/mpv/pull/11444#issuecomment-1469229943
-function volume2db(vol)
+local function volume2db(vol)
 	return 60.0 * math.log(vol / 100.0) / math.log(10.0)
 end
 -- https://github.com/mpv-player/mpv/blob/051ba909b4107240d643e4793efa2ceb714fd1b4/player/audio.c#L175
-function db2volume(db)
+local function db2volume(db)
 	return math.exp(math.log(10.0) * (db / 60.0 + 2))
 end
-function volume_add(diff)
+local function volume_add(diff)
 	local gain = round(volume2db(mp.get_property_number("volume"))) + diff
 	local cap = mp.get_property_number("volume-max")
 	if db2volume(gain) > cap then
@@ -912,7 +1118,137 @@ function volume_add(diff)
 		gain = volume2db(10)
 	end
 	mp.set_property_number("volume", db2volume(gain))
-	mp.osd_message(string.format("音量增益： %+.2f dB", gain))
+	mp.osd_message("[input_plus] " .. string.format("音量增益： %+.2f dB", gain))
+end
+
+
+local function prop_hold(prop)
+	local function prop_auto(flag_complex)
+		local evt = flag_complex.event
+		if evt == "down" then
+			prop_tmp = mp.get_property_native(prop, "")
+			mp.set_property_native(prop, "")
+			mp.msg.verbose("prop_hold 已清零 " .. prop)
+		elseif evt == "up" then
+			mp.set_property_native(prop, prop_tmp)
+			mp.msg.verbose("prop_hold 已恢复")
+		end
+	end
+	return prop_auto
+end
+
+
+local function update_shader_param(prefix, shader, param, val, def, min, max)
+
+	if prefix == "set" then
+		if shader == "_all_" then
+			mp.command("change-list glsl-shader-opts append " .. param .. "=" .. val)
+		else
+			mp.command("change-list glsl-shader-opts append " .. shader .. "/" .. param .. "=" .. val)
+		end
+
+	elseif prefix == "add" then
+		local glsl_opts = mp.get_property("glsl-shader-opts", "")
+		local glsl_target = shader .. "/" .. param
+		local glsl_target2 = param
+		local function extract(input, key)
+			local pattern = "[,]*" .. key .. "=([^,]+)"
+			local value = input:match(pattern)
+			return value
+		end
+		val = tonumber(val) or 0
+		def = tonumber(def) or 0
+		local val_cur
+		if shader == "_all_" then
+			val_cur = extract(glsl_opts, glsl_target2) or def
+		else
+			val_cur = extract(glsl_opts, glsl_target) or def
+		end
+		min = tonumber(min) or -10000
+		max = tonumber(max) or 10000
+		local val_nxt = val_cur + val
+		if val_nxt > max then
+			val_nxt = max
+		elseif val_nxt < min then
+			val_nxt = min
+		end
+		if shader == "_all_" then
+			mp.command("change-list glsl-shader-opts append " .. param .. "=" .. val_nxt)
+		else
+			mp.command("change-list glsl-shader-opts append " .. shader .. "/" .. param .. "=" .. val_nxt)
+		end
+
+	end
+
+end
+
+
+
+--
+-- 特殊
+--
+
+local function update_var(var, val)
+	local msg_info_pre = "[input_plus] "
+	local msg_info = "内部变量更新"
+
+	if var == "spd_target" then
+		mp.remove_key_binding("speed_autox")
+		if tonumber(val) <=0 then
+			val = 0.1
+		end
+		spd_target = tonumber(val)
+		msg_info = "自定义目标速度 " .. val
+		mp.osd_message(msg_info_pre .. msg_info, 1)
+		mp.msg.info(msg_info)
+		mp.add_key_binding(nil, "speed_autox", speed_auto(nil, spd_target), {complex = true})
+
+	elseif var == "seek_dur_step" then
+		if tonumber(val) <=0 then
+			val = 0.1
+		end
+		seek_dur_step = tonumber(val)
+		msg_info = "自定义跳转步长增量 " .. val
+		mp.osd_message(msg_info_pre .. msg_info, 1)
+		mp.msg.info(msg_info)
+
+	end
+end
+
+local function lazy_helper(link)
+	local param = ""
+	if plat == "windows" then
+		param = 'no-osd run cmd /c start "" "' .. link .. '"'
+	elseif plat == "darwin" then
+		param = "no-osd run /bin/sh -c \"open '" .. link .. "' &\""
+	elseif plat == "linux" then
+		param = "no-osd run /bin/sh -c \"xdg-open '" .. link .. "' &\""
+	else
+		return
+	end
+	return param
+end
+local function lazy_helper_main(index)
+	index = tonumber(index)
+	local cmd = ""
+
+	if index == 0 then -- project
+		cmd = lazy_helper("https://github.com/hooke007/mpv_PlayKit")
+	elseif index == 1 then -- mpv manual
+		cmd = lazy_helper("https://mpv.io/manual/master/")
+	elseif index == 2 then -- mpv manual cn
+		cmd = lazy_helper("https://hooke007.github.io/official_man/mpv.html")
+	elseif index == 3 then -- faq
+		cmd = lazy_helper("https://github.com/hooke007/mpv_PlayKit/wiki/0_FAQ")
+	elseif index == 4 then -- filter
+		cmd = lazy_helper("https://github.com/hooke007/mpv_PlayKit/wiki/3_FILTER")
+	elseif index == 5 then -- shader
+		cmd = lazy_helper("https://github.com/hooke007/mpv_PlayKit/wiki/4_GLSL")
+	end
+
+	if cmd ~= "" then
+		mp.command(cmd)
+	end
 end
 
 
@@ -921,24 +1257,32 @@ end
 -- 键位绑定
 --
 
-mp.add_key_binding(nil, "adevice_back", function() adevicelist = mp.get_property_native("audio-device-list") adevicelist_fin(#adevicelist, 1, -1) end)
-mp.add_key_binding(nil, "adevice_next", function() adevicelist = mp.get_property_native("audio-device-list") adevicelist_fin(1, #adevicelist, 1) end)
-mp.add_key_binding(nil, "adevice_all_back", function() adevicelist = mp.get_property_native("audio-device-list") adevicelist_fin(#adevicelist, 1, -1, true) end)
-mp.add_key_binding(nil, "adevice_all_next", function() adevicelist = mp.get_property_native("audio-device-list") adevicelist_fin(1, #adevicelist, 1, true) end)
+mp.add_key_binding(nil, "adevice_back", function()
+	adevicelist = mp.get_property_native("audio-device-list") adevicelist_fin(#adevicelist, 1, -1) end)
+mp.add_key_binding(nil, "adevice_next", function()
+	adevicelist = mp.get_property_native("audio-device-list") adevicelist_fin(1, #adevicelist, 1) end)
+mp.add_key_binding(nil, "adevice_all_back", function()
+	adevicelist = mp.get_property_native("audio-device-list") adevicelist_fin(#adevicelist, 1, -1, true) end)
+mp.add_key_binding(nil, "adevice_all_next", function()
+	adevicelist = mp.get_property_native("audio-device-list") adevicelist_fin(1, #adevicelist, 1, true) end)
 
 mp.add_key_binding(nil, "chap_skip_toggle", chap_skip_toggle)
 
-mp.add_key_binding(nil, "import_files", import_files)
+mp.add_key_binding(nil, "chapter_back", function() chapter_seek_force(-1) end)
+mp.add_key_binding(nil, "chapter_back_nat", function() chapter_seek_force(-1, true) end)
+mp.add_key_binding(nil, "chapter_next", function() chapter_seek_force(1) end)
+mp.register_script_message("chapter-useek", function(dir, nat) chapter_seek_force(dir, nat, true) end)
+
+mp.add_key_binding(nil, "import_files", function() import_files(0) end)
+mp.add_key_binding(nil, "import_iso_dvd", function() import_files(1) end)
+mp.add_key_binding(nil, "import_iso_bd", function() import_files(2) end)
 mp.add_key_binding(nil, "import_url", import_url)
 mp.add_key_binding(nil, "import_append_aid", import_append_aid)
 mp.add_key_binding(nil, "import_append_sid", import_append_sid)
 
 mp.add_key_binding(nil, "info_toggle", info_toggle)
 
-mp.add_key_binding(nil, "load_cbd", function() load_clipboard("replace", true) end)
-mp.add_key_binding(nil, "load_cbd_alt", function() load_clipboard("replace") end)
-mp.add_key_binding(nil, "load_cbd_add", function() load_clipboard("append-play", true) end)
-mp.add_key_binding(nil, "load_cbd_alt_add", function() load_clipboard("append-play") end)
+mp.add_key_binding(nil, "input_test_toggle", oskn_toggle)
 
 mp.add_key_binding(nil, "mark_aid_A", mark_aid_A)
 mp.add_key_binding(nil, "mark_aid_B", mark_aid_B)
@@ -949,9 +1293,8 @@ mp.add_key_binding(nil, "mark_aid_fin", mark_aid_fin)
 mp.add_key_binding(nil, "ostime_display", ostime_display)
 mp.add_key_binding(nil, "ostime_toggle", ostime_toggle)
 
-mp.add_key_binding(nil, "pip_dummy", function() pip_dummy(10) end)
-mp.add_key_binding(nil, "pip_dummy_p05", function() pip_dummy(5) end)
-mp.add_key_binding(nil, "pip_dummy_p20", function() pip_dummy(20) end)
+mp.add_key_binding(nil, "pip_dummy", function() pip_dummy(20) end)
+mp.register_script_message("pip_dummy_pct", function(pct) pip_dummy(tonumber(pct)) end)
 
 mp.add_key_binding(nil, "playlist_order_0", function() playlist_order(0) end)
 mp.add_key_binding(nil, "playlist_order_0r", function() playlist_order(0, true) end)
@@ -964,20 +1307,21 @@ mp.add_key_binding(nil, "playlist_tmp_load", playlist_tmp_load)
 mp.add_key_binding(nil, "quit_real", quit_real)
 mp.add_key_binding(nil, "quit_wait", quit_wait)
 
-mp.add_key_binding(nil, "seek_acc", seek_acc, {complex = true})
-mp.add_key_binding(nil, "seek_acc_back", seek_acc_back, {complex = true})
-mp.add_key_binding(nil, "seek_acc_alt", seek_acc_alt, {complex = true})
-mp.add_key_binding(nil, "seek_acc_back_alt", seek_acc_back_alt, {complex = true})
+mp.add_key_binding(nil, "seek_acc", seek_acc(false, false), {complex = true})
+mp.add_key_binding(nil, "seek_acc_back", seek_acc(true, false), {complex = true})
+mp.add_key_binding(nil, "seek_acc_alt", seek_acc(false, true), {complex = true})
+mp.add_key_binding(nil, "seek_acc_back_alt", seek_acc(true, true), {complex = true})
 
 mp.add_key_binding(nil, "sids_sec_swap", sids_sec_swap)
 
-mp.add_key_binding(nil, "speed_auto", speed_auto, {complex = true})
-mp.add_key_binding(nil, "speed_auto_bullet", speed_auto_bullet, {complex = true})
+mp.add_key_binding(nil, "speed_auto", speed_auto(2), {complex = true})
+mp.add_key_binding(nil, "speed_auto_bullet", speed_auto(0.5), {complex = true})
+mp.add_key_binding(nil, "speed_autox", speed_auto(_, spd_target), {complex = true})
 mp.add_key_binding(nil, "speed_recover", speed_recover)
+
 mp.add_key_binding(nil, "speed_sync_toggle", speed_sync_toggle)
 
-mp.add_key_binding(nil, "stats_1_2", function() stats_cycle(1, 2) end)
-mp.add_key_binding(nil, "stats_0_4", function() stats_cycle(0, 4) end)
+mp.register_script_message("cycle-stats", function(pg_init, pg_end) stats_cycle(tonumber(pg_init), tonumber(pg_end)) end)
 
 mp.add_key_binding(nil, "trackA_back", function() track_seek("aid", -1) end)
 mp.add_key_binding(nil, "trackA_next", function() track_seek("aid", 1) end)
@@ -993,5 +1337,17 @@ mp.add_key_binding(nil, "trackV_refresh", function() track_refresh("vid") end)
 mp.add_key_binding(nil, "volume_db_dec", function() volume_add(-1) end, {repeatable = true})
 mp.add_key_binding(nil, "volume_db_inc", function() volume_add(1) end, {repeatable = true})
 
+mp.add_key_binding(nil, "af_hold", prop_hold("af"), {complex = true})
+mp.add_key_binding(nil, "vf_hold", prop_hold("vf"), {complex = true})
+mp.add_key_binding(nil, "glsl_hold", prop_hold("glsl-shaders"), {complex = true})
+
+mp.register_script_message("glsl-param", function(prefix, shader, param, val, def, min, max)
+	update_shader_param(prefix, shader, param, val, def, min, max) end)
 
 mp.register_script_message("cycle-cmds", cycle_cmds)
+
+mp.register_script_message("update-osd", function(num, freq) osd_hack_set(num, freq) end)
+
+mp.register_script_message("update-var", function(var, val) update_var(var, val) end)
+
+mp.register_script_message("lazy-helper", function(index) lazy_helper_main(index) end)

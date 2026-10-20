@@ -18,12 +18,27 @@ function Timeline:init()
 	self.progress_line_width = 0
 	self.is_hovered = false
 	self.has_thumbnail = false
+	self.heatmap = nil
+	self.thumb_request_ready = false
+	self.last_thumb_cursor_x = nil
+	self.thumb_idle_timer = mp.add_timeout(0.2, function()
+		self.thumb_request_ready = true
+		request_render()
+	end)
+	self.thumb_idle_timer:kill()
 
 	self:decide_progress_size()
 	self:update_dimensions()
 
-	-- Release any dragging when file gets unloaded
-	self:register_mp_event('end-file', function() self.pressed = false end)
+	-- Load Youtube heatmap data if available
+	self:register_mp_event('file-loaded', function()
+		self.heatmap = load_youtube_heatmap()
+	end)
+	-- Release any dragging and clear heatmap when file gets unloaded
+	self:register_mp_event('end-file', function()
+		self.pressed = false
+		self.heatmap = nil
+	end)
 end
 
 function Timeline:get_visibility()
@@ -120,8 +135,10 @@ function Timeline:set_from_cursor(fast)
 end
 
 function Timeline:clear_thumbnail()
-	mp.commandv('script-message-to', 'thumbfast', 'clear')
-	self.has_thumbnail = false
+	if self.has_thumbnail then
+		mp.commandv('script-message-to', options.thumbnail_provider, 'clear')
+		self.has_thumbnail = false
+	end
 end
 
 function Timeline:handle_cursor_down()
@@ -144,12 +161,18 @@ function Timeline:on_options()
 end
 function Timeline:handle_cursor_up()
 	if self.pressed then
+		local dominated = self.pressed.distance >= 5
 		mp.set_property_native('pause', self.pressed.pause)
 		self.pressed = false
+		if options.thumbnail_mode == 'natural' and self.proximity_raw <= 0 and dominated then
+			self.thumb_idle_timer:kill()
+			self.thumb_idle_timer:resume()
+		end
 	end
 end
 function Timeline:on_global_mouse_leave()
 	self.pressed = false
+	self:reset_thumbnail()
 end
 
 function Timeline:on_global_mouse_move()
@@ -164,19 +187,29 @@ function Timeline:on_global_mouse_move()
 	end
 end
 
+function Timeline:reset_thumbnail()
+	self:clear_thumbnail()
+	self.thumb_idle_timer:kill()
+	self.thumb_request_ready = false
+	self.last_thumb_cursor_x = nil
+end
+
 function Timeline:render()
-	if self.size == 0 then return end
+	if self.size == 0 then
+		self:reset_thumbnail()
+		return
+	end
 
 	local size = self:get_effective_size()
 	local visibility = self:get_visibility()
 	self.is_hovered = false
 
 	if size < 1 then
-		if self.has_thumbnail then self:clear_thumbnail() end
+		self:reset_thumbnail()
 		return
 	end
 
-	if self.proximity_raw == 0 then
+	if self.proximity_raw <= 0 then
 		self.is_hovered = true
 	end
 	if visibility > 0 then
@@ -252,7 +285,32 @@ function Timeline:render()
 	ass:draw_stop()
 
 	-- Progress
-	ass:rect(fax, fay, fbx, fby, {opacity = config.opacity.position})
+	local function draw_progress()
+		ass:rect(fax, fay, fbx, fby, {opacity = config.opacity.position})
+	end
+
+	-- Youtube heatmap
+	local function draw_heatmap()
+		if options.timeline_heatmap ~= 'no' and self.heatmap and config.opacity.heatmap > 0 and visibility > 0 then
+			local is_above = options.timeline_heatmap == 'above'
+			local height = math.min(40, size / self.size * 40)
+			local ax, ay = bax, is_above and (bay - height) or (bay + self.top_border)
+			local bx, by = bbx, is_above and bay or bby
+			local opts = {color = config.color.heatmap, opacity = config.opacity.heatmap * visibility}
+			local clip_ay = is_above and (ay - 10) or ay
+			opts.clip = string.format('\\clip(%d,%d,%d,%d)', ax, clip_ay, bx, by)
+			ass:smooth_curve(ax, ay, bx, by, self.heatmap, opts)
+		end
+	end
+
+	-- Change draw order based on 'timeline_style' to keep the heatmap visible
+	if is_line then
+		draw_heatmap()
+		draw_progress()
+	else
+		draw_progress()
+		draw_heatmap()
+	end
 
 	-- Uncached ranges
 	if state.uncached_ranges then
@@ -320,8 +378,8 @@ function Timeline:render()
 				for i, chapter in ipairs(state.chapters) do
 					if chapter ~= hovered_chapter then draw_chapter(chapter.time, diamond_radius) end
 					local circle = {point = {x = t2x(chapter.time), y = fay - 1}, r = diamond_radius_hovered}
-					if visibility > 0 then
-						cursor:zone('primary_click', circle, function()
+					if visibility > 0 and chapter == hovered_chapter then
+						cursor:zone('primary_down', circle, function()
 							mp.commandv('seek', chapter.time, 'absolute+exact')
 						end)
 					end
@@ -375,7 +433,7 @@ function Timeline:render()
 
 	-- Time values
 	if text_opacity > 0 then
-		local time_opts = {size = self.font_size, opacity = text_opacity, border = 2 * state.scale}
+		local time_opts = {size = self.font_size, opacity = text_opacity, border = options.text_border * state.scale}
 		-- Upcoming cache time
 		local cache_duration = state.cache_duration and state.cache_duration / state.speed or nil
 		if cache_duration and options.buffered_time_threshold > 0
@@ -407,7 +465,7 @@ function Timeline:render()
 
 	-- Hovered time and chapter
 	local rendered_thumbnail = false
-	if (self.proximity_raw == 0 or self.pressed or hovered_chapter) and not Elements:v('speed', 'dragging') then
+	if (self.proximity_raw <= 0 or self.pressed or hovered_chapter) and not Elements:v('speed', 'dragging') then
 		local cursor_x = hovered_chapter and t2x(hovered_chapter.time) or cursor.x
 		local hovered_seconds = hovered_chapter and hovered_chapter.time or self:get_time_at_x(cursor.x)
 
@@ -427,12 +485,31 @@ function Timeline:render()
 		tooltip_anchor = ass:tooltip(tooltip_anchor, hovered_time_human, opts)
 
 		-- Thumbnail
-		if not thumbnail.disabled
-			and (not self.pressed or self.pressed.distance < 5)
+		local show_thumb = not thumbnail.disabled
 			and thumbnail.width ~= 0
 			and thumbnail.height ~= 0
-		then
-			local border = 2
+		if show_thumb and options.thumbnail_mode == 'natural' then
+			if self.pressed and self.pressed.distance >= 5 then
+				show_thumb = false
+				self.thumb_idle_timer:kill()
+				self.thumb_request_ready = false
+			elseif not self.pressed and cursor_x ~= self.last_thumb_cursor_x then
+				self.last_thumb_cursor_x = cursor_x
+				self.thumb_request_ready = false
+				self.thumb_idle_timer:kill()
+				self.thumb_idle_timer:resume()
+				show_thumb = false
+			else
+				if self.pressed then
+					self.last_thumb_cursor_x = cursor_x
+				end
+				show_thumb = self.thumb_request_ready
+			end
+		elseif show_thumb and options.thumbnail_mode == 'continuous' then
+			show_thumb = not self.pressed or self.pressed.distance < 5
+		end
+		if show_thumb then
+			local border = math.ceil(math.max(2, state.radius / 2) * state.scale)
 			local thumb_x_margin, thumb_y_margin = border + tooltip_gap + bax, border + tooltip_gap
 			local thumb_width, thumb_height = thumbnail.width, thumbnail.height
 			local thumb_x = round(clamp(
@@ -448,10 +525,11 @@ function Timeline:render()
 				border = 1,
 				opacity = {main = config.opacity.thumbnail, border = 0.08 * config.opacity.thumbnail},
 				border_color = fg,
-				radius = 0,
+				radius = state.radius,
 			})
-			local thumb_seconds = (state.rebase_start_time == false and state.start_time) and (hovered_seconds - state.start_time) or hovered_seconds
-			mp.commandv('script-message-to', 'thumbfast', 'thumb', thumb_seconds, thumb_x, thumb_y)
+			local thumb_seconds = (state.rebase_start_time == false and state.start_time) and
+				(hovered_seconds - state.start_time) or hovered_seconds
+			mp.commandv('script-message-to', options.thumbnail_provider, 'thumb', thumb_seconds, thumb_x, thumb_y)
 			self.has_thumbnail, rendered_thumbnail = true, true
 			tooltip_anchor.ay = ay
 		end
@@ -475,7 +553,7 @@ function Timeline:render()
 	end
 
 	-- Clear thumbnail
-	if not rendered_thumbnail and self.has_thumbnail then self:clear_thumbnail() end
+	if not rendered_thumbnail then self:clear_thumbnail() end
 
 	return ass
 end
