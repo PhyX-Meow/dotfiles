@@ -6,7 +6,7 @@
  * 需要 sub-font-provider=fontconfig
  * 
  * Windows 上的一些 NTFS 分区会导致无法加载文件名含有非英文字符的字体文件，可以使用兼容模式解决。
- * 兼容模式说明: https://github.com/hooke007/MPV_lazy/discussions/189
+ * 兼容模式说明: https://github.com/hooke007/mpv_PlayKit/discussions/189
  */
 
 'use strict';
